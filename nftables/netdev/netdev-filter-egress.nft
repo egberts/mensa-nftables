@@ -1,0 +1,25 @@
+#!/usr/bin/env nft -f
+#
+# File:        netdev-filter-egress.nft
+# Path:        /etc/nftables/netdev
+# Description:
+#
+# Family: netdev
+# Table: netdev_filter
+# Chain: netdev_filter_egress
+# Type:  nat
+# Hook:  filter
+# Priority: security
+# Policy: DROP
+#
+
+table netdev netdev_filter {
+    chain netdev_filter_egress {
+
+        type filter hook egress priority security;
+        policy drop
+
+        counter
+        log prefix "DROP netdev-filter-egress " limit rate 5/second
+    }
+}

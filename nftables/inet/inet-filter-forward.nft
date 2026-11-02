@@ -1,0 +1,24 @@
+#!/usr/bin/env nft -f
+#
+# File:        inet-filter-forward.nft
+# Path:        /etc/nftables/inet
+# Description:
+#
+# Family: inet
+# Table: inet_filter
+# Chain: inet_filter_forward
+# Type:  filter
+# Hook:  forward
+# Priority: filter(-200)
+# Policy: DROP
+#
+
+table inet inet_filter {
+    chain inet_filter_forward {
+        type filter hook forward priority filter; policy drop
+
+        counter
+
+        log prefix "DROP inet-filter-forward: " limit rate 5/second
+    }
+}

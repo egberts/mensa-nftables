@@ -1,0 +1,25 @@
+#!/usr/bin/env nft -f
+#
+# File:        inet-filter-postrouting.nft
+# Path:        /etc/nftables/inet
+# Description:
+#
+# Family: inet
+# Table: inet_filter
+# Chain: inet_filter_postrouting
+# Type:  filter
+# Hook:  postrouting
+# Priority: filter(0)
+# Policy: DROP
+#
+
+table inet inet_filter {
+    chain inet_filter_postrouting {
+
+        type filter hook postrouting priority filter;
+        policy accept
+
+        counter
+        log prefix "DROP inet-filter-postrouting " limit rate 5/second
+    }
+}

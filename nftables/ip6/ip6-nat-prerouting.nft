@@ -1,0 +1,25 @@
+#!/usr/bin/env nft -f
+#
+# File:        ip6-nat-prerouting.nft
+# Path:        /etc/nftables/ip6
+# Description:
+#
+# Family: ip6
+# Table: ip6_nat
+# Chain: ip6_nat_prerouting
+# Type:  nat
+# Hook:  prerouting
+# Priority: mangle(-150)
+# Policy: DROP
+#
+
+table ip6 ip6_nat {
+    chain ip6_nat_prerouting {
+
+        type nat hook prerouting priority mangle;
+        policy drop
+
+        counter
+        log prefix "DROP ip6-nat-prerouting " limit rate 5/second
+    }
+}

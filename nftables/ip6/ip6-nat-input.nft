@@ -1,0 +1,25 @@
+#!/usr/bin/env nft -f
+#
+# File:        ip6-nat-input.nft
+# Path:        /etc/nftables/ip6
+# Description:
+#
+# Family: ip6
+# Table: ip6_nat
+# Chain: ip6_nat_input
+# Type:  nat
+# Hook:  input
+# Priority: srcnat(100)
+# Policy: DROP
+#
+
+table ip6 ip6_nat {
+    chain ip6_nat_input {
+
+        type nat hook input priority srcnat;
+        policy drop
+
+        counter
+        log prefix "DROP ip6-nat-input " limit rate 5/second
+    }
+}

@@ -1,0 +1,25 @@
+#!/usr/bin/env nft -f
+#
+# File:        inet-nat-output.nft
+# Path:        /etc/nftables/inet
+# Description:
+#
+# Family: inet
+# Table: inet_nat
+# Chain: inet_nat_output
+# Type:  nat
+# Hook:  output
+# Priority: dstnat(-100)
+# Policy: DROP
+#
+
+table inet inet_nat {
+    chain inet_nat_output {
+
+        type nat hook output priority dstnat;
+        policy drop
+
+        counter
+        log prefix "DROP inet-nat-output " limit rate 5/second
+    }
+}

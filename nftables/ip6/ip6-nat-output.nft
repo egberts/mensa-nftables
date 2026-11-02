@@ -1,0 +1,25 @@
+#!/usr/bin/env nft -f
+#
+# File:        ip6-nat-output.nft
+# Path:        /etc/nftables/ip6
+# Description:
+#
+# Family: ip6
+# Table: ip6_nat
+# Chain: ip6_nat_output
+# Type:  nat
+# Hook:  output
+# Priority: dstnat(-100)
+# Policy: DROP
+#
+
+table ip6 ip6_nat {
+    chain ip6_nat_output {
+
+        type nat hook output priority dstnat;
+        policy drop
+
+        counter
+        log prefix "DROP ip6-nat-output " limit rate 5/second
+    }
+}

@@ -1,0 +1,70 @@
+#!/usr/sbin/nft -f
+# File: nft-libvirt.nft
+# Description:
+#   Create the chains and tables for libvirt (virt-manager/virsh) VM management
+#
+# Note:
+#   These table and chain names are reserved by `libvirt-7.0.0`+ utility.
+#
+# Warning:
+#   There can be no substitution (unless you patched/modified libvirt) code.
+#
+#
+add counter ip filter libvirt_input
+add counter ip filter input_libvirt
+add counter ip filter output_libvirt
+add counter ip filter libvirt_output
+add counter ip filter libvirt_forward
+add counter ip filter forward_libvirt
+add counter ip filter libvirt_forward_input
+add counter ip filter libvirt_forward_output
+add counter ip filter libvirt_forward_forward
+add counter ip nat libvirt_postrouting
+add counter ip nat postrouting_libvirt
+add counter ip mangle libvirt_postrouting
+add counter ip mangle postrouting_libvirt
+
+# create chains for libvirt
+add table ip filter
+
+add chain ip filter LIBVIRT_INP
+add rule ip filter LIBVIRT_INP counter name libvirt_input
+
+add chain ip filter INPUT 
+add rule ip filter INPUT counter name input_libvirt
+
+add chain ip filter LIBVIRT_OUT
+add rule ip filter LIBVIRT_OUT counter name output_libvirt
+
+add chain ip filter OUTPUT
+add rule ip filter OUTPUT counter name libvirt_output
+
+add chain ip filter LIBVIRT_FWD
+add rule ip filter LIBVIRT_FWD counter name libvirt_forward
+
+add chain ip filter FORWARD
+add rule ip filter FORWARD counter name forward_libvirt
+
+add chain ip filter LIBVIRT_FWI
+add rule ip filter LIBVIRT_FWI counter name libvirt_forward_input
+
+add chain ip filter LIBVIRT_FWO
+add rule ip filter LIBVIRT_FWO counter name libvirt_forward_output
+
+add chain ip filter LIBVIRT_FWX
+add rule ip filter LIBVIRT_FWX counter name libvirt_forward_forward
+
+############# nat ##################
+add table ip nat
+add chain ip nat LIBVIRT_PRT
+add rule ip nat LIBVIRT_PRT counter name libvirt_postrouting
+add chain ip nat POSTROUTING
+add rule ip nat POSTROUTING counter name postrouting_libvirt
+
+############# mangle ##################
+add table ip mangle
+add chain ip mangle LIBVIRT_PRT
+add rule ip mangle LIBVIRT_PRT counter name libvirt_postrouting
+add chain ip mangle POSTROUTING
+add rule ip mangle POSTROUTING counter name postrouting_libvirt
+

@@ -1,0 +1,34 @@
+#!/usr/bin/env nft -f
+#
+# File:        inet-filter-input.nft
+# Path:        /etc/nftables/inet
+# Description:
+#
+# Family: (ip|ip6|arp|inet|netdev|bridge)
+# Table: <family_type>
+# Chain: <family_type_hook>
+# Type:  (filter|nat|route)
+# Hook:  (n/a|ingress|prerouting|input|forward|output|postrouting)
+# Priority (ALL family_spec): filter(0), dstnat(-100), srcnat(100)
+# Priority (ip/ip6/inet): raw(-300), mangle(-150), security(50)
+# Priority: (bridge-only): dstnat(-300), filter(-200), out(100), srcnat(300)
+# Policy: (DROP|accept)
+#
+add table arp table_arp_filter_input
+add chain arp table_arp_filter_input chain_arp_filter_input type filter hook input priority filter; policy accept
+
+add rule arp table_arp_filter_input chain_arp_filter_input arp htype ether arp ptype ip arp hlen 6 arp plen 4 \
+    arp operation { request, reply } counter drop
+
+# table arp filter {
+#     chain input {
+#         type filter hook input priority filter; policy accept;
+#
+#         # Accept standard Ethernet/IPv4 ARP requests and replies.
+#         arp htype ether arp ptype ip arp hlen 6 arp plen 4 \
+#             arp operation { request, reply } counter accept
+#
+#         # count the unsupported or malformed ARP packets.
+#         counter
+#     }
+# }

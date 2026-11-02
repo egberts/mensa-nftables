@@ -1,0 +1,19 @@
+#!/usr/sbin/nft -f   # ignored if included directly by 'nft -f'
+# File: filter-input-green-igmp.nft
+# Title: Rules for IGMP packets in green zone with type filter and input hook
+#
+#
+
+add chain inet filter input_green_igmp
+add counter inet filter green_input_igmp
+add counter inet filter unexpected_green_input_igmp
+
+add rule inet filter input_green_igmp counter
+add rule inet filter input_green_igmp counter name green_input_igmp
+
+
+add rule inet filter input_green_igmp ip protocol igmp counter accept comment "Accept IGMP"
+
+
+add rule inet filter input_green_igmp counter name unexpected_green_input_igmp
+add rule inet filter input_green_igmp counter log prefix "DROP filter/input/green input_green_igmp " drop

@@ -1,0 +1,24 @@
+#!/usr/bin/env nft -f
+#
+# File:        bridge-filter-prerouting.nft
+# Path:        /etc/nftables/bridge
+# Description:
+#
+# Family: bridge
+# Table: bridge_filter
+# Chain: bridge_filter_prerouting
+# Type:  filter
+# Hook:  prerouting
+# Priority: filter(-200)
+# Policy: DROP
+#
+
+table bridge bridge_filter {
+    chain bridge_filter_prerouting {
+        type filter hook prerouting priority filter; policy drop
+
+        counter
+
+        log prefix "DROP bridge-filter-prerouting: " limit rate 5/second
+    }
+}

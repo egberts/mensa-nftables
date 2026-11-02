@@ -1,0 +1,25 @@
+#!/usr/bin/env nft -f
+#
+# File:        inet-route-output.nft
+# Path:        /etc/nftables/inet
+# Description:
+#
+# Family: inet
+# Table: inet_route
+# Chain: inet_route_output
+# Type:  nat
+# Hook:  route
+# Priority: security
+# Policy: DROP
+#
+
+table inet inet_route {
+    chain inet_route_output {
+
+        type route hook output priority security;
+        policy drop
+
+        counter
+        log prefix "DROP inet-route-output " limit rate 5/second
+    }
+}

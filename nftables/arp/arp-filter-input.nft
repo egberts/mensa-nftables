@@ -1,0 +1,41 @@
+#!/usr/bin/env nft -f
+#
+# File:        arp-filter-input.nft
+# Path:        /etc/nftables/arp
+# Description:
+#
+# Family:  arp
+# Table:   arp_filter
+# Chain:   arp_filter_input
+# Type:    filter
+# Hook:    input
+# Priority filter(0)
+# Policy:  DROP
+
+
+table arp arp_filter {
+
+    # this regular chain was made just to pass the Danny Ruitzb's FirewallScope tool
+    # something about a 'set' not parsed correctly for 'arp operation'
+    chain arp_filter_input_operation {
+        arp operation { request, reply } counter accept
+    }
+
+    chain arp_filter_input {
+        type filter hook input priority filter; policy drop;
+
+        iifname "eno2" ct state established,related accept
+        iifname "wlo1" ct state established,related accept
+
+        # Allow local loopback to go back in
+        iifname "lo" accept
+
+        # Accept standard Ethernet/IPv4 ARP requests and replies.
+        arp htype ether arp ptype ip arp hlen 6 arp plen 4 jump arp_filter_input_operation
+
+        # count the unsupported or malformed ARP packets.
+        counter
+        log prefix "DROP arp-filter-input: " limit rate 5/minute
+    };
+
+}

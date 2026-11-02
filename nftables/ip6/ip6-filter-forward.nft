@@ -1,0 +1,24 @@
+#!/usr/bin/env nft -f
+#
+# File:        ip6-filter-forward.nft
+# Path:        /etc/nftables/ip6
+# Description:
+#
+# Family: ip6
+# Table: ip6_filter
+# Chain: ip6_filter_forward
+# Type:  filter
+# Hook:  forward
+# Priority: filter(-200)
+# Policy: DROP
+#
+
+table ip6 ip6_filter {
+    chain ip6_filter_forward {
+        type filter hook forward priority filter; policy drop
+
+        counter
+
+        log prefix "DROP ip6-filter-forward: " limit rate 5/second
+    }
+}

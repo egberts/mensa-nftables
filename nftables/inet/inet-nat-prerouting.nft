@@ -1,0 +1,25 @@
+#!/usr/bin/env nft -f
+#
+# File:        inet-nat-prerouting.nft
+# Path:        /etc/nftables/inet
+# Description:
+#
+# Family: inet
+# Table: inet_nat
+# Chain: inet_nat_prerouting
+# Type:  nat
+# Hook:  prerouting
+# Priority: mangle(-150)
+# Policy: DROP
+#
+
+table inet inet_nat {
+    chain inet_nat_prerouting {
+
+        type nat hook prerouting priority mangle;
+        policy drop
+
+        counter
+        log prefix "DROP inet-nat-prerouting " limit rate 5/second
+    }
+}

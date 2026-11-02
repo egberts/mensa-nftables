@@ -1,0 +1,25 @@
+#!/usr/bin/env nft -f
+#
+# File:        inet-nat-postrouting.nft
+# Path:        /etc/nftables/inet
+# Description:
+#
+# Family: inet
+# Table: inet_nat
+# Chain: inet_nat_postrouting
+# Type:  nat
+# Hook:  postrouting
+# Priority: srcnat(100)
+# Policy: DROP
+#
+
+table inet inet_nat {
+    chain inet_nat_postrouting {
+
+        type nat hook postrouting priority srcnat;
+        policy drop
+
+        counter
+        log prefix "DROP inet-nat-postrouting " limit rate 5/second
+    }
+}

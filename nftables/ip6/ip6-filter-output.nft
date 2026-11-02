@@ -1,0 +1,25 @@
+#!/usr/bin/env nft -f
+#
+# File:        ip6-filter-output.nft
+# Path:        /etc/nftables/ip6
+# Description:
+#
+# Family: ip6
+# Table: ip6_filter
+# Chain: ip6_filter_output
+# Type:  filter
+# Hook:  output
+# Priority: filter(0)
+# Policy: DROP
+#
+
+table ip6 ip6_filter {
+    chain ip6_filter_output {
+
+        type filter hook output priority filter;
+        policy accept
+
+        counter
+        log prefix "DROP ip6-filter-output " limit rate 5/second
+    }
+}

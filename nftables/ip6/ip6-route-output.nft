@@ -1,0 +1,25 @@
+#!/usr/bin/env nft -f
+#
+# File:        ip6-route-output.nft
+# Path:        /etc/nftables/ip6
+# Description:
+#
+# Family: ip6
+# Table: ip6_route
+# Chain: ip6_route_output
+# Type:  nat
+# Hook:  route
+# Priority: security
+# Policy: DROP
+#
+
+table ip6 ip6_route {
+    chain ip6_route_output {
+
+        type route hook output priority security;
+        policy drop
+
+        counter
+        log prefix "DROP ip6-route-output " limit rate 5/second
+    }
+}

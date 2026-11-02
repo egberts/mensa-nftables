@@ -1,0 +1,18 @@
+#!/usr/sbin/nft -f
+# File: filter.nft
+# Path: filter/filter.nft
+# Description:
+#   The main forks in the road for IP routing
+
+
+
+include "./filter/filter-bad-packets.nft"
+
+include "./filter/ingress/filter-ingress.nft"
+include "./filter/prerouting/filter-prerouting.nft"
+include "./filter/input/filter-input.nft"
+
+include "./filter/forward/filter-forward.nft"
+
+include "./filter/output/filter-output.nft"
+include "./filter/postrouting/filter-postrouting.nft"

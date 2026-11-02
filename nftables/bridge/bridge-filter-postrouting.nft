@@ -1,0 +1,24 @@
+#!/usr/bin/env nft -f
+#
+# File:        bridge-filter-postrouting.nft
+# Path:        /etc/nftables/bridge
+# Description:
+#
+# Family: bridge
+# Table: bridge_filter
+# Chain: bridge_filter_postrouting
+# Type:  filter
+# Hook:  postrouting
+# Priority: filter(-200)
+# Policy: DROP
+#
+
+table bridge bridge_filter {
+    chain bridge_filter_postrouting {
+        type filter hook postrouting priority filter; policy drop
+
+        counter
+
+        log prefix "DROP bridge-filter-postrouting: " limit rate 5/second
+    }
+}

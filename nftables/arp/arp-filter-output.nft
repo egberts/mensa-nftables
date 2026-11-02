@@ -1,0 +1,32 @@
+#!/usr/bin/env nft -f
+#
+# File:        arp-filter-output.nft
+# Path:        /etc/nftables/arp
+# Description:
+#
+# Family:  arp
+# Table:   arp_filter
+# Chain:   arp_filter_output
+# Type:    filter
+# Hook:    output
+# Priority filter(0)
+# Policy:  DROP
+
+table arp filter {
+    chain output {
+        type filter hook output priority filter; policy drop;
+
+        # Reject group/multicast sender MAC addresses.
+        arp saddr ether & 01:00:00:00:00:00 != 00:00:00:00:00:00 counter drop
+
+        # Reject zero sender MAC addresses.
+        arp saddr ether 00:00:00:00:00:00 counter drop
+
+        # Permit Ethernet/IPv4 ARP on authorized interfaces.
+        oifname { "eno2", "wlo1" } arp htype 1 arp ptype ip arp hlen 6 arp plen 4 arp operation { request, reply } counter accept
+
+        # Audit and drop everything else.
+        limit rate 5/minute log prefix "DROP arp-filter-output: "
+        counter drop
+    }
+}

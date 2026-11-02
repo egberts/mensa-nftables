@@ -1,0 +1,25 @@
+#!/usr/bin/env nft -f
+#
+# File:        inet-filter-prerouting.nft
+# Path:        /etc/nftables/inet
+# Description:
+#
+# Family: inet
+# Table: inet_filter
+# Chain: inet_filter_prerouting
+# Type:  filter
+# Hook:  prerouting
+# Priority: filter(0)
+# Policy: DROP
+#
+
+table inet inet_filter {
+    chain inet_filter_prerouting {
+
+        type filter hook prerouting priority filter;
+        policy accept
+
+        counter
+        log prefix "DROP inet-filter-prerouting " limit rate 5/second
+    }
+}

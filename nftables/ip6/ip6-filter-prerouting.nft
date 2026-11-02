@@ -1,0 +1,25 @@
+#!/usr/bin/env nft -f
+#
+# File:        ip6-filter-prerouting.nft
+# Path:        /etc/nftables/ip6
+# Description:
+#
+# Family: ip6
+# Table: ip6_filter
+# Chain: ip6_filter_prerouting
+# Type:  filter
+# Hook:  prerouting
+# Priority: filter(0)
+# Policy: DROP
+#
+
+table ip6 ip6_filter {
+    chain ip6_filter_prerouting {
+
+        type filter hook prerouting priority filter;
+        policy accept
+
+        counter
+        log prefix "DROP ip6-filter-prerouting " limit rate 5/second
+    }
+}

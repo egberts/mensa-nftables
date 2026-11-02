@@ -1,0 +1,55 @@
+#!/usr/sbin/nft -f
+#
+# File: nftables-flush.nft
+# Title: Flushing out all existing tables and chains
+# Description:
+#   A multi-config file approach for a complete default deny firewall using
+#   nftables.  Covers all:
+#     * zone names
+#     * base chain types and
+#     * all base chain hooks.
+#
+
+flush chain inet filter allowed_input_all_udp
+flush chain inet filter allowed_input_red_tcp
+flush chain inet filter allowed_input_red_udp
+flush chain inet filter allowed_input_blue_tcp
+flush chain inet filter allowed_input_blue_udp
+flush chain inet filter allowed_input_green_icmp
+flush chain inet filter allowed_input_green_tcp
+flush chain inet filter allowed_input_green_udp
+flush chain inet filter allowed_input_lo
+flush chain inet filter bad_packets
+flush chain inet filter filter_bad_packets
+flush chain inet filter forward
+flush chain inet filter forward_blue
+flush chain inet filter forward_blue_icmp
+flush chain inet filter forward_blue_tcp
+flush chain inet filter forward_blue_udp
+flush chain inet filter forward_green
+flush chain inet filter forward_green_icmp
+flush chain inet filter forward_green_tcp
+flush chain inet filter forward_green_udp
+flush chain inet filter forward_red
+flush chain inet filter forward_red_icmp
+flush chain inet filter forward_red_igmp
+flush chain inet filter forward_red_tcp
+flush chain inet filter forward_red_udp
+flush chain inet filter input
+flush chain inet filter input_all_udp
+flush chain inet filter input_blue
+flush chain inet filter input_blue_tcp
+flush chain inet filter input_blue_udp
+flush chain inet filter input_green
+flush chain inet filter input_green_icmp
+flush chain inet filter input_green_igmp
+flush chain inet filter input_green_tcp
+flush chain inet filter input_green_udp
+flush chain inet filter input_lo
+flush chain inet filter input_red
+flush chain inet filter input_red_icmp
+flush chain inet filter input_red_igmp
+flush chain inet filter input_red_tcp
+flush chain inet filter input_red_udp
+flush chain netdev filter ingress
+flush chain ip NAT NAT_postrt

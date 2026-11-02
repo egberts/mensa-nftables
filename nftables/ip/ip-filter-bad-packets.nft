@@ -1,0 +1,26 @@
+#!/usr/sbin/nft -f    # not needed if 'included'
+# File: filter-bad-packets.nft
+# Path: filter/
+# Description:
+#   This is first level defense of packet filtering 
+#   before any INPUT/OUTPUT/FORWARD chains
+#
+#   Most of the time, you want your filtering closer to 
+#   INPUT/OUTPUT/FORWARD/NAT/POSTROUTING chains
+#
+#   IPset Blacklist is a good place to be
+
+add counter inet filter filter_packets_bad
+
+# bad packets
+add chain inet filter filter_bad_packets
+
+add rule inet filter filter_bad_packets counter name filter_packets_bad
+
+# IP filter is done here for multicast (but further down for unicast IP)
+#
+# Connection tracking may work on anything outside of TCP/UDP
+#add rule inet filter filter_bad_packets ct state invalid log flags all prefix "Invalid conntrack state: " counter counter drop
+
+add rule inet filter filter_bad_packets counter comment "not-so-bad filter packets allowed"
+

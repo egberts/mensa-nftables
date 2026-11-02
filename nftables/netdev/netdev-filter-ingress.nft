@@ -1,0 +1,30 @@
+#!/usr/bin/env nft -f
+#
+# File:        netdev-filter-ingress.nft
+# Path:        /etc/nftables/netdev
+# Description:
+#   The stage of packet is at INGRESS for ALL interfaces
+#
+#   Ideal place to put DDoS mechanism
+#
+# Family: netdev
+# Table: netdev_filter
+# Chain: netdev_filter_ingress
+# Type:  nat
+# Hook:  filter
+# Priority: 1 (not to conflict with LIBVIRT)
+# Policy: DROP
+#
+
+table netdev netdev_filter {
+    chain netdev_filter_ingress {
+
+        type filter hook ingress priority 1;
+        policy drop
+
+        counter
+        log prefix "DROP netdev-filter-ingress " limit rate 5/second
+
+        # goes out to filter_input as AS-IS (not drop nor accept)
+    }
+}
