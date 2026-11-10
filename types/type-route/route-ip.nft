@@ -1,0 +1,29 @@
+#!/usr/sbin/nft -f   # ignored if included directly by 'nft -f'
+#
+# File:     route-ip.nft
+# Path:     type-route/
+# Title:
+# Family:   ip
+# Table:    ip_route
+# Chain:    *
+# Type:     route
+# Hook:     *
+# Priority: N/A
+# Policy:   *
+# Description:
+#
+# Single-indented for base-chain and regular-chain
+# Double-indented for rules-only
+#
+
+table ip ip_route {
+
+    include "./hooks/hook-prerouting/base-ip-route-prerouting.chain";
+
+    include "./hooks/hook-input/base-ip-route-input.chain";
+
+    include "./hooks/hook-output/base-ip-route-output.chain";
+
+    include "./hooks/hook-postrouting/base-ip-route-postrouting.chain";
+
+}

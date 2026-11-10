@@ -1,0 +1,29 @@
+#!/usr/sbin/nft -f   # ignored if included directly by 'nft -f'
+#
+# File:     nat-ip.nft
+# Path:     type-nat/
+# Title:
+# Family:   ip
+# Table:    ip_nat
+# Chain:    *
+# Type:     nat
+# Hook:     *
+# Priority: N/A
+# Policy:   *
+# Description:
+#
+# Single-indented for base-chain and regular-chain
+# Double-indented for rules-only
+#
+
+table ip ip_nat {
+
+    include "./hooks/hook-prerouting/base-ip-nat-prerouting.chain";
+
+    include "./hooks/hook-input/base-ip-nat-input.chain";
+
+    include "./hooks/hook-output/base-ip-nat-output.chain";
+
+    include "./hooks/hook-postrouting/base-ip-nat-postrouting.chain";
+
+}

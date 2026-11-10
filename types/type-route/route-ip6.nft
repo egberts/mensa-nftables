@@ -1,0 +1,29 @@
+#!/usr/sbin/nft -f   # ignored if included directly by 'nft -f'
+#
+# File:     route-ip6.nft
+# Path:     type-route/
+# Title:
+# Family:   ip6
+# Table:    ip6_route
+# Chain:    *
+# Type:     route
+# Hook:     *
+# Priority: N/A
+# Policy:   *
+# Description:
+#
+# Single-indented for base-chain and regular-chain
+# Double-indented for rules-only
+#
+
+table ip6 ip6_route {
+
+    include "./hooks/hook-prerouting/base-ip6-route-prerouting.chain";
+
+    include "./hooks/hook-input/base-ip6-route-input.chain";
+
+    include "./hooks/hook-output/base-ip6-route-output.chain";
+
+    include "./hooks/hook-postrouting/base-ip6-route-postrouting.chain";
+
+}
