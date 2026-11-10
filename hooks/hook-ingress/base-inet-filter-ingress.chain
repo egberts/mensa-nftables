@@ -1,0 +1,22 @@
+# File:     base-inet-filter-ingress.nft
+# Path:     hook-ingress/
+# Title:
+# Family:   inet
+# Table:    *
+# Chain:    inet_filter_ingress
+# Type:     filter
+# Hook:     ingress
+# Priority: raw(-300)
+# Policy:   ACCEPT
+# Description:
+#
+#
+# NOTE: If no rule specified, comment out the entire chain
+#
+
+    chain admin_inet_filter_ingress {
+        type filter hook ingress priority -300;
+        policy accept;
+
+    }
+

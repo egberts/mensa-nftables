@@ -1,0 +1,19 @@
+# File:     base-inet-route-postrouting.chain
+# Path:     hook-postrouting/
+# Title:
+# Family:   inet
+# Table:    *
+# Chain:    inet_route_postrouting
+# Type:     route
+# Hook:     postrouting
+# Priority: various
+# Policy: accept
+# Description:
+#
+
+    chain inet_route_postrouting {
+        type nat hook postrouting priority -300;
+        policy accept;
+
+    }
+

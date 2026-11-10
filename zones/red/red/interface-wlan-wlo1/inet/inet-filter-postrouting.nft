@@ -1,0 +1,88 @@
+#!/usr/bin/env nft -f
+#
+# File:        inet-filter-postrouting.nft
+# Path:        /etc/nftables/inet
+# Family:      inet
+# Table:       inet_filter
+# Chain:       inet_filter_postrouting
+# Type:        filter
+# Hook:        postrouting
+# Priority:    filter (0)
+# Policy:      DROP
+# Description: Final outbound packet enforcement
+#
+# not a replacement for your output and forward chains.
+#
+# For inet / filter / postrouting, the chain controlsu
+# packets at the final stage before they leave the
+# network interface.
+#
+# Unlike output, which handles locally generated
+# packets, postrouting sees both locally generated
+# packets and forwarded packets.
+#
+# Priority: filter (numeric 0) is the conventional choice.
+#
+# One important consideration: postrouting filtering
+# occurs before source NAT at priority srcnat (100).
+# Therefore, rules at priority filter see pre-SNATu
+# source addresses.
+#
+# Control                         Security purpose
+# Invalid state rejection         Rejects invalid connection-tracking traffic
+# Loopback acceptance             Preserves local loopback traffic
+# Established/related             Permits tracked return and related traffic
+# Explicit egress authorization   Restricts outbound interfaces and destinations
+# ICMP/ICMPv6                      Supports necessary network control traffic
+# Logging and counters            Provides an audit trail
+#
+# IMPORTANT:
+# This chain sees both locally generated and forwarded packets.
+# Rules must account for both traffic paths.
+#
+# Filtering at priority filter (0) occurs before source NAT
+# at priority srcnat (100).
+#
+# This is a hardening baseline, not a Common Criteria certification.
+#
+
+table inet inet_filter {
+
+    chain inet_filter_postrouting {
+
+        type filter hook postrouting priority filter; policy drop;
+
+        # Reject invalid connection states.
+        ct state invalid counter drop
+
+        # Accept loopback traffic.
+        oifname "lo" counter accept
+
+        # Accept established and related traffic.
+        ct state { established, related } counter accept
+
+        # Explicitly authorized NEW outbound traffic goes here.
+        # Examples must be adapted to the actual host/network.
+
+        ip saddr $LAN_INTF_LOCALNET udp sport 5353 accept
+
+        # Permit IPv4 ICMP error messages.
+        ip protocol icmp icmp type { destination-unreachable, time-exceeded, parameter-problem } counter accept
+
+        # Permit IPv6 ICMP error messages.
+        icmpv6 type { destination-unreachable, packet-too-big, time-exceeded, parameter-problem } counter accept
+
+        # Permit IPv6 Neighbor Discovery and Router Solicitation.
+        icmpv6 type { nd-neighbor-solicit, nd-neighbor-advert, nd-router-solicit } ip6 hoplimit 255 counter accept
+
+        # Permit DHCPv4 client requests (if DHCP client).
+        udp sport 68 udp dport 67 counter accept
+
+        # Permit DHCPv6 client requests (if DHCPv6 client).
+        udp sport 546 udp dport 547 counter accept
+
+        # Log and count denied traffic.
+        limit rate 5/second log prefix "DROP inet-filter-postrouting: "
+        counter comment "inet-filter-postrouting DROP"
+    }
+}

@@ -1,0 +1,94 @@
+#!/usr/bin/env nft -f
+#
+# File:        inet-filter-output.nft
+# Path:        /etc/nftables/inet
+# Family:      inet
+# Table:       inet_filter
+# Chain:       inet_filter_output
+# Type:        filter
+# Hook:        output
+# Priority:    filter (0)
+# Policy:      DROP
+# Description: Stateful outbound host firewall
+#
+# Control                         Security purpose
+# Loopback acceptance             Allows local IPC and local services
+# Loopback destination protection Prevents externally routed loopback traffic
+# Invalid state rejection         Drops invalid connection-tracking traffic
+# Established/related             Permits authorized existing connections
+# ICMPv4 errors                   Supports IPv4 error reporting
+# ICMPv6 errors                   Supports IPv6 error reporting and PMTU
+# Neighbor Discovery              Supports IPv6 address resolution
+# Router Solicitation             Supports IPv6 router discovery
+# DHCP                            Allows dynamic address configuration
+# Explicit service rules          Restricts outbound application traffic
+# Logging and counters            Provides an audit trail
+#
+# Based on deny-by-default and least-privilege principles.
+# References: NIST SP 800-41; CIS Controls 4.5 and 12.2.
+#
+# Optional services must be enabled according to host requirements.
+# This is a hardening baseline, not a Common Criteria certification.
+#
+
+
+table inet inet_filter {
+
+    chain inet_filter_output {
+
+        type filter hook output priority filter; policy drop;
+
+        # Reject invalid connection states.
+        ct state invalid counter drop
+
+        # Reject externally routed loopback-addressed traffic.
+        oifname != "lo" ip daddr 127.0.0.0/8 counter drop
+        oifname != "lo" ip6 daddr ::1 counter drop
+
+        # Accept loopback traffic.
+        oifname "lo" counter accept
+
+        # Accept established and related connections.
+        ct state { established, related } counter accept
+
+        # Permit essential IPv4 ICMP error messages.
+        ip protocol icmp icmp type { destination-unreachable, time-exceeded, parameter-problem } counter accept
+
+        # Permit essential IPv6 ICMP error messages.
+        icmpv6 type { destination-unreachable, packet-too-big, time-exceeded, parameter-problem } counter accept
+
+        # Permit IPv6 Neighbor Discovery and Router Solicitation.
+        icmpv6 type { nd-neighbor-solicit, nd-neighbor-advert, nd-router-solicit } ip6 hoplimit 255 counter accept
+
+        # Permit IPv6 Multicast Listener Reports (if multicast is required).
+        icmpv6 type { mld-listener-report, mld-listener-reduction, mld2-listener-report } ip6 hoplimit 1 counter accept
+
+        # Permit DHCPv4 client requests (if DHCP client).
+        udp sport 68 udp dport 67 counter accept
+
+        # Permit DHCPv6 client requests (if DHCPv6 client).
+        udp sport 546 udp dport 547 counter accept
+
+        # Explicitly authorized outbound services go here.
+
+        # Optional: DNS.
+        udp dport 53 counter accept
+        tcp dport 53 counter accept
+
+        # Optional: NTP.
+        udp dport 123 counter accept
+
+        # Optional: HTTP and HTTPS.
+        tcp dport { 80, 443 } counter accept
+
+        # Optional: IPv4 ping requests.
+        ip protocol icmp icmp type echo-request counter accept
+
+        # Optional: IPv6 ping requests.
+        icmpv6 type echo-request counter accept
+
+        # Log and count denied traffic.
+        limit rate 5/second log prefix "DROP inet-filter-output: "
+        counter comment "inet-filter-output DROP"
+    }
+}

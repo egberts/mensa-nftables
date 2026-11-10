@@ -1,0 +1,41 @@
+# File:     ip6-filter-input-red-icmp.chain
+# Path:     zones/red/
+# Title:    Rules for ICMP packets in red zone with type filter and hook input
+# Family:   ip6
+# Table:    *
+# Chain:    ip6_filter_input_red_icmp
+# Type:     filter
+# Hook:     input
+# Priority: filter(0)
+# Policy:   DROP
+# Zone:     red
+# Description:
+#
+
+    chain ip6_filter_input_red_icmp {
+
+        counter
+
+        # ip6 nexthdr ipv6-icmp limit rate 4/second accept
+
+        # Permit essential IPv6 ICMP error messages.
+        icmpv6 type {
+            destination-unreachable,
+            packet-too-big,
+            time-exceeded,
+            parameter-problem } counter accept
+
+        # Permit IPv6 Neighbor Discovery and Router Advertisements.
+        icmpv6 type {
+            nd-neighbor-solicit,
+            nd-neighbor-advert,
+            nd-router-advert } ip6 hoplimit 255 counter accept
+
+        icmpv6 type 143 icmpv6 code 0 counter drop
+        icmpv6 type 136 icmpv6 code 0 counter drop
+        meta l4proto ipv6-icmp counter prefix "ACCEPT: ip6/filter/input/red/icmp: " accept
+
+        # red input ICMP disallow
+        ip6 daddr ::1/128 counter drop
+
+        log prefix "DROP filter/input/red input_red_icmp "counter drop

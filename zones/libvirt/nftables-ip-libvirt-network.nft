@@ -1,0 +1,50 @@
+#!/usr/sbin/nft -f
+# File: nft-libvirt.nft
+
+# Description:
+#   Create the chains and tables for libvirt (virt-manager/virsh) VM management
+#
+# Note:
+#   These table and chain names are reserved by `libvirt-7.0.0`+ utility.
+#
+# Warning:
+#   There can be no substitution (unless you patched/modified libvirt) code.
+#
+
+table ip libvirt_network {
+        chain forward {
+                type filter hook forward priority filter; policy accept;
+                counter  jump guest_cross
+                counter  jump guest_input
+                counter  jump guest_output
+        }
+
+        chain guest_output {
+                iif "virbr1" counter  reject
+                ip saddr 192.168.122.0/24 iif "virbr0" counter  accept
+                iif "virbr0" counter  reject
+                iif "virbr2" counter  reject
+        }
+
+        chain guest_input {
+                oif "virbr1" counter  reject
+                oif "virbr0" ip daddr 192.168.122.0/24 ct state established,related counter  accept
+                oif "virbr0" counter  reject
+                oif "virbr2" counter  reject
+        }
+
+        chain guest_cross {
+                iif "virbr1" oif "virbr1" counter  accept
+                iif "virbr0" oif "virbr0" counter  accept
+                iif "virbr2" oif "virbr2" counter  accept
+        }
+
+        chain guest_nat {
+                type nat hook postrouting priority srcnat; policy accept;
+                ip saddr 192.168.122.0/24 ip daddr 224.0.0.0/24 counter  return
+                ip saddr 192.168.122.0/24 ip daddr 255.255.255.255 counter  return
+                meta l4proto tcp ip saddr 192.168.122.0/24 ip daddr != 192.168.122.0/24 counter  masquerade to :1024-65535
+                meta l4proto udp ip saddr 192.168.122.0/24 ip daddr != 192.168.122.0/24 counter  masquerade to :1024-65535
+                ip saddr 192.168.122.0/24 ip daddr != 192.168.122.0/24 counter  masquerade
+        }
+}

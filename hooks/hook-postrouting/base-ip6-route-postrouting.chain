@@ -1,0 +1,18 @@
+# File:     base-ip6-route-postrouting.chain
+# Path:     hook-postrouting/
+# Title:
+# Family:   ip6
+# Table:    *
+# Chain:    ip6_route_postrouting_security
+# Type:     route
+# Hook:     postrouting
+# Priority: various
+# Policy: accept
+# Description:
+#
+
+    chain ip6_route_postrouting {
+        type nat hook postrouting priority -100;
+        policy accept;
+
+    }

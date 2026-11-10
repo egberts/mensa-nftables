@@ -1,0 +1,16 @@
+# File:     base-arp-filter-output.chain
+# Path:     hook-output/
+# Title:
+# Family:   arp
+# Table:    *
+# Chain:    arp_filter_output
+# Type:     filter
+# Hook:     output
+# Priority: filter(0)
+# Policy:   ACCEPT
+# Description:
+#
+# Single-indented for base-chain and regular-chain
+# Double-indented for rules-only
+#
+

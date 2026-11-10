@@ -1,0 +1,35 @@
+# File:     base-ip-nat-output.chain
+# Path:     hook-output/
+# Title:
+# Family:   ip
+# Table:    *
+# Chain:    ip_nat_output
+# Type:     nat
+# Hook:     output
+# Priority: nat(0)
+# Policy:   DROP
+# Description:
+#
+# Single-indented for base-chain and regular-chain
+# Double-indented for rules-only
+#
+
+
+    # Initialize an interface-to-chain dispatcher for output hook
+    map map_dispatch_ip_nat_output_interface {
+        typeof iif : verdict
+    }
+    chain ip_nat_output {
+        type nat hook output priority 1; policy drop;
+        oifname "lo" accept
+
+        # A cool lookup to jump into a protocol-specific regular chain
+        # dispatch map built by including/excluding chain-ip-nat-*.nft files
+        iif vmap @map_dispatch_ip_nat_output_interface
+
+        counter log prefix "DROP ip/nat/output: " drop comment "unidentified interface nat output"
+    }
+    # Selectively load our protocol regular chains
+    # registers with 'map_dispatch_ip_nat_output' dispatch mapper)
+    include "./zone-red-ip-nat-output-*.chain";
+

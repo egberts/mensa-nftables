@@ -1,0 +1,44 @@
+# File:     base-ip6-route-input.chain
+# Path:     hook-input/
+# Title:    Base chain for ip6/route/input
+# Family:   ip6
+# Table:    *
+# Chain:    ip6_route_input
+# Type:     route
+# Hook:     input
+# Priority: various
+# Policy:   DROP
+# Description:
+#
+
+    # Initialize an interface-to-chain dispatcher for input hook
+    map map_dispatch_ip6_route_input_interface {
+        typeof iif : verdict
+    }
+    chain ip6_route_input {
+        type route hook input priority -1; policy drop;
+
+        # Reject invalid connection states.
+        ct state invalid counter log prefix "DROP: ip6/route/input/invalid " drop
+
+        # blackholes goes here
+        # push daddr 255.255.255.255/32 to zone-specific ruleset(s)
+        #   ip6 daddr 255.255.255.255/32 counter drop comment "really drop unsolicited IPv4 broadcast"
+
+        # Accept established and related connections.
+        ct state { established, related } counter accept  # silent accept
+
+        # A cool lookup to jump into a protocol-specific regular chain
+        # dispatch map built by including/excluding chain-ip6-route-*.nft files
+        iif vmap @map_dispatch_ip6_route_input_interface
+    }
+
+
+    # Selectively load our input protocol regular chains
+    # registers with 'map_dispatch_ip6_route_input_interface' dispatch mapper)
+    include "./zones/zone-ip6-route-input-*.chain";
+
+    # Post-interface input process
+    chain ip6_route_input {
+        counter log prefix "DROP ip6/route/input: " drop comment "unidentified interface route input"
+    }

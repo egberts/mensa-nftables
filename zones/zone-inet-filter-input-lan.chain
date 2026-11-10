@@ -1,0 +1,26 @@
+# File:     zone-inet-filter-input-lan.chain
+# Path:     *
+# Family:   inet
+# Table:    *
+# Chain:    inet_filter_input_lan
+# Type:     filter
+# Hook:     input
+# Priority: filter(0)
+# Policy:   DROP
+# Zone:     lan
+# Description:
+#
+#
+
+    # Our fancy callback registry into the firewall
+    # makes it easy to delete this file and not impact nft infrastructure
+    map map_dispatch_inet_filter_input_interface {
+        typeof iif : verdict
+        elements = {
+            $LAN_INTF_DEV : jump inet_filter_input_lan,
+        }
+    }
+
+    chain inet_filter_input_lan {
+        counter log prefix "inet/filter/input/lan: " return
+    }

@@ -1,0 +1,26 @@
+# File:     zone-inet-filter-input-dmz.chain
+# Path:     *
+# Family:   inet
+# Table:    *
+# Chain:    inet_filter_input_dmz
+# Type:     filter
+# Hook:     input
+# Priority: filter(0)
+# Policy:   DROP
+# Zone:     dmz
+# Description:
+#
+#
+
+    # Our fancy callback registry into the firewall
+    # makes it easy to delete this file and not impact nft infrastructure
+    map map_dispatch_inet_filter_input_interface {
+        typeof iif : verdict
+        elements = {
+            $DMZ_INTF_DEV : jump inet_filter_input_dmz,
+        }
+    }
+
+    chain inet_filter_input_dmz {
+        counter log prefix "RETURN: inet/filter/input/dmz: " return
+    }

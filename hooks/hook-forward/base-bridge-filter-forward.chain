@@ -1,0 +1,16 @@
+# File:     base-arp-filter-forward.chain
+# Path:     hook-forward/
+# Title:
+# Family:   arp
+# Table:    *
+# Chain:    arp_filter_forward
+# Type:     filter
+# Hook:     forward
+# Priority: filter(0)
+# Policy:   ACCEPT
+# Description:
+#
+# Single-indented for base-chain and regular-chain
+# Double-indented for rules-only
+#
+

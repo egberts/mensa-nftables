@@ -1,0 +1,74 @@
+#!/usr/bin/env nft -f
+#
+# File:        inet-nat-input.nft
+# Path:        /etc/nftables/inet
+# Family:      inet
+# Table:       inet_nat
+# Chain:       inet_nat_input
+# Type:        nat
+# Hook:        input
+# Priority:    srcnat (100)
+# Policy:      ACCEPT
+# Description: Source NAT for locally destined packets
+#
+# The input hook sees packets routed to the local system.
+#
+# Unlike prerouting, input does not see forwarded packets.
+#
+# NAT chains process only the first packet of a connection.
+# Subsequent packets use the established NAT binding.
+#
+# Priority 100 places this chain after the conventional
+# filter priority (0) at the input hook.
+#
+# Control           Security purpose
+# NAT translation   Translates addresses of locally destined traffic
+# Counters          Counts connections initiating NAT translation
+#
+# This chain performs NAT, not packet filtering.
+# Use inet/filter/input for inbound packet enforcement.
+#
+# Nat chains are for address translation, not packet filtering.
+# Only the first packet of a connection traverses a NAT chain;
+# subsequent packets use the established NAT binding.
+# Consequently, a policy drop NAT chain is not an
+# appropriate way to implement a default-deny input
+# firewall; use an inet/filter/input chain for that purpose.
+#
+# OPERATIONAL CONSEQUENCE: Because this chain runs at
+# priority 100, a conventional input filter chain at
+# priority 0 evaluates packets before this translation occurs.
+#
+# NAT chains should not implement a default-deny filtering policy.
+#
+# counts packets reaching this rule, but remember
+# that NAT-chain evaluation is limited to the first
+# packet of each connection.
+#
+# Examples of uses for inet / nat / input include:
+# - Local service port translation:
+#    Change an incoming connection addressed to a local
+#        TCP or UDP port to another local port.
+# - Local DNS redirection
+#    Redirect DNS requests addressed to the host on port 53
+#        to a different local DNS service port.
+# - Local proxy redirection
+#    Redirect connections addressed to a local service port
+#        to a local proxy listening on another port.
+# - Service port remapping
+#    Present a service on a standard port while the actual
+#        local service listens on a nonstandard port.
+#
+
+
+table inet inet_nat {
+
+    chain inet_nat_input {
+
+        type nat hook input priority srcnat; policy accept;
+
+        # Add applicable SNAT rules here.
+
+        counter comment "inet-nat-input (per connection)"
+    }
+}

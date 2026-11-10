@@ -1,0 +1,30 @@
+# File:     base-ip-nat-prerouting.chain
+# Path:
+# Title:    Base chain for ip/nat/prerouting hook at various priority
+# Family:   ip
+# Table:    *
+# Chain:    ip_nat_prerouting_*
+# Type:     nat
+# Hook:     prerouting
+# Priority: various
+# Policy:   accept
+# Description:
+#
+
+    chain ip_nat_prerouting_dstnat {
+        type nat hook prerouting priority -100;
+        policy accept;
+
+    }
+
+    chain ip_nat_prerouting_mangle {
+        type nat hook prerouting priority -150;
+        policy accept;
+
+    }
+
+    chain ip_nat_prerouting_raw {
+        type nat hook prerouting priority -300;
+        policy accept;
+
+    }

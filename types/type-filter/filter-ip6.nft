@@ -1,0 +1,33 @@
+#!/usr/sbin/nft -f   # ignored if included directly by 'nft -f'
+#
+# File:     filter-ip6.nft
+# Path:     type-filter/
+# Title:
+# Family:   ip6
+# Table:    ip6_filter
+# Chain:    *
+# Type:     filter
+# Hook:     *
+# Priority: N/A
+# Policy:   *
+# Description:
+#
+# Single-indented for base-chain and regular-chain
+# Double-indented for rules-only
+#
+
+table ip6 ip6_filter {
+
+    # was half-expecting ingress, but only in 'inet'
+
+    include "./hooks/hook-prerouting/base-ip6-filter-prerouting.chain";
+
+    include "./hooks/hook-input/base-ip6-filter-input.chain";
+
+    include "./hooks/hook-forward/base-ip6-filter-forward.chain";
+
+    include "./hooks/hook-output/base-ip6-filter-output.chain";
+
+    include "./hooks/hook-postrouting/base-ip6-filter-postrouting.chain";
+
+}

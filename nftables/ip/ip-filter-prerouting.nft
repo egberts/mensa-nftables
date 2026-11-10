@@ -1,4 +1,0 @@
-#!/usr/sbin/nft -f
-# File: filter-prerouting.nft
-#
-# Empty

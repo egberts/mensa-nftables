@@ -1,0 +1,83 @@
+# File:        base-netdev-filter-ingress.chain
+# Path:
+# Title:       Base chain for netdev/filter/ingress hook
+# Family:      netdev
+# Table:       *
+# Chain:       netdev_filter_ingress
+# Type:        filter
+# Hook:        ingress
+# Device:      eno1
+# Priority:    filter (0)
+# Policy:      DROP
+# Description: Early ingress packet enforcement
+#
+# The ingress hook sees packets arriving on the specified
+# network interface.
+#
+# It runs before Layer 3 protocol processing and before
+# the inet prerouting hook.
+#
+# Unlike inet prerouting, netdev ingress also sees
+# non-IP Ethernet traffic, including ARP and VLAN frames.
+#
+# Priority filter (numeric 0) is the conventional choice.
+#
+# Control                         Security purpose
+# Ethernet protocol validation    Restricts permitted EtherTypes
+# Source MAC validation           Rejects unauthorized hardware addresses
+# IP source validation             Rejects prohibited source addresses
+# ARP validation                   Restricts malformed or unauthorized ARP
+# IPv6 control traffic             Preserves required Neighbor Discovery
+# Logging and counters             Provides an audit trail
+#
+# This chain performs early packet filtering.
+# It is not a replacement for inet/filter/input,
+# inet/filter/forward, or inet/filter/prerouting.
+#
+# IMPORTANT:
+# Connection tracking has not yet processed the packet.
+# Do not use ct state rules here.
+#
+# Fragmented packets may not have accessible transport-layer
+# headers beyond the first fragment.
+#
+# Examples of uses for netdev / filter / ingress include:
+# - Early source-address validation:
+#     Reject packets arriving with prohibited or unexpected
+#     IPv4 or IPv6 source addresses.
+# - MAC address filtering:
+#     Restrict traffic to authorized source hardware addresses.
+# - EtherType filtering:
+#     Restrict permitted Ethernet protocols, including IPv4,
+#     IPv6, and ARP.
+# - Broadcast and multicast control:
+#     Restrict unwanted Ethernet broadcast or multicast traffic.
+# - Early denial of service mitigation:
+#     Drop unwanted traffic before it enters the Layer 3 stack.
+# - VLAN filtering:
+#     Restrict permitted VLAN-tagged traffic where applicable.
+#
+# The device name must identify an existing network interface.
+#
+# Requires Linux kernel 4.2 or later for netdev egress.
+#
+
+    chain netdev_filter_ingress {
+
+        type filter hook ingress device $LAN_INTF_DEV priority filter; policy drop;
+
+        # Add applicable ingress filtering rules here.
+
+        # Permit ARP only if required on this interface.
+        ether type arp counter accept
+
+        # Permit IPv4 traffic.
+        ether type ip counter accept
+
+        # Permit IPv6 traffic.
+        ether type ip6 counter accept
+
+        # Log and count denied traffic.
+        log prefix "DROP netdev-filter-ingress: " limit rate 5/second
+        counter log prefix "DROP netdev/filter/ingress " drop
+    }

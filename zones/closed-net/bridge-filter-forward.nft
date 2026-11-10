@@ -1,0 +1,37 @@
+#!/usr/bin/env nft -f
+#
+# File:        bridge-filter-forward.nft
+# Path:        /etc/nftables/bridge
+# Family:      bridge
+# Table:       bridge_filter
+# Chain:       bridge_filter_forward
+# Type:        filter
+# Hook:        forward
+# Priority:    filter (0)
+# Policy:      DROP
+# Description: Filters Ethernet frames forwarded between bridge ports.
+#
+# Hook:
+#   Processes Ethernet frames received on a bridge port and
+#   forwarded to another bridge port, after the bridge has
+#   determined the forwarding destination.
+#
+# Priority:
+#   Filter (0) places the chain at the conventional filtering priority.
+#
+# Scope:
+#   Applies to transit Ethernet traffic crossing the bridge,
+#   including ARP, IPv4, IPv6, and other Ethernet protocols.
+#
+
+table bridge bridge_filter {
+
+    chain bridge_filter_forward {
+
+        type filter hook forward priority filter; policy drop
+
+        counter
+
+        limit rate 5/second log prefix "DROP bridge-filter-forward: "
+    }
+}

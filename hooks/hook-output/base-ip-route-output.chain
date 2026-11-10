@@ -1,0 +1,35 @@
+# File:     base-ip-route-output.chain
+# Path:     hook-output/
+# Title:
+# Family:   ip
+# Table:    *
+# Chain:    ip_route_output
+# Type:     route
+# Hook:     output
+# Priority: various
+# Policy:   DROP
+# Description:
+#
+# Single-indented for base-chain and regular-chain
+# Double-indented for rules-only
+#
+
+
+    # Initialize an interface-to-chain dispatcher for output hook
+    map map_dispatch_ip_route_output_interface {
+        typeof iif : verdict
+    }
+    chain ip_route_output {
+        type route hook output priority 1; policy drop;
+        oifname "lo" accept
+
+        # A cool lookup to jump into a protocol-specific regular chain
+        # dispatch map built by including/excluding chain-ip-route-*.nft files
+        iif vmap @map_dispatch_ip_route_output_interface
+
+        counter log prefix "DROP ip/route/output: " drop comment "unidentified interface route output"
+    }
+    # Selectively load our protocol regular chains
+    # registers with 'map_dispatch_ip_route_output' dispatch mapper)
+    include "./zone-red-ip-route-output-*.chain";
+

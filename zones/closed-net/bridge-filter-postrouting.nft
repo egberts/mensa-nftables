@@ -1,0 +1,48 @@
+#!/usr/bin/env nft -f
+#
+# File:        bridge-filter-postrouting.nft
+# Path:        /etc/nftables/bridge
+# Family:      bridge
+# Table:       bridge_filter
+# Chain:       bridge_filter_postrouting
+# Type:        filter
+# Hook:        postrouting
+# Priority:    filter (0)
+# Policy:      DROP
+# Description: Filters Ethernet frames after bridge forwarding decisions.
+#
+# Hook:
+#   Processes Ethernet frames after the bridge has determined their
+#   egress path, immediately before transmission through the
+#   outgoing bridge port.
+#
+# Priority:
+#   Filter (0) places the chain at the conventional filtering priority.
+#
+# Scope:
+#   Applies to outgoing bridged Ethernet traffic, including ARP,
+#   IPv4, IPv6, and other Ethernet protocols.
+#
+# WARNING:
+# One policy caveat: DROP on prerouting or postrouting affects more
+# than transit traffic. Those hooks also see frames that may subsequently
+# be delivered locally or transmitted from the local host, respectively.
+# The input, output, and forward hooks provide the more specific traffic-path
+# filtering points.
+#
+# Rule of Thumb: Use prerouting and postrouting almost exclusively
+# for NAT (Network Address Translation) and packet mangling, but
+# leave packet filtering and dropping to input, output, and forward.
+#
+
+table bridge bridge_filter {
+
+    chain bridge_filter_postrouting {
+
+        type filter hook postrouting priority filter; policy drop
+
+        counter
+
+        limit rate 5/second log prefix "DROP bridge-filter-postrouting: "
+    }
+}

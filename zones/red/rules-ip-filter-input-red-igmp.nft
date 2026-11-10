@@ -1,0 +1,22 @@
+#!/usr/sbin/nft -f   # ignored if included directly by 'nft -f'
+#
+# File:        rules-ip-filter-input-red-igmp.nft
+# Path:        red/
+# Title:
+# Family:      ip
+# Table:       *
+# Chain:       ip_filter_input_red
+# Type:        filter
+# Hook:        input
+# Priority:    filter(0)
+# Policy:      DROP
+# Description:
+#
+#
+
+
+        counter
+
+        ip protocol igmp counter log prefix "ACCEPT: ip/filter/input/red/igmp: " accept
+
+        counter log prefix "DROP ip/filter/input/red/igmp " drop

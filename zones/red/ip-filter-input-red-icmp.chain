@@ -1,0 +1,43 @@
+# File:     ip-filter-input-red-icmp.chain
+# Path:     zones/red/
+# Title:    Rules for ICMP packets in red zone with type filter and hook input
+# Family:   ip
+# Table:    *
+# Chain:    ip_filter_input_red_icmp
+# Type:     filter
+# Hook:     input
+# Priority: filter(0)
+# Policy:   DROP
+# Zone:     red
+# Description:
+#
+
+    chain ip_filter_input_red_icmp {
+
+        counter
+
+        # Permit essential IPv4 ICMP error messages.
+        ip protocol icmp icmp type {
+            destination-unreachable,
+            time-exceeded,
+            parameter-problem } counter prefix "ACCEPT: ip/filter/input/red/icmp " accept
+
+        # red input ICMP Allowed
+        ip protocol icmp limit rate 4/second log prefix "DROP ip/filter/input/red/icmp counter drop
+
+        ip saddr {
+                192.168.0.0/24,
+                192.168.2.0/23,
+                192.168.4.0/22,
+                192.168.8.0/21,
+                192.168.16.0/20,
+                192.168.32.0/19,
+                192.168.64.0/18,
+                192.168.128.0/17,
+                10.0.0.0/8,
+                172.16.0.0/12 } log prefix "DROP filter/input/red stray_packet " counter drop comment "stray packet"
+
+        ip protocol icmp counter jump allowed_input_red_icmp;
+        meta l4proto ipv6-icmp counter accept comment "Accept ICMPv6";
+
+        log prefix "DROP filter/input/red input_red_icmp "counter drop

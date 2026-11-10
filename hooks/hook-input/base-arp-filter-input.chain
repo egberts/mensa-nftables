@@ -1,0 +1,16 @@
+# File:     base-arp-filter-input.chain
+# Path:     hook-input/
+# Title:
+# Family:   arp
+# Table:    *
+# Chain:    arp_filter_input
+# Type:     filter
+# Hook:     input
+# Priority: filter(0)
+# Policy:   ACCEPT
+# Description:
+#
+# Single-indented for base-chain and regular-chain
+# Double-indented for rules-only
+#
+

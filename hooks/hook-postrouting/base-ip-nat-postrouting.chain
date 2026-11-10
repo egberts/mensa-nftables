@@ -1,0 +1,30 @@
+# File:     base-ip-nat-postrouting.chain
+# Path:     hook-prerouting/
+# Title:
+# Family:   ip
+# Table:    *
+# Chain:    ip_nat_postrouting_security
+# Type:     nat
+# Hook:     postrouting
+# Priority: various
+# Policy: accept
+# Description:
+#
+
+    chain ip_nat_postrouting_raw {
+        type nat hook postrouting priority -300;
+        policy accept;
+
+    }
+
+    chain ip_nat_postrouting_mangle {
+        type nat hook postrouting priority -150;
+        policy accept;
+
+    }
+
+    chain ip_nat_postrouting_dstnat {
+        type nat hook postrouting priority -100;
+        policy accept;
+
+    }

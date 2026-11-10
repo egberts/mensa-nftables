@@ -1,0 +1,21 @@
+# File:     base-inet-filter-postrouting-srcnat.chain
+# Path:     hook-postrouting/
+# Title:
+# Family:   inet
+# Table:    *
+# Chain:    inet_filter_postrouting_srcnet
+# Type:     filter
+# Hook:     postrouting
+# Priority: srcnat(100)
+# Policy:   accept
+# Description:
+#
+#
+# NOTE: If no rule specified, comment out the entire chain
+#
+
+    chain inet_filter_postrouting_srcnat {
+        type filter hook postrouting priority 100;
+        policy accept;
+
+    }

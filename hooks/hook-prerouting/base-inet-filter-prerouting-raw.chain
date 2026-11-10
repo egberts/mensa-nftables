@@ -1,0 +1,18 @@
+# File:     base-inet-filter-prerouting-raw.chain
+# Path:
+# Title:    Base chain for inet/filter/prerouting at raw priority
+# Family:   inet
+# Table:    *
+# Chain:    inet_filter_prerouting_raw
+# Type:     filter
+# Hook:     prerouting
+# Priority: raw(-300)
+# Policy:   accept
+# Description:
+#     filter_prerouting_raw is used for non-inet as pseudo-ingress (ip, ip6, bridge, arp)
+
+    chain inet_filter_prerouting_raw {
+        type filter hook prerouting priority -300;
+        policy accept;
+
+    }

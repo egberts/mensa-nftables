@@ -1,0 +1,37 @@
+#!/usr/bin/env nft -f
+#
+# File:        bridge-filter-input.nft
+# Path:        /etc/nftables/bridge
+# Family:      bridge
+# Table:       bridge_filter
+# Chain:       bridge_filter_input
+# Type:        filter
+# Hook:        input
+# Priority:    filter (0)
+# Policy:      DROP
+# Description: Filters Ethernet frames destined for the local host.
+#
+# Hook:
+#   Processes frames received by a bridge port and destined for the
+#   local host, after the bridge has determined local delivery.
+#
+# Priority:
+#   Filter (0) places the chain at the conventional filtering priority.
+#
+# Scope:
+#   Applies to Ethernet frames delivered to the local networking stack
+#   through a bridge. This includes ARP, IPv4, IPv6, and other
+#   Ethernet protocol traffic.
+#
+
+table bridge bridge_filter {
+
+    chain bridge_filter_input {
+
+        type filter hook input priority filter; policy drop
+
+        counter
+
+        limit rate 5/second log prefix "DROP bridge-filter-input: "
+    }
+}

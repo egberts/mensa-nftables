@@ -1,0 +1,31 @@
+# File:     zone-inet-filter-input-loopback.chain
+# Path:     *
+# Title:
+# Family:   inet
+# Table:    *
+# Chain:    inet_filter_input_loopback
+# Type:     filter
+# Hook:     input
+# Priority: filter(0)
+# Policy:   DROP
+# Zone:     loopback
+# Description:
+#
+
+    # Our fancy callback registry into the firewall
+    # makes it easy to delete this file and not impact nft infrastructure
+    map map_dispatch_inet_filter_input_interface {
+        typeof iif : verdict
+        elements = {
+            $LOOPBACK_INTF_DEV : jump inet_filter_input_loopback,
+        }
+    }
+
+    chain inet_filter_input_loopback {
+        # Accept loopback traffic.
+        iif "lo" counter accept
+
+        # Reject externally received loopback-addressed traffic.
+        iif != "lo" ip daddr 127.0.0.0/8 counter log prefix "DROP inet/filter/input/loopback/ip: " drop
+        iif != "lo" ip6 daddr ::1 counter log prefix "DROP inet/filter/input/loopback/ip6: " drop
+    }

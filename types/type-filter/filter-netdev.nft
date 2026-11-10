@@ -1,0 +1,27 @@
+# File:     filter-netdev.nft
+# Path:     type-filter/
+# Title:
+# Family:   netdev
+# Table:    netdev_filter
+# Chain:    *
+# Type:     filter
+# Hook:     *
+# Priority: N/A
+# Policy:   *
+# Description:
+#
+# Single-indented for base-chain and regular-chain
+# Double-indented for rules-only
+#
+
+table netdev netdev_filter {
+
+    include "./hooks/hook-ingress/base-netdev-nat-ingress.chain"
+
+    include "./hooks/hook-egress/base-netdev-nat-egress.chain"
+
+    include "./hooks/hook-ingress/base-netdev-filter-ingress.chain"
+
+    include "./hooks/hook-egress/base-netdev-filter-egress.chain"
+
+}

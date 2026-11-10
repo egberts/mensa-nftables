@@ -1,0 +1,36 @@
+
+table ip filter {
+        chain DOCKER {
+                ip daddr 172.17.0.2 iifname != "docker0" oifname "docker0" tcp dport 8080 counter packets 0 bytes 0 accept
+        }
+
+        chain DOCKER-ISOLATION-STAGE-1 {
+                iifname "docker0" oifname != "docker0" counter packets 0 bytes 0 jump DOCKER-ISOLATION-STAGE-2
+                iifname "br-c63fe14b8b62" oifname != "br-c63fe14b8b62" counter packets 0 bytes 0 jump DOCKER-ISOLATION-STAGE-2
+                counter packets 12 bytes 750 return
+        }
+
+        chain DOCKER-ISOLATION-STAGE-2 {
+                oifname "docker0" counter packets 0 bytes 0 drop
+                oifname "br-c63fe14b8b62" counter packets 0 bytes 0 drop
+                counter packets 0 bytes 0 return
+        }
+
+        chain FORWARD {
+                type filter hook forward priority filter; policy accept;
+                counter packets 12 bytes 750 jump DOCKER-USER
+                counter packets 12 bytes 750 jump DOCKER-ISOLATION-STAGE-1
+                oifname "docker0" xt match "conntrack" counter packets 0 bytes 0 accept
+                oifname "docker0" counter packets 0 bytes 0 jump DOCKER
+                iifname "docker0" oifname != "docker0" counter packets 0 bytes 0 accept
+                iifname "docker0" oifname "docker0" counter packets 0 bytes 0 accept
+                oifname "br-c63fe14b8b62" xt match "conntrack" counter packets 0 bytes 0 accept
+                oifname "br-c63fe14b8b62" counter packets 0 bytes 0 jump DOCKER
+                iifname "br-c63fe14b8b62" oifname != "br-c63fe14b8b62" counter packets 0 bytes 0 accept
+                iifname "br-c63fe14b8b62" oifname "br-c63fe14b8b62" counter packets 0 bytes 0 accept
+        }
+
+        chain DOCKER-USER {
+                counter packets 12 bytes 750 return
+        }
+}

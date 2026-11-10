@@ -1,0 +1,36 @@
+#
+# File:     base-inet-filter-output.chain
+# Path:     hook-output/
+# Title:
+# Family:   inet
+# Table:    *
+# Chain:    inet_filter_output
+# Type:     filter
+# Hook:     output
+# Priority: filter(0)
+# Policy:   DROP
+# Description:
+#
+# Single-indented for base-chain and regular-chain
+# Double-indented for rules-only
+#
+
+
+    # Initialize an interface-to-chain dispatcher for output hook
+    map map_dispatch_inet_filter_output_interface {
+        typeof iif : verdict
+    }
+    chain inet_filter_output {
+        type filter hook output priority 1; policy drop;
+        oifname "lo" accept
+
+        # A cool lookup to jump into a protocol-specific regular chain
+        # dispatch map built by including/excluding chain-inet-filter-*.nft files
+        iif vmap @map_dispatch_inet_filter_output_interface
+
+        counter log prefix "DROP inet/filter/output: " drop comment "unidentified interface filter output"
+    }
+    # Selectively load our protocol regular chains
+    # registers with 'map_dispatch_inet_filter_output' dispatch mapper)
+    include "./chain-inet-filter-output-*.nft";
+

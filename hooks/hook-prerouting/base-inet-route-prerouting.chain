@@ -1,0 +1,30 @@
+# File:     base-inet-route-prerouting-dstnat.chain
+# Path:
+# Title:    Base chain for inet/route/prerouting hook at various priority
+# Family:   inet
+# Table:    *
+# Chain:    inet_route_prerouting_*
+# Type:     route
+# Hook:     prerouting
+# Priority: various
+# Policy:   accept
+# Description:
+#
+
+    chain inet_route_prerouting_dstnat {
+        type route hook prerouting priority -100;
+        policy accept;
+
+    }
+
+    chain inet_route_prerouting_mangle {
+        type route hook prerouting priority -150;
+        policy accept;
+
+    }
+
+    chain inet_route_prerouting_raw {
+        type route hook prerouting priority -300;
+        policy accept;
+
+    }

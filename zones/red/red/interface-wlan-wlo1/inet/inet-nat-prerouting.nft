@@ -1,0 +1,74 @@
+#!/usr/bin/env nft -f
+#
+# File:        inet-nat-prerouting.nft
+# Path:        /etc/nftables/inet
+# Family:      inet
+# Table:       inet_nat
+# Chain:       inet_nat_prerouting
+# Type:        nat
+# Hook:        prerouting
+# Priority:    dstnat (-100)
+# Policy:      ACCEPT
+# Description: Destination NAT for incoming packets
+#
+# The prerouting hook sees incoming packets before the
+# routing decision has been made.
+#
+# Unlike input, prerouting sees both packets destined for
+# the local system and packets that may be forwarded.
+#
+# NAT chains process only the first packet of a connection.
+# Subsequent packets use the established NAT binding.
+#
+# Priority dstnat (-100) places this chain after connection
+# tracking and before the conventional filter priority (0).
+#
+# Destination NAT changes the destination address or port.
+# The routing decision uses the translated destination.
+#
+# Control                 Security purpose
+# Destination NAT         Translates incoming destination addresses
+# Port forwarding         Directs incoming connections to internal services
+# Local redirection       Redirects incoming connections to local services
+# Counters                Counts connections initiating NAT translation
+#
+# This chain performs NAT, not packet filtering.
+# Use inet/filter/input and inet/filter/forward for packet enforcement.
+#
+# NAT chains are for address translation, not packet filtering.
+# Only the first packet of a connection traverses a NAT chain;
+# subsequent packets use the established NAT binding.
+#
+# NAT chains should not implement a default-deny filtering policy.
+#
+# OPERATIONAL CONSEQUENCE: Destination translation occurs before
+# the conventional input and forward filter chains. Those chains
+# generally see the translated destination address.
+#
+# Examples of uses for inet / nat / prerouting include:
+# - Port forwarding:
+#     Translate an incoming connection addressed to a public
+#     address and port to an internal server address and port.
+# - Transparent DNS redirection:
+#     Redirect incoming DNS requests to a local DNS resolver.
+# - Transparent HTTP proxy:
+#     Redirect incoming HTTP connections to a local proxy port.
+# - Service redirection:
+#     Translate connections addressed to one service port
+#     to another destination port or service.
+# - Load distribution:
+#     Translate incoming connections to selected backend
+#     server addresses.
+#
+
+table inet inet_nat {
+
+    chain inet_nat_prerouting {
+
+        type nat hook prerouting priority dstnat; policy accept;
+
+        # Add applicable DNAT or redirect rules here.
+
+        counter comment "inet-nat-prerouting (per connection)"
+    }
+}
