@@ -33,7 +33,6 @@
         iif vmap @map_dispatch_ip_nat_input_interface
     }
 
-
     # Selectively load our input protocol regular chains
     # registers with 'map_dispatch_ip_nat_input_interface' dispatch mapper)
     include "./zones/zone-ip-nat-input-*.chain";

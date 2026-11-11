@@ -1,0 +1,56 @@
+# File:     inet-filter-input-red-icmp.chain
+# Path:     zones/red/
+# Title:    Rules for ICMP packets in red zone with type filter and hook input
+# Family:   inet
+# Table:    *
+# Chain:    inet_filter_input_red_icmp
+# Type:     filter
+# Hook:     input
+# Priority: filter(0)
+# Policy:   DROP
+# Zone:     red
+# Description:
+#
+
+    # Register a protocol-to-firewall dispatch registry
+    map map_dispatch_inet_filter_input_red_protocol {
+        type inet_proto : verdict;
+        elements = {
+            icmp : goto inet_filter_input_red_icmp,
+        }
+    }
+
+    chain inet_filter_input_red_icmp {
+
+        counter
+
+        # ip6 nexthdr ipv6-icmp limit rate 4/second accept
+
+        # Permit essential IPv6 ICMP error messages.
+        icmpv6 type {
+            destination-unreachable,
+            packet-too-big,
+            time-exceeded,
+            parameter-problem } counter accept
+
+        # Permit IPv6 Neighbor Discovery and Router Advertisements.
+        icmpv6 type {
+            nd-neighbor-solicit,
+            nd-neighbor-advert,
+            nd-router-advert } ip6 hoplimit 255 counter accept
+        ip6 daddr ::1/128 counter drop comment "drop invalid loopback traffic"
+
+        icmpv6 type 143 icmpv6 code 0 counter drop
+        icmpv6 type 136 icmpv6 code 0 counter drop
+        meta l4proto ipv6-icmp counter log prefix "ACCEPT: inet/filter/input/red/icmp: " accept
+
+        ip protocol icmp counter accept
+        meta l4proto ipv6-icmp counter accept comment "Accept ICMPv6";
+
+
+        # red input ICMP disallow
+        ip daddr 127.0.0.0/8 counter drop
+        ip6 daddr ::1/128 counter drop
+
+        log prefix "DROP filter/input/red/icmp:  "counter drop
+    }

@@ -1,3 +1,5 @@
+#!/usr/sbin/nft -f   # ignored if included directly by 'nft -f'
+#
 # File:     filter-netdev.nft
 # Path:     type-filter/
 # Title:
@@ -16,9 +18,8 @@
 
 table netdev netdev_filter {
 
-    include "./hooks/hook-ingress/base-netdev-nat-ingress.chain"
-
-    include "./hooks/hook-egress/base-netdev-nat-egress.chain"
+    # netdev/nat/ingress not supported
+    # netdev/nat/egress not supported
 
     include "./hooks/hook-ingress/base-netdev-filter-ingress.chain"
 

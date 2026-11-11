@@ -17,7 +17,8 @@
     map map_dispatch_inet_filter_input_interface {
         typeof iif : verdict
         elements = {
-            $LOOPBACK_INTF_DEV : jump inet_filter_input_loopback,
+            # use goto, this is the final descendance
+            $LOOPBACK_INTF_DEV : goto inet_filter_input_loopback,
         }
     }
 

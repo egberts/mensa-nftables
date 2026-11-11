@@ -16,7 +16,7 @@
     map map_dispatch_inet_filter_input_red_protocol {
         type inet_proto : verdict;
         elements = {
-            udp : jump inet_filter_input_red_udp,
+            udp : goto inet_filter_input_red_udp,
         }
     }
 
@@ -37,6 +37,6 @@
 
         udp dport { 137, 138} counter drop comment "silently drop NetBios"
 
-        log prefix "DROP filter/input/red input_red_udp " counter drop
+        log prefix "DROP filter/input/red/udp: " counter drop
 
     }

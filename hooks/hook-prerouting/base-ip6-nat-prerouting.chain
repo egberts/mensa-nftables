@@ -23,8 +23,4 @@
 
     }
 
-    chain ip6_nat_prerouting_raw {
-        type nat hook prerouting priority -300;
-        policy accept;
-
-    }
+    # ip6/nat/prerouting cannot use priority less or equal to -300

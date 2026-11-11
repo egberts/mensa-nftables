@@ -17,7 +17,8 @@
     map map_dispatch_inet_filter_input_interface {
         typeof iif : verdict
         elements = {
-            $DMZ_INTF_DEV : jump inet_filter_input_dmz,
+            # use goto, this is the final descendance
+            $DMZ_INTF_DEV : goto inet_filter_input_dmz,
         }
     }
 

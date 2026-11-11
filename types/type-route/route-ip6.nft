@@ -18,9 +18,9 @@
 
 table ip6 ip6_route {
 
-    include "./hooks/hook-prerouting/base-ip6-route-prerouting.chain";
+    # ip6/route/prerouting not supported
 
-    include "./hooks/hook-input/base-ip6-route-input.chain";
+    # ip6/route/input not supported
 
     include "./hooks/hook-output/base-ip6-route-output.chain";
 

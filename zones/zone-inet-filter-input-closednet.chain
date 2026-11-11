@@ -17,7 +17,8 @@
     map map_dispatch_inet_filter_input_interface {
         typeof iif : verdict
         elements = {
-            $CLOSEDNET_INTF_DEV : jump inet_filter_input_closednet,
+            # use goto, this is the final descendance
+            $CLOSEDNET_INTF_DEV : goto inet_filter_input_closednet,
         }
     }
 

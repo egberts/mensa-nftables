@@ -18,9 +18,10 @@
 
 table inet inet_route {
 
-    include "./hooks/hook-prerouting/base-inet-route-prerouting.chain";
+    # inet/route/prerouting not supported
 
-    include "./hooks/hook-input/base-inet-route-input.chain";
+    # inet/route/input not supported
+    # include "./hooks/hook-input/base-inet-route-input.chain";
 
     include "./hooks/hook-output/base-inet-route-output.chain";
 

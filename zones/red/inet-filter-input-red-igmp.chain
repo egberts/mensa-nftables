@@ -11,13 +11,12 @@
 # Zone:     lan
 # Description:
 #
-#
 
     # Register a protocol-to-firewall dispatch registry
     map map_dispatch_inet_filter_input_red_protocol {
-        # type inet_proto : verdict;
+        type inet_proto : verdict;
         elements = {
-            igmp : jump inet_filter_input_red_igmp,
+            igmp : goto inet_filter_input_red_igmp,
         }
     }
 

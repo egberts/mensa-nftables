@@ -23,8 +23,4 @@
 
     }
 
-    chain inet_nat_prerouting_raw {
-        type nat hook prerouting priority -300;
-        policy accept;
-
-    }
+    # cannot use priority <-300

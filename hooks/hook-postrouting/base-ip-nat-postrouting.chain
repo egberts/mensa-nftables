@@ -11,11 +11,7 @@
 # Description:
 #
 
-    chain ip_nat_postrouting_raw {
-        type nat hook postrouting priority -300;
-        policy accept;
-
-    }
+    # ip/nat/postrouting cannot use priority less or equal to -300
 
     chain ip_nat_postrouting_mangle {
         type nat hook postrouting priority -150;

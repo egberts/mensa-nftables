@@ -12,7 +12,7 @@
 #
 
     chain inet_route_postrouting {
-        type nat hook postrouting priority -300;
+        type nat hook postrouting priority 300;
         policy accept;
 
     }

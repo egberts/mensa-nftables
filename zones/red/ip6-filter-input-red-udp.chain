@@ -12,6 +12,14 @@
 # Description:
 #
 
+    # Register a protocol-to-firewall dispatch registry
+    map map_dispatch_ip6_filter_input_red_protocol {
+        type inet_proto : verdict;
+        elements = {
+            udp : goto ip6_filter_input_red_udp,
+        }
+    }
+
     chain ip6_filter_input_red_udp {
 
         counter

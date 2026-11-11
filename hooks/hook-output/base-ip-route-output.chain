@@ -7,7 +7,7 @@
 # Type:     route
 # Hook:     output
 # Priority: various
-# Policy:   DROP
+# Policy:   ACCEPT
 # Description:
 #
 # Single-indented for base-chain and regular-chain
@@ -17,19 +17,24 @@
 
     # Initialize an interface-to-chain dispatcher for output hook
     map map_dispatch_ip_route_output_interface {
-        typeof iif : verdict
+        typeof oif : verdict
     }
     chain ip_route_output {
-        type route hook output priority 1; policy drop;
+        type route hook output priority 1; policy accept;
         oifname "lo" accept
 
+        counter
+    }
+
+    # Selectively load our protocol regular chains
+    # registers with 'map_dispatch_ip_route_output_interface' dispatch mapper)
+    include "./zones/zone-ip-route-output-*.chain";
+
+    # Post-interface output process
+    chain ip_route_output {
         # A cool lookup to jump into a protocol-specific regular chain
         # dispatch map built by including/excluding chain-ip-route-*.nft files
-        iif vmap @map_dispatch_ip_route_output_interface
+        oif vmap @map_dispatch_ip_route_output_interface
 
-        counter log prefix "DROP ip/route/output: " drop comment "unidentified interface route output"
+        counter
     }
-    # Selectively load our protocol regular chains
-    # registers with 'map_dispatch_ip_route_output' dispatch mapper)
-    include "./zone-red-ip-route-output-*.chain";
-

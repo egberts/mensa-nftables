@@ -1,0 +1,30 @@
+# File:     ip6-filter-input-red-igmp.chain
+# Path:     zones/red/
+# Title:
+# Family:   ip6
+# Table:    *
+# Chain:    ip6_filter_input_red_igmp
+# Type:     filter
+# Hook:     input
+# Priority: filter(0)
+# Policy:   DROP
+# Zone:     lan
+# Description:
+#
+
+    # Register a protocol-to-firewall dispatch registry
+    map map_dispatch_ip6_filter_input_red_protocol {
+        type inet_proto : verdict;
+        elements = {
+            igmp : goto ip6_filter_input_red_igmp,
+        }
+    }
+
+    chain ip6_filter_input_red_igmp {
+
+        counter
+
+        ip protocol igmp counter accept comment "Accept IGMP"
+
+        counter log prefix "DROP ip6/filter/input/red/igmp " drop
+    }

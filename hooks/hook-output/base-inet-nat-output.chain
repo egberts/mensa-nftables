@@ -7,7 +7,7 @@
 # Type:     nat
 # Hook:     output
 # Priority: nat(0)
-# Policy:   DROP
+# Policy:   ACCEPT
 # Description:
 #
 # Single-indented for base-chain and regular-chain
@@ -17,19 +17,24 @@
 
     # Initialize an interface-to-chain dispatcher for output hook
     map map_dispatch_inet_nat_output_interface {
-        typeof iif : verdict
+        typeof oif : verdict
     }
     chain inet_nat_output {
-        type nat hook output priority 1; policy drop;
+        type nat hook output priority 1; policy accept;
         oifname "lo" accept
 
+        counter
+    }
+
+    # Selectively load our protocol regular chains
+    # registers with 'map_dispatch_inet_nat_output_interface' dispatch mapper)
+    include "./zones/zone-inet-nat-output-*.chain";
+
+    # Post-interface input process
+    chain inet_nat_input {
         # A cool lookup to jump into a protocol-specific regular chain
         # dispatch map built by including/excluding chain-inet-nat-*.nft files
-        iif vmap @map_dispatch_inet_nat_output_interface
+        oif vmap @map_dispatch_inet_nat_output_interface
 
-        counter log prefix "DROP inet/nat/output: " drop comment "unidentified interface nat output"
+        counter
     }
-    # Selectively load our protocol regular chains
-    # registers with 'map_dispatch_inet_nat_output' dispatch mapper)
-    include "./zone-red-inet-nat-output-*.chain";
-

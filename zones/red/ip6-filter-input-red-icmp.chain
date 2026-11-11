@@ -12,6 +12,14 @@
 # Description:
 #
 
+    # Register a protocol-to-firewall dispatch registry
+    map map_dispatch_ip6_filter_input_red_protocol {
+        type inet_proto : verdict;
+        elements = {
+            icmp : goto ip6_filter_input_red_icmp,
+        }
+    }
+
     chain ip6_filter_input_red_icmp {
 
         counter
@@ -30,10 +38,15 @@
             nd-neighbor-solicit,
             nd-neighbor-advert,
             nd-router-advert } ip6 hoplimit 255 counter accept
+        ip6 daddr ::1/128 counter drop comment "drop invalid loopback traffic"
 
         icmpv6 type 143 icmpv6 code 0 counter drop
         icmpv6 type 136 icmpv6 code 0 counter drop
         meta l4proto ipv6-icmp counter prefix "ACCEPT: ip6/filter/input/red/icmp: " accept
+
+        ip protocol icmp counter jump allowed_input_red_icmp;
+        meta l4proto ipv6-icmp counter accept comment "Accept ICMPv6";
+
 
         # red input ICMP disallow
         ip6 daddr ::1/128 counter drop

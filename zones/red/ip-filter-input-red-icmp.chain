@@ -12,32 +12,48 @@
 # Description:
 #
 
+    # Register a protocol-to-firewall dispatch registry
+    map map_dispatch_ip_filter_input_red_protocol {
+        type inet_proto : verdict;
+        elements = {
+            icmp : goto ip_filter_input_red_icmp,
+        }
+    }
+
     chain ip_filter_input_red_icmp {
 
         counter
 
+        # red output ICMP disallow
+        ip daddr 127.0.0.0/8 counter log prefix "DROP ip/filter/output/red/icmp localhost denied: " drop
+
+        # allow 'incoming ping request'
+        icmp type echo-request counter accept;
+
+        # responds to 'incoming ping request' with a reply
+        icmp type echo-reply counter accept;
+
         # Permit essential IPv4 ICMP error messages.
-        ip protocol icmp icmp type {
+        icmp type {
             destination-unreachable,
             time-exceeded,
-            parameter-problem } counter prefix "ACCEPT: ip/filter/input/red/icmp " accept
+            parameter-problem
+            } counter log prefix "ACCEPT ip/filter/input/red/icmp: " accept
+
+        # accept ping
+        ip protocol icmp icmp type router-advertisement counter accept;
+
+        # deny certain ICMP
+        icmp type source-quench counter drop;
+        icmp type redirect counter drop;
+        icmp type router-solicitation counter drop;
+        icmp type timestamp-request counter drop;
+        icmp type timestamp-reply counter drop;
+        icmp type info-request counter drop;
+        icmp type info-reply counter drop;
+        icmp type address-mask-request counter drop;
+        icmp type address-mask-reply counter drop
 
         # red input ICMP Allowed
-        ip protocol icmp limit rate 4/second log prefix "DROP ip/filter/input/red/icmp counter drop
-
-        ip saddr {
-                192.168.0.0/24,
-                192.168.2.0/23,
-                192.168.4.0/22,
-                192.168.8.0/21,
-                192.168.16.0/20,
-                192.168.32.0/19,
-                192.168.64.0/18,
-                192.168.128.0/17,
-                10.0.0.0/8,
-                172.16.0.0/12 } log prefix "DROP filter/input/red stray_packet " counter drop comment "stray packet"
-
-        ip protocol icmp counter jump allowed_input_red_icmp;
-        meta l4proto ipv6-icmp counter accept comment "Accept ICMPv6";
-
-        log prefix "DROP filter/input/red input_red_icmp "counter drop
+        limit rate 4/second log prefix "DROP ip/filter/input/red/icmp: " counter drop
+    }

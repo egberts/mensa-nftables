@@ -1,0 +1,45 @@
+# File:     ip-filter-input-red-udp.chain
+# Path:     zones/red/
+# Title:
+# Family:   ip
+# Table:    *
+# Chain:    ip_filter_input_red_udp
+# Type:     filter
+# Hook:     input
+# Priority: filter(0)
+# Policy:   DROP
+# Zone:     red
+# Description:
+#
+
+    # Register a protocol-to-firewall dispatch registry
+    map map_dispatch_ip_filter_input_red_protocol {
+        type inet_proto : verdict;
+        elements = {
+            udp : goto ip_filter_input_red_udp,
+        }
+    }
+
+    chain ip_filter_input_red_udp {
+
+        counter
+        ip protocol udp ct state new counter accept
+
+        udp sport 67 udp dport 68 counter accept  # from DHCP server
+
+        udp dport 53 counter accept  # inbound DNS (local DNS server here)
+        udp sport 53 counter accept  # outbound DNS (remote DNS server there)
+
+        udp sport 123 udp dport 123 counter accept
+
+        # Permit DHCPv6 client responses (if DHCPv6 client).
+        udp sport 547 udp dport 546 counter accept
+
+        ip daddr 224.0.0.251 udp dport 1900 counter drop  # uPnP
+        ip daddr 224.0.0.251 udp dport 5353 counter drop  # mdns/iOS Bonjour/Avahi 5353/udp
+
+        udp dport { 137, 138} counter drop comment "silently drop NetBios"
+
+        log prefix "DROP ip/filter/input/red/udp " counter drop
+
+    }
