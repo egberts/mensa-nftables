@@ -22,7 +22,18 @@
 
     chain inet_filter_input_red_udp {
         counter
-        ip protocol udp ct state new counter accept
+
+        # Accept established and related connections.
+        ct state { established, related } counter accept  # silent accept
+        counter
+
+        ip protocol udp ct state invalid counter drop
+        counter
+
+        # it is presumed to be a NEW state at this point
+
+        # Permit DHCPv6 client responses.
+        ip6 udp sport 547 udp dport 546 counter accept
 
         # Permit DHCPv4 client responses (if DHCP client).
         udp sport 67 udp dport 68 counter accept  # from DHCP server

@@ -6,7 +6,7 @@
 # Chain:    inet_filter_input
 # Type:     filter
 # Hook:     input
-# Priority: filter(0)
+# Priority: -10 (before ip/ip6 filter(0))
 # Policy:   DROP
 # Description:
 #
@@ -16,17 +16,23 @@
         typeof iif : verdict
     }
     chain inet_filter_input {
-        type filter hook input priority -1; policy drop;
+        type filter hook input priority -10; policy drop;
 
         # Reject invalid connection states.
         ct state invalid counter log prefix "DROP: inet/filter/input/invalid " drop
+
+        # Accept loopback traffic.
+        iifname "lo" counter accept
 
         # blackholes goes here
         # push daddr 255.255.255.255/32 to zone-specific ruleset(s)
         #   ip daddr 255.255.255.255/32 counter drop comment "really drop unsolicited IPv4 broadcast"
 
-        # Accept established and related connections.
-        ct state { established, related } counter accept  # silent accept
+        # Drop locals from internet
+        ip saddr 121.12.242.43 counter drop  # BANNED
+
+        # put rules affecting ALL interfaces here
+        # otherwise, put them in zones/*/zone-inet-filter-input-*.chain file
 
         # A cool lookup to jump into a protocol-specific regular chain
         # dispatch map built by including/excluding chain-inet-filter-*.nft files

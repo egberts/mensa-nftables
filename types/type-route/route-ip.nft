@@ -22,7 +22,7 @@ table ip ip_route {
 
     # ip/route/input not supported
 
-    include "./hooks/hook-output/base-ip-route-output.chain";
+    include "./hooks/hook-output/base-ip-route-output*.chain";
 
     # ip/route/postrouting not supported
 

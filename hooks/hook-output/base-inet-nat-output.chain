@@ -6,7 +6,7 @@
 # Chain:    inet_nat_output
 # Type:     nat
 # Hook:     output
-# Priority: nat(0)
+# Priority: 10 (over Libvirt/Docker filter(0) and ip/ip6 filter+1)
 # Policy:   ACCEPT
 # Description:
 #
@@ -20,7 +20,7 @@
         typeof oif : verdict
     }
     chain inet_nat_output {
-        type nat hook output priority 1; policy accept;
+        type nat hook output priority 10; policy accept;
         oifname "lo" accept
 
         counter

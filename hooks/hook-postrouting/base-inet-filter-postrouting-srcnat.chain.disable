@@ -6,7 +6,7 @@
 # Chain:    inet_filter_postrouting_srcnet
 # Type:     filter
 # Hook:     postrouting
-# Priority: srcnat(100)
+# Priority: srcnat(100)+10 (after Libvirt/Docker srcnat(100))
 # Policy:   accept
 # Description:
 #
@@ -15,7 +15,7 @@
 #
 
     chain inet_filter_postrouting_srcnat {
-        type filter hook postrouting priority 100;
+        type filter hook postrouting priority 110;
         policy accept;
 
     }

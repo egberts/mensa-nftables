@@ -6,9 +6,11 @@
 # Chain:    inet_nat_input
 # Type:     nat
 # Hook:     input
-# Priority: various
+# Priority: -10 (before ip/ip6 filter(0))
 # Policy:   DROP
 # Description:
+#
+# NOTE: Using inet for NAT is not useful, better to relegate to ip or ip6 family.
 #
 
     # Initialize an interface-to-chain dispatcher for input hook
@@ -16,7 +18,7 @@
         typeof iif : verdict
     }
     chain inet_nat_input {
-        type nat hook input priority -1; policy drop;
+        type nat hook input priority -10; policy drop;
 
         # Reject invalid connection states.
         ct state invalid counter log prefix "DROP: inet/nat/input/invalid " drop

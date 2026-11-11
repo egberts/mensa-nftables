@@ -6,7 +6,7 @@
 # Chain:    arp_filter_input
 # Type:     filter
 # Hook:     input
-# Priority: filter(0)
+# Priority: -10 (filter(0)-10)
 # Policy:   ACCEPT
 # Description:
 #

@@ -7,7 +7,7 @@
 # Chain:    ip6_filter_input
 # Type:     filter
 # Hook:     input
-# Priority: filter(0)
+# Priority: -1 (before Libvirt(0) and Docker(0))
 # Policy:   DROP
 # Description: Stateful IPv6 inbound host firewall
 #
@@ -56,8 +56,7 @@
         typeof iif : verdict
     }
     chain ip6_filter_input {
-
-        type filter hook input priority filter; policy drop;
+        type filter hook input priority -1; policy drop;
 
         # Reject invalid connection states.
         ct state invalid counter drop

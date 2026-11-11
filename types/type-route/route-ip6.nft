@@ -22,8 +22,8 @@ table ip6 ip6_route {
 
     # ip6/route/input not supported
 
-    include "./hooks/hook-output/base-ip6-route-output.chain";
+    include "./hooks/hook-output/base-ip6-route-output*.chain";
 
-    include "./hooks/hook-postrouting/base-ip6-route-postrouting.chain";
+    include "./hooks/hook-postrouting/base-ip6-route-postrouting*.chain";
 
 }

@@ -18,10 +18,10 @@
 
 table bridge bridge_filter {
 
-    include "./hooks/hook-prerouting/base-bridge-filter-prerouting.chain";
+    include "./hooks/hook-prerouting/base-bridge-filter-prerouting*.chain";
 
-    include "./hooks/hook-forward/base-bridge-filter-forward.chain";
+    include "./hooks/hook-forward/base-bridge-filter-forward*.chain";
 
-    include "./hooks/hook-postrouting/base-bridge-filter-postrouting.chain";
+    include "./hooks/hook-postrouting/base-bridge-filter-postrouting*.chain";
 
 }

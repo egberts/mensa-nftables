@@ -1,14 +1,14 @@
-# File:        base-netdev-filter-egress.nft
+# File:        base-netdev-nat-egress.nft
 # Path:
-# Title:       Base chain for netdev/filter/egress hook
+# Title:       Base chain for netdev/nat/egress hook
 # Family:      netdev
 # Table:       *
-# Chain:       netdev_filter_egress
-# Type:        filter
+# Chain:       netdev_nat_egress
+# Type:        nat
 # Hook:        egress
 # Device:      eno1
-# Priority:    filter (0)
-# Policy:      DROP
+# Priority:    10 (filter(0)+10)
+# Policy:      ACCEPT
 # Description: Late egress packet enforcement
 #
 # The egress hook sees packets leaving the specified
@@ -39,30 +39,14 @@
 # This chain sees packets leaving the specified interface,
 # including locally generated and forwarded traffic.
 #
-# Examples of uses for netdev / filter / egress include:
-# - Outbound destination validation:
-#     Restrict packets to authorized IPv4 and IPv6 destinations.
-# - MAC address filtering:
-#     Restrict outgoing Ethernet frames to authorized
-#     destination hardware addresses.
-# - EtherType filtering:
-#     Restrict permitted Ethernet protocols.
-# - Broadcast and multicast control:
-#     Restrict unwanted outgoing broadcast or multicast traffic.
-# - Data leakage prevention:
-#     Block packets leaving an interface for prohibited
-#     destinations or networks.
-# - Interface-specific enforcement:
-#     Apply a final packet policy to traffic leaving a
-#     particular physical or virtual network interface.
-#
 # The device name must identify an existing network interface.
 #
 # Requires Linux kernel 5.16 or later for netdev egress.
 #
 
-    chain netdev_filter_egress {
-        type filter hook egress device $LAN_INTF_DEV priority 300; policy drop;
+    chain netdev_nat_egress {
+
+        type nat hook egress device $LAN_INTF_DEV priority 10; policy drop;
 
         # Add applicable egress filtering rules here.
 
@@ -76,6 +60,6 @@
         ether type ip6 counter accept
 
         # Log and count denied traffic.
-        limit rate 5/second log prefix "DROP netdev-filter-egress: "
-        counter drop comment "netdev-filter-egress DROP"
+        limit rate 5/second log prefix "DROP netdev/nat/egress: "
+        counter drop comment "netdev-nat-egress DROP"
     }

@@ -21,10 +21,10 @@ table inet inet_route {
     # inet/route/prerouting not supported
 
     # inet/route/input not supported
-    # include "./hooks/hook-input/base-inet-route-input.chain";
+    # include "./hooks/hook-input/base-inet-route-input*.chain";
 
-    include "./hooks/hook-output/base-inet-route-output.chain";
+    include "./hooks/hook-output/base-inet-route-output*.chain";
 
-    include "./hooks/hook-postrouting/base-inet-route-postrouting.chain";
+    include "./hooks/hook-postrouting/base-inet-route-postrouting*.chain";
 
 }

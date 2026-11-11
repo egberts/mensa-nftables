@@ -10,6 +10,8 @@
 # Policy: accept
 # Description:
 #
+# VERSION: Stateful NAT available in Linux 5.2+
+#
 
     # cannot use priority less than -300
 
@@ -19,8 +21,9 @@
 
     }
 
-    chain inet_nat_postrouting_dstnat {
+    chain inet_nat_postrouting_srcnat {
         type nat hook postrouting priority -100;
         policy accept;
 
+        oifname $WAN_INTF_DEV masquerade
     }

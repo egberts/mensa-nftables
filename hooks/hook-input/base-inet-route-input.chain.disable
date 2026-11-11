@@ -6,7 +6,7 @@
 # Chain:    inet_route_input
 # Type:     route
 # Hook:     input
-# Priority: various
+# Priority: -10 (before ip/ip6 filter(0))
 # Policy:   DROP
 # Description:
 #
@@ -16,7 +16,7 @@
         typeof iif : verdict
     }
     chain inet_route_input {
-        type route hook input priority -1; policy drop;
+        type route hook input priority -10; policy drop;
 
         # Reject invalid connection states.
         ct state invalid counter log prefix "DROP: inet/route/input/invalid " drop

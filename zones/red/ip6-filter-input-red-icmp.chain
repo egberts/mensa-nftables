@@ -24,31 +24,7 @@
 
         counter
 
-        # ip6 nexthdr ipv6-icmp limit rate 4/second accept
 
-        # Permit essential IPv6 ICMP error messages.
-        icmpv6 type {
-            destination-unreachable,
-            packet-too-big,
-            time-exceeded,
-            parameter-problem } counter accept
-
-        # Permit IPv6 Neighbor Discovery and Router Advertisements.
-        icmpv6 type {
-            nd-neighbor-solicit,
-            nd-neighbor-advert,
-            nd-router-advert } ip6 hoplimit 255 counter accept
-        ip6 daddr ::1/128 counter drop comment "drop invalid loopback traffic"
-
-        icmpv6 type 143 icmpv6 code 0 counter drop
-        icmpv6 type 136 icmpv6 code 0 counter drop
-        meta l4proto ipv6-icmp counter prefix "ACCEPT: ip6/filter/input/red/icmp: " accept
-
-        ip protocol icmp counter jump allowed_input_red_icmp;
-        meta l4proto ipv6-icmp counter accept comment "Accept ICMPv6";
-
-
-        # red input ICMP disallow
         ip6 daddr ::1/128 counter drop
 
         log prefix "DROP filter/input/red input_red_icmp "counter drop

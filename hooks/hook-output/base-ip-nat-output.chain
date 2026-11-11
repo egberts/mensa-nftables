@@ -6,7 +6,7 @@
 # Chain:    ip_nat_output
 # Type:     nat
 # Hook:     output
-# Priority: nat(0)
+# Priority: 1 (over Libvirt/Docker filter(0))
 # Policy:   ACCEPT
 # Description:
 #

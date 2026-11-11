@@ -6,7 +6,7 @@
 # Chain:    ip_route_output
 # Type:     route
 # Hook:     output
-# Priority: various
+# Priority: 1 (over Libvirt/Docker filter(0))
 # Policy:   ACCEPT
 # Description:
 #

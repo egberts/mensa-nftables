@@ -18,12 +18,12 @@
 
 table ip6 ip6_nat {
 
-    include "./hooks/hook-prerouting/base-ip6-nat-prerouting.chain";
+    include "./hooks/hook-prerouting/base-ip6-nat-prerouting*.chain";
 
-    include "./hooks/hook-input/base-ip6-nat-input.chain";
+    include "./hooks/hook-input/base-ip6-nat-input*.chain";
 
-    include "./hooks/hook-output/base-ip6-nat-output.chain";
+    include "./hooks/hook-output/base-ip6-nat-output*.chain";
 
-    include "./hooks/hook-postrouting/base-ip6-nat-postrouting.chain";
+    include "./hooks/hook-postrouting/base-ip6-nat-postrouting*.chain";
 
 }

@@ -6,7 +6,7 @@
 # Chain:    ip_nat_input
 # Type:     nat
 # Hook:     input
-# Priority: various
+# Priority: -1 (before Libvirt(0) and Docker(0))
 # Policy:   DROP
 # Description:
 #

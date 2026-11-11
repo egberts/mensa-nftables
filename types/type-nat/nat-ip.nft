@@ -18,12 +18,12 @@
 
 table ip ip_nat {
 
-    include "./hooks/hook-prerouting/base-ip-nat-prerouting.chain";
+    include "./hooks/hook-prerouting/base-ip-nat-prerouting*.chain";
 
-    include "./hooks/hook-input/base-ip-nat-input.chain";
+    include "./hooks/hook-input/base-ip-nat-input*.chain";
 
-    include "./hooks/hook-output/base-ip-nat-output.chain";
+    include "./hooks/hook-output/base-ip-nat-output*.chain";
 
-    include "./hooks/hook-postrouting/base-ip-nat-postrouting.chain";
+    include "./hooks/hook-postrouting/base-ip-nat-postrouting*.chain";
 
 }

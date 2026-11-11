@@ -18,8 +18,8 @@
 
 table arp arp_filter {
 
-    include "./hooks/hook-input/base-arp-filter-input.chain";
+    include "./hooks/hook-input/base-arp-filter-input*.chain";
 
-    include "./hooks/hook-output/base-arp-filter-output.chain";
+    include "./hooks/hook-output/base-arp-filter-output*.chain";
 
 }

@@ -6,7 +6,7 @@
 # Chain:    inet_route_output
 # Type:     route
 # Hook:     output
-# Priority: various
+# Priority: 10 (over Libvirt/Docker filter(0) and ip/ip6 filter+1)
 # Policy:   ACCEPT
 # Description:
 #
@@ -20,7 +20,7 @@
         typeof oif : verdict
     }
     chain inet_route_output {
-        type route hook output priority 1; policy accept;
+        type route hook output priority 10; policy accept;
         oifname "lo" accept
         counter
     }

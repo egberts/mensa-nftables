@@ -7,7 +7,7 @@
 # Chain:    ip_filter_output
 # Type:     filter
 # Hook:     output
-# Priority: filter(0)
+# Priority:1 (over Libvirt/Docker filter(0))
 # Policy:   DROP
 # Description:
 #

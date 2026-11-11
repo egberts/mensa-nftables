@@ -33,12 +33,18 @@
             time-exceeded,
             parameter-problem } counter accept
 
-        # Permit IPv6 Neighbor Discovery and Router Advertisements.
+        # Permit IPv6 Neighbor Discovery
         icmpv6 type {
             nd-neighbor-solicit,
-            nd-neighbor-advert,
-            nd-router-advert } ip6 hoplimit 255 counter accept
+            nd-neighbor-advert
+            } ip6 hoplimit 255 counter accept
         ip6 daddr ::1/128 counter drop comment "drop invalid loopback traffic"
+
+        # Permit Router Advertisements (if using SLAAC).
+        icmpv6 type nd-router-advert ip6 hoplimit 255 counter accept
+
+        # Optional: permit inbound IPv6 echo requests.
+        icmpv6 type echo-request counter accept
 
         icmpv6 type 143 icmpv6 code 0 counter drop
         icmpv6 type 136 icmpv6 code 0 counter drop
@@ -47,10 +53,9 @@
         ip protocol icmp counter accept
         meta l4proto ipv6-icmp counter accept comment "Accept ICMPv6";
 
+        # drop loopback traffic on non-loopback interfaces
+        ip daddr 127.0.0.0/8 counter log prefix "DROP invalid loopback: " drop
+        ip6 daddr ::1/128 counter log prefix "DROP invalid loopback: " drop
 
-        # red input ICMP disallow
-        ip daddr 127.0.0.0/8 counter drop
-        ip6 daddr ::1/128 counter drop
-
-        log prefix "DROP filter/input/red/icmp:  "counter drop
+        log prefix "DROP filter/input/red/icmp: " counter drop
     }

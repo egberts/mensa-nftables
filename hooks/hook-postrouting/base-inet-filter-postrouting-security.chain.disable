@@ -6,13 +6,13 @@
 # Chain:    inet_filter_postrouting_security
 # Type:     filter
 # Hook:     postrouting
-# Priority: security(50)
+# Priority: security(50)+10 (after Libvirt/Docker security(50))
 # Policy: accept
 # Description:
 #
 
     chain inet_filter_postrouting_security {
-        type filter hook postrouting priority 50;
+        type filter hook postrouting priority 60;
         policy accept;
 
     }
