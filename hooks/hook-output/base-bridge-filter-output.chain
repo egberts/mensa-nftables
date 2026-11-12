@@ -1,0 +1,42 @@
+# File:     base-bridge-filter-output.chain
+# Path:     hooks/hook-output/
+# Title:    Base chain for bridge/filter/output
+# Family:   bridge
+# Table:    *
+# Chain:    bridge_filter_output
+# Type:     filter
+# Hook:     output
+# Priority: 110 (out(100) + 10)
+# Policy:   DROP
+# Description:
+#
+
+    # Initialize an interface-to-chain dispatcher for output hook
+    map map_dispatch_bridge_filter_output_interface {
+        typeof iif : verdict
+    }
+    chain bridge_filter_output {
+        type filter hook output priority 110; policy drop;
+
+        # Accept loopback traffic.
+        iifname "lo" counter accept
+
+        # blackholes goes here
+
+        # put rules affecting ALL interfaces here
+        # otherwise, put them in zones/*/zone-bridge-filter-output-*.chain file
+
+        # A cool lookup to jump into a protocol-specific regular chain
+        # dispatch map built by including/excluding chain-bridge-filter-*.nft files
+        iif vmap @map_dispatch_bridge_filter_output_interface
+    }
+
+
+    # Selectively zone-load our output protocol regular chains
+    # registers with 'map_dispatch_bridge_filter_output_interface' dispatch mapper)
+    include "./zones/zone-bridge-filter-output-*.chain";
+
+    # Post-interface output process
+    chain bridge_filter_output {
+        counter log prefix "DROP bridge/filter/output: " drop comment "unidentified interface filter output"
+    }

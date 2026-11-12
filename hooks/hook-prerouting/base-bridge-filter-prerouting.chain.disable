@@ -1,12 +1,12 @@
-# File:     base-bridge-filter-input.chain
-# Path:     hook-input/
+# File:     base-bridge-filter-prerouting.chain
+# Path:     hooks/hook-prerouting/
 # Title:
 # Family:   bridge
 # Table:    *
-# Chain:    bridge_filter_input
+# Chain:    bridge_filter_prerouting
 # Type:     filter
-# Hook:     input
-# Priority: filter(0)
+# Hook:     prerouting
+# Priority: -210 (filter (-200) - 10)
 # Policy:   ACCEPT
 # Description:
 #

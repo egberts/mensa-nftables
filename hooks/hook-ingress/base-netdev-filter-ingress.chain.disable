@@ -6,7 +6,7 @@
 # Chain:    netdev_filter_ingress
 # Type:     filter
 # Hook:     ingress
-# Priority: filter (0) - 311 (FIRSTLY, before inet/filter/ingress)
+# Priority: -311 (filter (0) - 311 (FIRSTLY, before inet/filter/ingress))
 # Policy:   ACCEPT
 # Description:
 #

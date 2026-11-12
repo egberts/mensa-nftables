@@ -1,12 +1,12 @@
 # File:     base-inet-filter-input.chain
-# Path:     hook-input/
+# Path:     hooks/hook-input/
 # Title:    Base chain for inet/filter/input
 # Family:   inet
 # Table:    *
 # Chain:    inet_filter_input
 # Type:     filter
 # Hook:     input
-# Priority: -10 (before ip/ip6 filter(0))
+# Priority: -10 (filter(0) - 10, before ip-input(-5) and ip6-input(-5))
 # Policy:   DROP
 # Description:
 #

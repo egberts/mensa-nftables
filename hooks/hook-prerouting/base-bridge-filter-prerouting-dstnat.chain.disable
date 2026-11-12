@@ -1,0 +1,16 @@
+# File:     base-bridge-filter-prerouting-dstnat.chain
+# Path:     hooks/hook-prerouting/
+# Title:
+# Family:   bridge
+# Table:    *
+# Chain:    bridge_filter_prerouting_dstnat
+# Type:     filter
+# Hook:     prerouting
+# Priority: -310 (dstnat (-300) - 10)
+# Policy:   ACCEPT
+# Description:
+#
+# Single-indented for base-chain and regular-chain
+# Double-indented for rules-only
+#
+

@@ -33,7 +33,13 @@
         # it is presumed to be a NEW state at this point
 
         # Permit DHCPv6 client responses.
-        ip6 udp sport 547 udp dport 546 counter accept
+        #
+        # Selector	Purpose	Example
+        # meta nfproto	Network-layer protocol family	meta nfproto ipv6
+        # meta l4proto	Transport-layer protocol	meta l4proto udp
+        # ip6	IPv6 header fields	ip6 saddr, ip6 daddr
+        #
+        meta nfproto ipv6 udp sport 547 udp dport 546 counter accept
 
         # Permit DHCPv4 client responses (if DHCP client).
         udp sport 67 udp dport 68 counter accept  # from DHCP server

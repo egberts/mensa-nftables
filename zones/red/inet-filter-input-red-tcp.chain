@@ -28,7 +28,7 @@
         ct state { established, related } counter accept  # silent accept
         counter
 
-        tcp ct state invalid counter drop
+        ct state invalid counter drop
 
         # it is presumed to be a NEW state at this point
 

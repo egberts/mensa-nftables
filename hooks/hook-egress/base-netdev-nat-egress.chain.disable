@@ -7,7 +7,7 @@
 # Type:        nat
 # Hook:        egress
 # Device:      eno1
-# Priority:    10 (filter(0)+10)
+# Priority:    310 (srcnat(300)+10)
 # Policy:      ACCEPT
 # Description: Late egress packet enforcement
 #
@@ -46,7 +46,7 @@
 
     chain netdev_nat_egress {
 
-        type nat hook egress device $LAN_INTF_DEV priority 10; policy drop;
+        type nat hook egress device $LAN_INTF_DEV priority 310; policy drop;
 
         # Add applicable egress filtering rules here.
 

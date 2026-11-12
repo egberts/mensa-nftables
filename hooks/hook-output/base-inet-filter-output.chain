@@ -1,6 +1,5 @@
-#
 # File:     base-inet-filter-output.chain
-# Path:     hook-output/
+# Path:     hooks/hook-output/
 # Title:
 # Family:   inet
 # Table:    *

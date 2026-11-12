@@ -1,0 +1,18 @@
+# File:     base-inet-filter-postrouting-conntrack.chain
+# Path:     hooks/hook-postrouting/
+# Title:
+# Family:   inet
+# Table:    *
+# Chain:    inet_filter_postrouting_conntrack
+# Type:     filter
+# Hook:     postrouting
+# Priority: 300
+# Policy: accept
+# Description:
+#
+
+    chain inet_filter_postrouting_conntrack {
+        type filter hook postrouting priority 300;
+        policy accept;
+
+    }

@@ -1,5 +1,5 @@
 # File:     base-inet-nat-output.chain
-# Path:     hook-output/
+# Path:     hooks/hook-output/
 # Title:
 # Family:   inet
 # Table:    *

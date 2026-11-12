@@ -1,13 +1,12 @@
-#
 # File:     base-ip-filter-output.chain
-# Path:     hook-output/
+# Path:     hooks/hook-output/
 # Title:
 # Family:   ip
 # Table:    *
 # Chain:    ip_filter_output
 # Type:     filter
 # Hook:     output
-# Priority:1 (over Libvirt/Docker filter(0))
+# Priority: 5 (filter(0)+5, over Libvirt/Docker filter(0))
 # Policy:   DROP
 # Description:
 #
@@ -20,7 +19,7 @@
         typeof oif : verdict
     }
     chain ip_filter_output {
-        type filter hook output priority 1; policy drop;
+        type filter hook output priority 5; policy drop;
         oifname "lo" accept
 
         counter

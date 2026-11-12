@@ -1,12 +1,12 @@
 # File:     base-ip-filter-input.chain
-# Path:     hook-input/
+# Path:     hooks/hook-input/
 # Title:    Base chain for ip/filter/input
 # Family:   ip
 # Table:    *
 # Chain:    ip_filter_input
 # Type:     filter
 # Hook:     input
-# Priority: -1 (before Libvirt(0) and Docker(0))
+# Priority: -5 (filter(0) - 5, after inet-input(-10), same as ip-input(-5))
 # Policy:   DROP
 # Description:
 #
@@ -16,7 +16,7 @@
         typeof iif : verdict
     }
     chain ip_filter_input {
-        type filter hook input priority -1; policy drop;
+        type filter hook input priority -5; policy drop;
 
         # Reject invalid connection states.
         ct state invalid counter log prefix "DROP ip/filter/input/invalid: " drop

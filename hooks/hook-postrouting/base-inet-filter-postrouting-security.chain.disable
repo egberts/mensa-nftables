@@ -1,12 +1,12 @@
 # File:     base-inet-filter-postrouting-security.chain
-# Path:     hook-postrouting/
+# Path:     hooks/hook-postrouting/
 # Title:
 # Family:   inet
 # Table:    *
 # Chain:    inet_filter_postrouting_security
 # Type:     filter
 # Hook:     postrouting
-# Priority: security(50)+10 (after Libvirt/Docker security(50))
+# Priority: 60 (security(50)+10, after Libvirt/Docker security(50))
 # Policy: accept
 # Description:
 #

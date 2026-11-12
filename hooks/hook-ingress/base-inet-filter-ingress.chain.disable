@@ -6,7 +6,7 @@
 # Chain:    inet_filter_ingress
 # Type:     filter
 # Hook:     ingress
-# Priority: filter (0) - 310 (after inet/filter/ingress)
+# Priority: -310 (filter (0) - 310 (after inet/filter/ingress))
 # Policy:   ACCEPT
 # Description:
 #

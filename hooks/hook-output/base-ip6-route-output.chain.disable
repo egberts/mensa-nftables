@@ -1,12 +1,12 @@
 # File:     base-ip6-route-output.chain
-# Path:     hook-output/
+# Path:     hooks/hook-output/
 # Title:
 # Family:   ip6
 # Table:    *
 # Chain:    ip6_route_output
 # Type:     route
 # Hook:     output
-# Priority: 1 (over Libvirt/Docker filter(0))
+# Priority: 5 (filter(0)+5, over Libvirt/Docker filter(0))
 # Policy:   ACCEPT
 # Description:
 #
@@ -14,13 +14,12 @@
 # Double-indented for rules-only
 #
 
-
     # Initialize an interface-to-chain dispatcher for output hook
     map map_dispatch_ip6_route_output_interface {
         typeof oif : verdict
     }
     chain ip6_route_output {
-        type route hook output priority 1; policy accept;
+        type route hook output priority 5; policy accept;
         oifname "lo" accept
 
         counter

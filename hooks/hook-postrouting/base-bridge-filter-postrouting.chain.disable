@@ -1,12 +1,12 @@
-# File:     base-arp-filter-postrouting.chain
+# File:     base-bridge-filter-postrouting.chain
 # Path:     hook-postrouting/
 # Title:
-# Family:   arp
+# Family:   bridge
 # Table:    *
-# Chain:    arp_filter_postrouting
+# Chain:    bridge_filter_postrouting
 # Type:     filter
 # Hook:     postrouting
-# Priority: filter(0)
+# Priority: 200 (filter(200))
 # Policy:   ACCEPT
 # Description:
 #

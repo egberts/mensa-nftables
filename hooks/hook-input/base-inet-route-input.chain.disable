@@ -1,13 +1,13 @@
 # File:     base-inet-route-input.chain
-# Path:     hook-input/
+# Path:     hooks/hook-input/
 # Title:    Base chain for inet/route/input
 # Family:   inet
 # Table:    *
 # Chain:    inet_route_input
 # Type:     route
 # Hook:     input
-# Priority: -10 (before ip/ip6 filter(0))
-# Policy:   DROP
+# Priority: -10 (filter(0) - 10, before ip-input(-5) and ip6-input(-5))
+# Policy:   accept
 # Description:
 #
 
@@ -16,7 +16,7 @@
         typeof iif : verdict
     }
     chain inet_route_input {
-        type route hook input priority -10; policy drop;
+        type route hook input priority -10; policy accept;
 
         # Reject invalid connection states.
         ct state invalid counter log prefix "DROP: inet/route/input/invalid " drop

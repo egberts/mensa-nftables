@@ -1,5 +1,5 @@
 # File:     base-inet-nat-postrouting.chain
-# Path:     hook-postrouting/
+# Path:     hooks/hook-postrouting/
 # Title:
 # Family:   inet
 # Table:    *

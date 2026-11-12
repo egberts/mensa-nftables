@@ -1,12 +1,12 @@
 # File:     base-arp-filter-output.chain
-# Path:     hook-output/
+# Path:     hooks/hook-output/
 # Title:
 # Family:   arp
 # Table:    *
 # Chain:    arp_filter_output
 # Type:     filter
 # Hook:     output
-# Priority: 10 (filter(0)+10)
+# Priority: 5 (filter(0) - 5)
 # Policy:   ACCEPT
 # Description:
 #

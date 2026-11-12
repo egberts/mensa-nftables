@@ -19,44 +19,50 @@ Combining both the overall authoritative stance and inet vs. ip/ip6, we get this
 
 ## 1. Priority table
 
-| Priority | Hook | Owner | Family | Type / reference |
-|---:|---|---|---|---|
-| -311 | ingress | Sysadmin | netdev | filter (0) - 311 |
-| -310 | ingress | Sysadmin | inet | filter (0) - 310 |
-| -310 | prerouting | Sysadmin | bridge | dstnat (-300) - 10 |
-| -300 | prerouting | Netfilter | bridge | dstnat |
-| -300 | prerouting | Docker | ip, ip6 | raw (where registered) |
-| -225 | prerouting | Netfilter | ip, ip6, inet | SELinux first |
-| -210 | prerouting | Sysadmin | bridge | filter (-200) - 10 |
-| -210 | prerouting | Sysadmin | ip, ip6, inet | conntrack (-200) - 10 |
-| -201 | prerouting | Sysadmin | ip, ip6, inet | conntrack (-200) - 1 |
-| -200 | prerouting | Netfilter | ip, ip6, inet | conntrack |
-| -160 | prerouting | Sysadmin | ip, ip6, inet | mangle (-150) - 10 |
-| -150 | prerouting | Netfilter | ip, ip6, inet | mangle |
-| -110 | prerouting | Sysadmin | ip, ip6, inet | dstnat (-100) - 10 |
-| -100 | prerouting | Docker / Libvirt | ip, ip6 | dstnat (where registered) |
-| -10 | input | Sysadmin | inet, bridge, arp | filter - 10 |
-| -1 | input | Sysadmin | ip, ip6, inet, arp | filter (0) - 1 |
-| 0 | input / forward / output | Other applications | Varies | filter |
-| +1 | output | Sysadmin | ip, ip6, inet, arp | filter (0) + 1 |
-| +10 | output | Sysadmin | bridge | filter (-200) + 10 |
-| +50 | postrouting | Netfilter | ip, ip6, inet | security |
-| +55 | postrouting | Sysadmin | ip, ip6 | security (50) + 5 |
-| +60 | postrouting | Sysadmin | inet | security (50) + 10 |
-| +100 | output | Netfilter | bridge | out |
-| +100 | postrouting | Docker / Libvirt | ip, ip6 | srcnat (where registered) |
-| +105 | postrouting | Sysadmin | ip, ip6 | srcnat (100) + 5 |
-| +110 | postrouting | Sysadmin | inet | srcnat (100) + 10 |
-| +110 | output | Sysadmin | bridge | out (100) + 10 |
-| +200 | postrouting | Sysadmin | bridge | filter |
-| +205 | postrouting | Sysadmin | ip, ip6 | numeric priority |
-| +210 | postrouting | Sysadmin | inet | numeric priority |
-| +225 | postrouting | Netfilter | ip, ip6, inet | SELinux last |
-| +300 | postrouting | Netfilter | bridge | srcnat |
-| +300 | postrouting | Netfilter | ip, ip6, inet | conntrack helper |
-| +305 | egress | Sysadmin | netdev | numeric priority |
-| +310 | egress | Sysadmin | netdev | numeric priority |
-| +310 | postrouting | Sysadmin | bridge | srcnat (300) + 10 |
+| **Priority** | **Hook**                 | **Owner**          | **Family**                 | **Chain type**                                      | **Type / reference**      |
+| ------------ | ------------------------ | ------------------ | -------------------------- | --------------------------------------------------- | ------------------------- |
+| -311         | ingress                  | Sysadmin           | netdev                     | `filter`                                            | filter (0) - 311          |
+| -310         | ingress                  | Sysadmin           | inet                       | `filter`                                            | filter (0) - 310          |
+| -310         | prerouting               | Sysadmin           | bridge                     | `filter`                                            | dstnat (-300) - 10        |
+| -300         | prerouting               | Netfilter          | bridge                     | `filter`                                            | dstnat                    |
+| -300         | prerouting               | Docker             | ip, ip6                    | `filter`                                            | raw (where registered)    |
+| -225         | prerouting               | Netfilter          | ip, ip6, inet              | `filter`                                            | SELinux first             |
+| -210         | prerouting               | Sysadmin           | bridge                     | `filter`                                            | filter (-200) - 10        |
+| -210         | prerouting               | Sysadmin           | inet                       | `filter`                                            | conntrack (-200) - 10     |
+| -205         | prerouting               | Sysadmin           | ip, ip6                    | `filter`                                            | conntrack (-200) - 5      |
+| -200         | prerouting               | Netfilter          | ip, ip6, inet              | `filter`                                            | conntrack                 |
+| -160         | prerouting               | Sysadmin           | inet                       | `filter`, `nat`                                     | mangle (-150) - 10        |
+| -155         | prerouting               | Sysadmin           | ip, ip6                    | `filter`, `nat`                                     | mangle (-150) - 5         |
+| -150         | prerouting               | Netfilter          | ip, ip6, inet              | `filter`, `nat`                                     | mangle                    |
+| -110         | prerouting               | Sysadmin           | inet                       | `filter`, `nat`                                     | dstnat (-100) - 10        |
+| -105         | prerouting               | Sysadmin           | ip, ip6                    | `filter`, `nat`                                     | dstnat (-100) - 5         |
+| -100         | prerouting               | Docker / Libvirt   | ip, ip6                    | `filter`, `nat`                                     | dstnat (where registered) |
+| -10          | input                    | Sysadmin           | inet                       | `filter`, `nat`                                     | filter - 10               |
+| -5           | input                    | Sysadmin           | ip, ip6, bridge, arp       | `filter`; `nat` (ip, ip6 only)                      | filter (0) - 5            |
+| -3           | forward                  | Sysadmin           | inet                       | `filter`                                            | filter(0) - 3             |
+| -1           | forward                  | Sysadmin           | ip, ip6                    | `filter`                                            | filter(0)-1               |
+| 0            | input / forward / output | Other applications | Varies                     | `filter`; `nat` (IP families, input/output); `route` (IP families, output) | filter |
+| +5           | output                   | Sysadmin           | ip, ip6, bridge, inet, arp | `filter`; `nat`, `route` (ip, ip6, inet only)       | filter (0) + 5            |
+| +10          | output                   | Sysadmin           | inet                       | `filter`, `nat`, `route`                            | filter (-200) + 10        |
+| +50          | postrouting              | Netfilter          | ip, ip6, inet              | `filter`, `nat`                                     | security                  |
+| +55          | postrouting              | Sysadmin           | ip, ip6                    | `filter`, `nat`                                     | security (50) + 5         |
+| +60          | postrouting              | Sysadmin           | inet                       | `filter`, `nat`                                     | security (50) + 10        |
+| +100         | output                   | Netfilter          | bridge                     | `filter`                                            | out                       |
+| +100         | postrouting              | Docker / Libvirt   | ip, ip6                    | `filter`, `nat`                                     | srcnat (where registered) |
+| +105         | postrouting              | Sysadmin           | ip, ip6                    | `filter`, `nat`                                     | srcnat (100) + 5          |
+| +110         | postrouting              | Sysadmin           | inet                       | `filter`, `nat`                                     | srcnat (100) + 10         |
+| +110         | output                   | Sysadmin           | bridge                     | `filter`                                            | out (100) + 10            |
+| +200         | postrouting              | Sysadmin           | bridge                     | `filter`                                            | filter                    |
+| +205         | postrouting              | Sysadmin           | ip, ip6                    | `filter`, `nat`                                     | numeric priority          |
+| +210         | postrouting              | Sysadmin           | inet                       | `filter`, `nat`                                     | numeric priority          |
+| +225         | postrouting              | Netfilter          | ip, ip6, inet              | `filter`, `nat`                                     | SELinux last              |
+| +300         | postrouting              | Netfilter          | bridge                     | `filter`                                            | srcnat                    |
+| +300         | postrouting              | Netfilter          | ip, ip6, inet              | `filter`, `nat`                                     | conntrack helper          |
+| +305         | egress                   | Sysadmin           | netdev                     | `filter`                                            | numeric priority          |
+| +310         | egress                   | Sysadmin           | netdev                     | `filter`                                            | numeric priority          |
+| +310         | postrouting              | Sysadmin           | bridge                     | `filter`                                            | srcnat (300) + 10         |
+
+
 
 ## 2. Standard priority reference
 

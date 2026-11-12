@@ -1,13 +1,13 @@
 # File:     base-ip6-nat-input.chain
-# Path:     hook-input/
+# Path:     hooks/hook-input/
 # Title:    Base chain for ip6/nat/input
 # Family:   ip6
 # Table:    *
 # Chain:    ip6_nat_input
 # Type:     nat
 # Hook:     input
-# Priority: -1 (before Libvirt(0) and Docker(0))
-# Policy:   DROP
+# Priority: -5 (filter(0) - 5, after inet-input(-10), same as ip-input(-5))
+# Policy:   accept
 # Description:
 #
 
@@ -16,7 +16,7 @@
         typeof iif : verdict
     }
     chain ip6_nat_input {
-        type nat hook input priority -1; policy drop;
+        type nat hook input priority -5; policy accept;
 
         # Reject invalid connection states.
         ct state invalid counter log prefix "DROP: ip6/nat/input/invalid " drop
