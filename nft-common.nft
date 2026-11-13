@@ -1,4 +1,4 @@
-#!/usr/sbin/nft -f   # ignored if included directly by 'nft -f'
+#!/usr/sbin/nft -f
 # File: nft-common.nft
 # Title: Site-specific settings for `nftables.nft` ruleset
 #

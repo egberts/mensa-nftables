@@ -1,13 +1,14 @@
 # File:     base-inet-route-postrouting.chain
-# Path:     hook-postrouting/
-# Title:
+# Path:     hooks/hook-postrouting/
+# Title:    Base chain for the postrouting hook (inet family, route type)
 # Family:   inet
 # Table:    *
 # Chain:    inet_route_postrouting
 # Type:     route
 # Hook:     postrouting
-# Priority: various
+# Priority: 300
 # Policy: accept
+# Called by: types/type-route/route-inet.nft
 # Description:
 #
 

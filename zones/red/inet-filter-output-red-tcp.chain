@@ -1,0 +1,87 @@
+# File:     inet-filter-output-red-tcp.chain
+# Path:     zones/red/
+# Title:    Rules for ICMP packets in red zone with type filter and hook output
+# Family:   inet
+# Table:    *
+# Chain:    inet_filter_output_red_tcp
+# Type:     filter
+# Hook:     output
+# Priority: filter(0)
+# Policy:   DROP
+# Zone:     red
+# Called by: zones/zone-inet-filter-output-red.chain
+# Description:
+#
+
+    # Register a protocol-to-firewall dispatch registry
+    map map_dispatch_inet_filter_output_red_protocol {
+        type inet_proto : verdict;
+        elements = {
+            tcp : goto inet_filter_output_red_tcp,
+        }
+    }
+
+    chain inet_filter_output_red_tcp {
+
+        counter comment "Count all packets entering this chain"
+
+        meta nfproto ipv4 counter comment "Diagnostic: count IPv4 packets"
+        meta nfproto ipv6 counter comment "Diagnostic: count IPv6 packets"
+
+        meta l4proto tcp counter comment "Diagnostic: count TCP packets"
+        meta l4proto udp counter comment "Diagnostic: count UDP packets"
+
+        # Accept established and related connections.
+        ct state { established, related } counter accept comment "Accept packets belonging to established or related connections"
+        ct state invalid counter drop comment "Drop packets classified as invalid by connection tracking"
+
+        # it is presumed to be a NEW state at this point
+
+        ###### Explicitly authorized remote servers
+        #### do all the remote services firstly, outbound requests
+        tcp dport 22 counter accept comment "Allow outbound SSH connections to remote TCP port 22"
+        tcp dport 53 counter accept comment "Allow outbound DNS queries to remote TCP port 53"
+        tcp dport 443 counter accept comment "Allow outbound HTTPS connections to remote TCP port 443"
+        tcp dport 80 counter accept comment "Allow outbound HTTP connections to remote TCP port 80"
+        tcp dport 25 counter accept comment "Allow outbound SMTP connections to remote TCP port 25"
+        tcp dport 587 counter accept comment "Allow outbound SMTP submission connections to remote TCP port 587"
+        tcp dport 993 counter accept comment "Allow outbound IMAPS connections to remote TCP port 993"
+        tcp dport 995 counter accept comment "Allow outbound POP3S connections to remote TCP port 995"
+        tcp dport 6697 counter accept comment "Allow outbound secured IRC connections to remote TCP port 6697"
+        tcp dport 22000 counter accept comment "Allow outbound Syncthing synchronization connections to remote TCP port 22000"
+
+        ###### Explicitly authorized local servers
+        tcp sport 22 counter accept comment "Allow outbound packets originating from the local SSH service (TCP source port 22)"
+        tcp sport 53 counter accept comment "Allow outbound packets originating from the local DNS service (TCP source port 53)"
+        tcp sport 443 counter accept comment "Allow outbound packets originating from the local HTTPS service (TCP source port 443)"
+        tcp sport 80 counter accept comment "Allow outbound packets originating from the local HTTP service (TCP source port 80)"
+
+
+        # ip saddr 172.16.0.0/12 tcp dport 6379 counter accept comment "Redis 172.16.x"
+        # ip saddr 172.16.0.0/12 tcp dport 5432 counter accept comment "PostgreSQL 172.16.x"
+        # ip saddr 192.168.0.0/16 tcp dport 3306 counter accept comment "MySQL local"
+        # ip saddr 10.0.0.0/8 tcp dport 3306 counter accept comment "MySQL 10.x"
+        # ip saddr 172.16.0.0/12 tcp dport 3306 counter accept comment "MySQL 172.16.x"
+        # ip saddr 192.168.0.0/16 tcp dport 6379 counter accept comment "Redis local"
+        # ip saddr 10.0.0.0/8 tcp dport 6379 counter accept comment "Redis 10.x"
+
+        # ip saddr 10.0.0.0/8 tcp dport 111 counter accept comment "NFS portmapper 10.x"
+        # ip saddr 192.168.0.0/16 tcp dport 111 counter accept comment "NFS portmapper local"
+        # ip saddr 192.168.0.0/16 tcp dport 2049 counter accept comment "NFS local"
+        # ip saddr 192.168.0.0/16 tcp dport 20048 counter accept comment "NFS mountd local"
+        # ip saddr 172.16.0.0/12 tcp dport 111 counter accept comment "NFS portmapper 172.16.x"
+        # ip saddr 172.16.0.0/12 tcp dport 2049 counter accept comment "NFS 172.16.x"
+        # ip saddr 172.16.0.0/12 tcp dport 20048 counter accept comment "NFS mountd 172.16.x"
+        # ip saddr 10.0.0.0/8 tcp dport 5432 counter accept comment "PostgreSQL 10.x"
+        # ip saddr 10.0.0.0/8 tcp dport 2049 counter accept comment "NFS 10.x"
+        # ip saddr 10.0.0.0/8 tcp dport 20048 counter accept comment "NFS mountd 10.x"
+        # ip saddr 192.168.0.0/16 tcp dport 5432 counter accept comment "PostgreSQL local"
+
+    # Drop zone
+
+        ip daddr 127.0.0.0/8 counter drop comment "Drop outbound IPv4 packets addressed to the loopback network (127.0.0.0/8)"
+        ip6 daddr ::1 counter drop comment "Drop outbound IPv6 packets addressed to the loopback address (::1)"
+
+        log prefix "DROP inet/filter/output/red/tcp: " counter drop comment "Log and drop all remaining TCP packets reaching this chain"
+
+    }

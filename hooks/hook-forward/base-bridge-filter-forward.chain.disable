@@ -1,6 +1,6 @@
 # File:     base-bridge-filter-forward.chain
 # Path:     hooks/hook-forward/
-# Title:
+# Title:    Base chain for the forward hook (bridge family, filter type)
 # Family:   bridge
 # Table:    *
 # Chain:    bridge_filter_forward
@@ -8,6 +8,7 @@
 # Hook:     forward
 # Priority: filter(0)
 # Policy:   ACCEPT
+# Called by: types/type-filter/filter-bridge.nft
 # Description:
 #
 # Single-indented for base-chain and regular-chain

@@ -1,4 +1,4 @@
-#!/usr/sbin/nft -f   # ignored if included directly by 'nft -f'
+#!/usr/sbin/nft -f
 #
 # File:     filter-arp.nft
 # Path:     type-filter/
@@ -10,6 +10,7 @@
 # Hook:     *
 # Priority: N/A
 # Policy:   *
+# Called by: nftables.nft
 # Description:
 #
 # Single-indented for base-chain and regular-chain

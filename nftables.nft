@@ -1,4 +1,4 @@
-#!/usr/sbin/nft -f   
+#!/usr/sbin/nft -f
 ## ignored if included directly by 'nft -f'
 # File: nftables.nft
 # Title: Rules for all packets in all zones with all types and all hooks
@@ -41,17 +41,17 @@ flush table inet inet_route
 flush table ip ip_route
 flush table ip6 ip6_route
 
-include "types/type-filter/filter-netdev.nft"
+# include "types/type-filter/filter-netdev.nft"
 include "types/type-filter/filter-inet.nft"
-include "types/type-filter/filter-ip.nft"
-include "types/type-filter/filter-ip6.nft"
-include "types/type-filter/filter-bridge.nft"
-include "types/type-filter/filter-arp.nft"
+# include "types/type-filter/filter-ip.nft"
+# include "types/type-filter/filter-ip6.nft"
+# include "types/type-filter/filter-bridge.nft"
+# include "types/type-filter/filter-arp.nft"
 
 include "types/type-nat/nat-inet.nft"
-include "types/type-nat/nat-ip.nft"
-include "types/type-nat/nat-ip6.nft"
+# include "types/type-nat/nat-ip.nft"
+# include "types/type-nat/nat-ip6.nft"
 
-include "types/type-route/route-inet.nft"
-include "types/type-route/route-ip.nft"
-include "types/type-route/route-ip6.nft"
+# include "types/type-route/route-inet.nft"
+# include "types/type-route/route-ip.nft"
+# include "types/type-route/route-ip6.nft"

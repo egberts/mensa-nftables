@@ -9,6 +9,7 @@
 # Priority: filter(0)
 # Policy:   DROP
 # Zone:     red
+# Called by: zones/zone-inet-filter-input-red.chain
 # Description:
 #
 
@@ -21,37 +22,61 @@
     }
 
     chain inet_filter_input_red_tcp {
+        counter comment "Count all packets entering this chain"
 
-        counter
+        meta nfproto ipv4 counter comment "Diagnostic: count IPv4 packets"
+        meta nfproto ipv6 counter comment "Diagnostic: count IPv6 packets"
+
+        meta l4proto tcp counter comment "Diagnostic: count TCP packets"
+        meta l4proto udp counter comment "Diagnostic: count UDP packets"
 
         # Accept established and related connections.
-        ct state { established, related } counter accept  # silent accept
-        counter
+        ct state { established, related } counter accept comment "Accept packets belonging to established or related connections"
 
-        ct state invalid counter drop
+        counter comment "Count packets remaining after established/related connection acceptance"
 
-        # it is presumed to be a NEW state at this point
+        ct state invalid counter drop comment "Drop packets classified as invalid by connection tracking"
 
-        # Explicitly authorized inbound services go here.
-        tcp sport 443 counter accept
-        tcp sport 80 counter accept
-        tcp sport 53 counter accept
+        # New connection requests and other unmatched traffic follow.
 
-        # Explicitly authorized outbound services go here.
-        tcp dport 53 counter accept
-        tcp dport 22 counter accept
-        tcp dport 922 counter accept
+        #### Remote services: inbound responses
+        # Responses from remote services to locally initiated connections.
+        # Normally handled by the established/related rule above.
 
-        tcp dport { 139, 445} counter drop comment "silently drop NetBios"
+        tcp sport 443 counter accept comment "Accept inbound HTTPS server responses from remote TCP port 443"
+        tcp sport 80 counter accept comment "Accept inbound HTTP server responses from remote TCP port 80"
+        tcp sport 53 counter accept comment "Accept inbound DNS server responses from remote TCP port 53"
+        tcp sport 6697 counter accept comment "Accept inbound responses from remote IRC servers using TCP port 6697"
 
+        #### Local services: explicitly authorized inbound requests
+        # New connection requests directed to services hosted locally.
 
-        #  ip protocol tcp tcp dport
-        #         { $TORRENT_PORT_LAN, $TORRENT_PORT_WAN,
-        #                 $TRACKER_TORRENT_PORT_WAN } ct state new counter accept;
-        #  ip protocol udp udp dport
-        #         { $TORRENT_PORT_LAN, $TORRENT_PORT_WAN,
-        #                 $TRACKER_TORRENT_PORT_WAN } ct state new counter accept;
+        tcp dport 22 counter accept comment "Allow inbound SSH connections to the local SSH server"
+        tcp dport 443 counter accept comment "Allow inbound HTTPS connections to the local HTTPS server"
+        tcp dport 80 counter accept comment "Allow inbound HTTP connections to the local web server"
+        tcp dport 53 counter accept comment "Allow inbound TCP DNS queries to the local DNS server"
+        tcp dport 25 counter accept comment "Allow inbound SMTP connections to the local mail server"
+        tcp dport 587 counter accept comment "Allow inbound SMTP submission connections to the local mail server"
+        tcp dport 993 counter accept comment "Allow inbound IMAPS connections to the local mail server"
+        tcp dport 995 counter accept comment "Allow inbound POP3S connections to the local mail server"
 
-        log prefix "DROP inet/filter/input/red/tcp " counter drop
-    }
+        tcp dport 922 counter accept comment "Allow inbound TCP connections to local port 922 (service designation pending)"
+
+        # Tor services (optional).
+        # tcp dport 9001 counter accept comment "Allow inbound Tor relay connections (ORPort)"
+        # tcp dport 9030 counter accept comment "Allow inbound Tor directory connections (DirPort)"
+        # tcp dport 443 counter accept comment "Allow inbound Tor bridge connections (obfs4; requires dedicated address or port)"
+
+        # BitTorrent services (optional).
+        # tcp dport { $TORRENT_PORT_LAN, $TORRENT_PORT_WAN, $TRACKER_TORRENT_PORT_WAN } ct state new counter accept comment "Allow inbound BitTorrent TCP connections"
+        # udp dport { $TORRENT_PORT_LAN, $TORRENT_PORT_WAN, $TRACKER_TORRENT_PORT_WAN } counter accept comment "Allow inbound BitTorrent UDP traffic"
+
+        #### DROP zone
+
+        tcp dport { 139, 445 } counter drop comment "Drop inbound NetBIOS/SMB connections (TCP ports 139 and 445)"
+
+        #### Catch-all report
+
+        log prefix "DROP inet/filter/input/red/tcp: " counter drop comment "Log and drop all remaining TCP packets reaching this chain"
+}
 

@@ -1,6 +1,6 @@
 # File:     base-inet-nat-input.chain
 # Path:     hooks/hook-input/
-# Title:    Base chain for inet/nat/input
+# Title:    Base chain for the input hook (inet family, nat type)
 # Family:   inet
 # Table:    *
 # Chain:    inet_nat_input
@@ -8,12 +8,13 @@
 # Hook:     input
 # Priority: -10 (filter(0) - 10, before ip-input(-5) and ip6-input(-5))
 # Policy:   accept
+# Called by: types/type-nat/nat-inet.nft
 # Description:
 #
 # NOTE: Using inet for NAT is not useful, better to relegate to ip or ip6 family.
 #
 
-    # Initialize an interface-to-chain dispatcher for input hook
+    # Declare an interface-to-chain dispatcher for input hook
     map map_dispatch_inet_nat_input_interface {
         typeof iif : verdict
     }

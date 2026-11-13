@@ -1,6 +1,6 @@
 # File:     base-ip-filter-prerouting-dstnat.chain
-# Path:
-# Title:    Base chain for ip/filter/prerouting hook at various priority
+# Path:     hooks/hook-prerouting/
+# Title:    Base chain for the prerouting hook (ip family, filter type)
 # Family:   ip
 # Table:    *
 # Chain:    ip_filter_prerouting_*
@@ -8,6 +8,7 @@
 # Hook:     prerouting
 # Priority: various
 # Policy:   accept
+# Called by: types/type-filter/filter-ip.nft
 # Description:
 #
 

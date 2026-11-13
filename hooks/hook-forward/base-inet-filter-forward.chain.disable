@@ -1,6 +1,6 @@
 # File:     base-inet-filter-forward.chain
-# Path:     hook-forward/
-# Title:
+# Path:     hooks/hook-forward/
+# Title:    Base chain for the forward hook (inet family, filter type)
 # Family:   inet
 # Table:    *
 # Chain:    inet_filter_forward
@@ -8,13 +8,14 @@
 # Hook:     forward
 # Priority: -3 (filter(0)-3, before ip-forward(-1))
 # Policy:   DROP
+# Called by: types/types-filter/filter-inet.nft
 # Description:
 #
 # Single-indented for base-chain and regular-chain
 # Double-indented for rules-only
 #
 
-    # Initialize an interface-to-chain dispatcher for forward hook
+    # Declare an interface-to-chain dispatcher for forward hook
     map map_dispatch_inet_filter_forward_interface {
         typeof iif : verdict
     }

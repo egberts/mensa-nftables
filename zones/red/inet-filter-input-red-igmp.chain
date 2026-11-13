@@ -9,6 +9,7 @@
 # Priority: filter(0)
 # Policy:   DROP
 # Zone:     lan
+# Called by: zones/zone-inet-filter-input-red.chain
 # Description:
 #
 
@@ -26,5 +27,5 @@
 
         ip protocol igmp counter accept comment "Accept IGMP"
 
-        counter log prefix "DROP inet/filter/input/red/igmp " drop
+        counter log prefix "DROP inet/filter/input/red/igmp: " drop
     }

@@ -1,6 +1,6 @@
 # File:     base-bridge-filter-output.chain
 # Path:     hooks/hook-output/
-# Title:    Base chain for bridge/filter/output
+# Title:    Base chain for the output hook (bridge family, filter type)
 # Family:   bridge
 # Table:    *
 # Chain:    bridge_filter_output
@@ -8,10 +8,11 @@
 # Hook:     output
 # Priority: 110 (out(100) + 10)
 # Policy:   DROP
+# Called by: types/type-filter/filter-bridge.nft
 # Description:
 #
 
-    # Initialize an interface-to-chain dispatcher for output hook
+    # Declare an interface-to-chain dispatcher for output hook
     map map_dispatch_bridge_filter_output_interface {
         typeof iif : verdict
     }

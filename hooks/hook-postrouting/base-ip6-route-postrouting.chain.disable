@@ -1,6 +1,6 @@
 # File:     base-ip6-route-postrouting.chain
-# Path:     hook-postrouting/
-# Title:
+# Path:     hooks/hook-postrouting/
+# Title:    Base chain for the postrouting hook (ip family, route type)
 # Family:   ip6
 # Table:    *
 # Chain:    ip6_route_postrouting_security
@@ -8,6 +8,7 @@
 # Hook:     postrouting
 # Priority: various
 # Policy: accept
+# Called by: types/type-route/route-ip6.nft
 # Description:
 #
 

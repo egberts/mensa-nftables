@@ -23,8 +23,10 @@
     }
 
     chain inet_filter_input_loopback {
+
         # Accept loopback traffic.
-        iif "lo" counter accept
+        # 'iif' used over 'iifname' due to stable network index number and processing speed
+        # iif "lo" counter accept comment "Allows loopback"  # earlier vmap got this already
 
         # Reject externally received loopback-addressed traffic.
         iif != "lo" ip daddr 127.0.0.0/8 counter log prefix "DROP inet/filter/input/loopback/ip: " drop

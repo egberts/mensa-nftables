@@ -1,4 +1,4 @@
-#!/usr/sbin/nft -f   # ignored if included directly by 'nft -f'
+#!/usr/sbin/nft -f
 #
 # File:     filter-ip.nft
 # Path:     type-filter/
@@ -10,6 +10,7 @@
 # Hook:     *
 # Priority: N/A
 # Policy:   *
+# Called by: nftables.nft
 # Description:
 #
 # Single-indented for base-chain and regular-chain
@@ -18,7 +19,7 @@
 
 table ip ip_filter {
 
-    # was half-expecting ingress, but no (only in inet)
+    # was half-expecting ingress here, but no (only in inet)
 
     include "./hooks/hook-prerouting/base-ip-filter-prerouting*.chain";
 

@@ -1,6 +1,6 @@
 # File:     base-arp-filter-input.chain
 # Path:     hooks/hook-input/
-# Title:
+# Title:    Base chain for the input hook (arp family, filter type)
 # Family:   arp
 # Table:    *
 # Chain:    arp_filter_input
@@ -8,6 +8,7 @@
 # Hook:     input
 # Priority: -5 (filter(0) - 5)
 # Policy:   DROP
+# Called by: types/type-filter/filter-arp.nft
 # Description:
 #
 # Single-indented for base-chain and regular-chain

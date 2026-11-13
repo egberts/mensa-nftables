@@ -1,6 +1,6 @@
 # File:     base-inet-filter-input.chain
 # Path:     hooks/hook-input/
-# Title:    Base chain for inet/filter/input
+# Title:    Base chain for the input hook (inet family, filter type)
 # Family:   inet
 # Table:    *
 # Chain:    inet_filter_input
@@ -8,10 +8,11 @@
 # Hook:     input
 # Priority: -10 (filter(0) - 10, before ip-input(-5) and ip6-input(-5))
 # Policy:   DROP
+# Called by: types/type-filter/filter-inet.nft
 # Description:
 #
 
-    # Initialize an interface-to-chain dispatcher for input hook
+    # Declare an interface-to-chain dispatcher for input hook
     map map_dispatch_inet_filter_input_interface {
         typeof iif : verdict
     }

@@ -1,6 +1,6 @@
 # File:        base-netdev-filter-egress.nft
-# Path:
-# Title:       Base chain for netdev/filter/egress hook
+# Path:        hooks/hook-egress
+# Title:       Base chain for the egress hook (netdev family, filter type)
 # Family:      netdev
 # Table:       *
 # Chain:       netdev_filter_egress
@@ -9,6 +9,7 @@
 # Device:      eno1
 # Priority:    310 (srcnat(300)+10)
 # Policy:      DROP
+# Called by:   types/type-filter/filter-netdev.nft
 # Description: Late egress packet enforcement
 #
 # The egress hook sees packets leaving the specified

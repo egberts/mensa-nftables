@@ -1,6 +1,6 @@
 # File:     base-inet-filter-ingress.nft
-# Path:     hook-ingress/
-# Title:
+# Path:     hooks/hook-ingress/
+# Title:    Base chain for the ingress hook (inet family, filter type)
 # Family:   inet
 # Table:    *
 # Chain:    inet_filter_ingress
@@ -8,6 +8,7 @@
 # Hook:     ingress
 # Priority: -310 (filter (0) - 310 (after inet/filter/ingress))
 # Policy:   ACCEPT
+# Called by: types/type-filter/filter-inet.nft
 # Description:
 #
 # NOTE: If no rule specified, comment out the entire chain

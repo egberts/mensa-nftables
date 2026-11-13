@@ -50,6 +50,9 @@
         icmpv6 type 136 icmpv6 code 0 counter drop
         meta l4proto ipv6-icmp counter log prefix "ACCEPT: inet/filter/input/red/icmp: " accept
 
+        meta l4proto ipv6-icmp counter accept comment "Allow IPv6 neighbor discovery"
+        meta l4proto icmp counter accept comment "Allow ping"
+
         ip protocol icmp counter accept
         meta l4proto ipv6-icmp counter accept comment "Accept ICMPv6";
 

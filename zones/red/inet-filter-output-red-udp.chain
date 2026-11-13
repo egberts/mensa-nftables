@@ -1,0 +1,93 @@
+# File:     inet-filter-output-red-udp.chain
+# Path:     zones/red/
+# Title:    Rules for ICMP packets in red zone with type filter and hook output
+# Family:   inet
+# Table:    *
+# Chain:    inet_filter_output_red_udp
+# Type:     filter
+# Hook:     output
+# Priority: filter(0)
+# Policy:   DROP
+# Zone:     red
+# Called by: zones/zone-inet-filter-output-red.chain
+# Description:
+#
+
+    # Register a protocol-to-firewall dispatch registry
+    map map_dispatch_inet_filter_output_red_protocol {
+        type inet_proto : verdict;
+        elements = {
+            udp : goto inet_filter_output_red_udp,
+        }
+    }
+
+    chain inet_filter_output_red_udp {
+
+        counter comment "Count all packets entering this chain"
+
+        meta nfproto ipv4 counter comment "Diagnostic: count IPv4 packets"
+        meta nfproto ipv6 counter comment "Diagnostic: count IPv6 packets"
+
+        meta l4proto tcp counter comment "Diagnostic: count TCP packets"
+        meta l4proto udp counter comment "Diagnostic: count UDP packets"
+
+        ct state { established, related } counter accept comment "Accept packets belonging to established or related connections"
+        ct state invalid counter drop comment "Drop packets classified as invalid by connection tracking"
+
+        # Multicast blackholes. These must stay ahead of the accepts below,
+        # otherwise the 5353 accepts shadow them.
+        ip daddr 224.0.0.251 udp dport 5353 counter drop comment "Drop IPv4 mDNS multicast traffic to 224.0.0.251:5353"
+        ip daddr 239.255.255.250 udp dport 1900 counter drop comment "Drop IPv4 SSDP/UPnP multicast traffic to 239.255.255.250:1900"
+
+        udp dport 123 counter accept comment "Allow outbound UDP traffic from local NTP port 123 to remote NTP port 123"
+
+        ip protocol udp udp dport 5353 counter accept comment "Allow outbound IPv4 UDP traffic to port 5353 (mDNS)"
+        ip protocol udp udp dport 53 counter accept comment "Allow outbound IPv4 UDP DNS queries to destination port 53"
+        meta l4proto udp udp dport 53 counter accept comment "Allow outbound IPv4 UDP DNS queries to destination port 53"
+        udp dport 53 counter accept comment "Allow outbound IPv4 UDP DNS queries to destination port 53"
+
+        udp dport 51820 counter accept comment "Allow outbound UDP traffic to remote WireGuard port 51820"
+        udp dport 1194 counter accept comment "Allow outbound UDP traffic to remote OpenVPN port 1194"
+
+        udp dport 21027 counter accept comment "Allow outbound Syncthing local discovery traffic to UDP port 21027"
+
+        udp sport 68 udp dport 67 counter accept comment "Allow outbound DHCPv4 client requests (UDP 68 to 67)"
+        meta nfproto ipv6 udp sport 546 udp dport 547 counter accept comment "Allow outbound DHCPv6 client requests (UDP 546 to 547)"
+
+        udp dport 123 counter accept comment "Allow outbound NTP requests to remote UDP port 123"
+        udp dport 22000 counter accept comment "Allow outbound Syncthing synchronization traffic to remote UDP port 22000"
+
+        ip protocol udp udp sport 5353 counter accept comment "Allow outbound IPv4 mDNS traffic originating from local UDP port 5353"
+        ip protocol udp udp sport 53 counter accept comment "Allow outbound IPv4 DNS traffic originating from local UDP port 53"
+
+        udp sport 51820 counter accept comment "Allow outbound UDP traffic originating from local WireGuard port 51820"
+        udp sport 1194 counter accept comment "Allow outbound UDP traffic originating from local OpenVPN port 1194"
+        udp sport 123 counter accept comment "Allow outbound UDP traffic originating from local NTP port 123 to remote NTP port 123"
+
+        udp sport 21027 counter accept comment "Allow outbound Syncthing local discovery traffic originating from local UDP port 21027"
+
+        meta nfproto ipv6 udp sport 547 udp dport 546 counter accept comment "Allow outbound DHCPv6 server replies (UDP 547 to 546)"
+
+        udp sport 123 counter accept comment "Allow outbound NTP server traffic originating from local UDP port 123"
+        udp sport 22000 counter accept comment "Allow outbound Syncthing synchronization traffic originating from local UDP port 22000"
+
+        # ip saddr 192.168.0.0/16 udp dport 111 counter accept comment "NFS portmapper local"
+        # ip saddr 192.168.0.0/16 udp dport 2049 counter accept comment "NFS local"
+        # ip saddr 192.168.0.0/16 udp dport 20048 counter accept comment "NFS mountd local"
+        # ip saddr 172.16.0.0/12 udp dport 111 counter accept comment "NFS portmapper 172.16.x"
+        # ip saddr 172.16.0.0/12 udp dport 2049 counter accept comment "NFS 172.16.x"
+        # ip saddr 172.16.0.0/12 udp dport 20048 counter accept comment "NFS mountd 172.16.x"
+        # ip saddr 10.0.0.0/8 udp dport 111 counter accept comment "NFS portmapper 10.x"
+        # ip saddr 10.0.0.0/8 udp dport 2049 counter accept comment "NFS 10.x"
+        # ip saddr 10.0.0.0/8 udp dport 20048 counter accept comment "NFS mountd 10.x"
+
+    # Drop zone
+        udp dport { 137, 138} counter drop comment "silently drop NetBios"
+        ip daddr 255.255.255.255 udp dport 9999 counter drop comment "Blocks TP-Link Kasa discovery broadcasts"
+
+        ip daddr 127.0.0.0/8 counter drop comment "Drop outbound IPv4 packets addressed to the loopback network"
+        ip6 daddr ::1 counter drop comment "Drop outbound IPv6 packets addressed to the loopback address"
+
+        log prefix "DROP inet/filter/output/red/udp: " counter drop comment "Log and drop all remaining packets reaching this chain"
+
+    }

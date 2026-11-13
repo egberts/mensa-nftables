@@ -1,6 +1,6 @@
 # File:     base-ip-filter-output.chain
 # Path:     hooks/hook-output/
-# Title:
+# Title:    Base chain for the output hook (ip family, filter type)
 # Family:   ip
 # Table:    *
 # Chain:    ip_filter_output
@@ -8,14 +8,15 @@
 # Hook:     output
 # Priority: 5 (filter(0)+5, over Libvirt/Docker filter(0))
 # Policy:   DROP
+# Called by: types/type-filter/filter-ip.nft
 # Description:
 #
 # Single-indented for base-chain and regular-chain
 # Double-indented for rules-only
 #
 
-    # Initialize an interface-to-chain dispatcher for output hook
-    map map_dispatch_ip_filter_output_interface {
+    # Declare an interface-to-chain dispatcher for output hook
+    map map_dispatch_inet_filter_output_interface_stable {
         typeof oif : verdict
     }
     chain ip_filter_output {
@@ -24,16 +25,15 @@
 
         counter
     }
-
     # Selectively load our protocol regular chains
-    # registers with 'map_dispatch_ip_filter_output_interface' dispatch mapper)
-    include "./zones/zone-ip-filter-output-*.chain";
+    # registers with 'map_dispatch_inet_filter_output_interface_stable' dispatch mapper)
+    # include "./zones/zone-ip-filter-output-*.chain";
 
-    # Post-interface input process
+    # Post-interface output process
     chain ip_filter_output {
         # A cool lookup to jump into a protocol-specific regular chain
-        # dispatch map built by including/excluding chain-ip-filter-*.nft files
-        oif vmap @map_dispatch_ip_filter_output_interface
+        # dispatch map built by including/excluding chain-ip-filter-output-*.nft files
+        oif vmap @map_dispatch_inet_filter_output_interface_stable
 
         counter log prefix "DROP ip/filter/output: " drop
     }

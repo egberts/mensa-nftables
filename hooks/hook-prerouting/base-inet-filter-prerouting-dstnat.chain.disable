@@ -1,6 +1,6 @@
 # File:     base-inet-filter-prerouting-dstnat.chain
 # Path:     hooks/hook-prerouting/
-# Title:    Base chain for inet/filter/prerouting hook at dstnat(-200) priority
+# Title:    Base chain for the prerouting hook (inet family, filter type) at DSTNAT priority
 # Family:   inet
 # Table:    *
 # Chain:    inet_filter_prerouting_dstnat
@@ -8,6 +8,7 @@
 # Hook:     prerouting
 # Priority: -110 (dstnat (-100) - 10, before ip-dstnat(-105) and ip6-dstnat(-105))
 # Policy:   accept
+# Called by: types/type-filter/filter-inet.nft
 # Description:
 #
 

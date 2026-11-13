@@ -1,8 +1,8 @@
-#!/usr/sbin/nft -f   # ignored if included directly by 'nft -f'  (delete if non-table)
+#!/usr/sbin/nft -f
 #
 # File:     inet-filter-input.nft
 # Path:     /etc/nftables/inet
-# Title:
+# Title:    Base chain for the <hook> hook (<family> family, <type> type)
 # Family:   (ip|ip6|arp|inet|netdev|bridge)
 # Table:    <family_type>
 # Chain:    <family_type_hook>
@@ -12,6 +12,7 @@
 # Priority (ip/ip6/inet): raw(-300), mangle(-150), security(50)
 # Priority: (bridge-only): dstnat(-300), filter(-200), out(100), srcnat(300)
 # Policy:   (DROP|accept)
+# Called by: base_ip_filter_output.nft
 # Description:
 #
 # Single-indented for base-chain and regular-chain

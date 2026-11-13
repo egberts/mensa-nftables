@@ -1,6 +1,6 @@
 # File:     base-netdev-filter-ingress.nft
-# Path:     hook-ingress/
-# Title:
+# Path:     hooks/hook-ingress/
+# Title:    Base chain for the ingress hook (netdev family, filter type)
 # Family:   netdev
 # Table:    *
 # Chain:    netdev_filter_ingress
@@ -8,6 +8,7 @@
 # Hook:     ingress
 # Priority: -311 (filter (0) - 311 (FIRSTLY, before inet/filter/ingress))
 # Policy:   ACCEPT
+# Called by: types/type-filter/filter-inet.nft
 # Description:
 #
 #

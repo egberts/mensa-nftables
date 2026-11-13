@@ -1,6 +1,6 @@
 # File:        base-netdev-nat-egress.nft
-# Path:
-# Title:       Base chain for netdev/nat/egress hook
+# Path:        hooks/hook-egress/
+# Title:       Base chain for the egress hook (netdev family, nat type)
 # Family:      netdev
 # Table:       *
 # Chain:       netdev_nat_egress
@@ -9,7 +9,10 @@
 # Device:      eno1
 # Priority:    310 (srcnat(300)+10)
 # Policy:      ACCEPT
+# Called by:   types/type-nat/nat-netdev.nft
 # Description: Late egress packet enforcement
+#
+#  TODO: PROVE THIS WORKS
 #
 # The egress hook sees packets leaving the specified
 # network interface.

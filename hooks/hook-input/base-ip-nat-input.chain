@@ -1,6 +1,6 @@
 # File:     base-ip-nat-input.chain
 # Path:     hooks/hook-input/
-# Title:    Base chain for ip/nat/input
+# Title:    Base chain for the input hook (ip family, nat type)
 # Family:   ip
 # Table:    *
 # Chain:    ip_nat_input
@@ -11,7 +11,7 @@
 # Description:
 #
 
-    # Initialize an interface-to-chain dispatcher for input hook
+    # Declare an interface-to-chain dispatcher for input hook
     map map_dispatch_ip_nat_input_interface {
         typeof iif : verdict
     }
@@ -39,5 +39,7 @@
 
     # Post-interface input process
     chain ip_nat_input {
-        counter log prefix "DROP ip/nat/input: " drop comment "unidentified interface nat input"
+        counter
+        return
+        # counter log prefix "DROP ip/nat/input: " drop comment "unidentified interface nat input"
     }

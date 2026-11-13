@@ -1,6 +1,6 @@
 # File:     base-bridge-filter-input.chain
 # Path:     hooks/hook-input/
-# Title:    Base chain for bridge/filter/input
+# Title:    Base chain for the input hook (bridge family, filter type)
 # Family:   bridge
 # Table:    *
 # Chain:    bridge_filter_input
@@ -8,10 +8,11 @@
 # Hook:     input
 # Priority: -5 (filter(0) - 5)
 # Policy:   DROP
+# Called by: types/type-filter/filter-bridge.nft
 # Description:
 #
 
-    # Initialize an interface-to-chain dispatcher for input hook
+    # Declare an interface-to-chain dispatcher for input hook
     map map_dispatch_bridge_filter_input_interface {
         typeof iif : verdict
     }

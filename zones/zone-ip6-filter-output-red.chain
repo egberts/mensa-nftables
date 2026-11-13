@@ -62,7 +62,7 @@
         }
     }
 
-    # Initialize a Protocol-to-firewall dispatch registry
+    # Declare a Protocol-to-firewall dispatch registry
     map map_dispatch_ip6_filter_output_red_protocol {
         type inet_proto : verdict;
     }

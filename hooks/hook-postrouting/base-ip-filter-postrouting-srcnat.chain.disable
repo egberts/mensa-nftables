@@ -1,13 +1,14 @@
 # File:     base-ip-filter-postrouting-srcnat.chain
 # Path:     hooks/hook-postrouting/
-# Title:
+# Title:    Base chain for the postrouting hook (ip family, filter type) for Source NAT priority
 # Family:   ip
 # Table:    *
 # Chain:    ip_filter_postrouting_srcnat
 # Type:     filter
 # Hook:     postrouting
 # Priority: 105 (srcnat(100)+5, after Libvirt/Docker srcnat(50))
-# Policy: accept
+# Policy:   accept
+# Called by: types/type-filter/filter-ip.nft
 # Description:
 #
 

@@ -1,6 +1,6 @@
 # File:     base-ip-route-output.chain
 # Path:     hooks/hook-output/
-# Title:
+# Title:    Base chain for the output hook (ip family, route type)
 # Family:   ip
 # Table:    *
 # Chain:    ip_route_output
@@ -8,13 +8,14 @@
 # Hook:     output
 # Priority: 5 (filter(0)+5, over Libvirt/Docker filter(0))
 # Policy:   ACCEPT
+# Called by: types/type-route/route-ip.nft
 # Description:
 #
 # Single-indented for base-chain and regular-chain
 # Double-indented for rules-only
 #
 
-    # Initialize an interface-to-chain dispatcher for output hook
+    # Declare an interface-to-chain dispatcher for output hook
     map map_dispatch_ip_route_output_interface {
         typeof oif : verdict
     }

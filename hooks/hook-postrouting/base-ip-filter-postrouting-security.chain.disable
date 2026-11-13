@@ -1,13 +1,14 @@
 # File:     base-ip-filter-postrouting-security.chain
 # Path:     hooks/hook-postrouting/
-# Title:
+# Title:    Base chain for the postrouting hook (ip family, filter type) for SECURITY priority
 # Family:   ip
 # Table:    *
 # Chain:    ip_filter_postrouting_security
 # Type:     filter
 # Hook:     postrouting
 # Priority: 255
-# Policy: accept
+# Policy:   accept
+# Called by: types/type-filter/filter-ip.nft
 # Description:
 #
 
