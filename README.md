@@ -7,11 +7,15 @@ I think I finally perfected the framework of the nft/nftables where it has the f
 * EXTENSIBLE, by protocol (rename a file to add/disable)
 * EXTENSIBLE, by interface (rename a file to add/disable)
 * PRIORITIZED correctly
+* no rule-generation preprocessor
+* no compiler, and
+* no external firewall-management framework.
+* state-less policy or connection tracking
 
 
 'nft' tool is all you need.
 
-No preprocessor required, no compiler needed, no prompting, no guesswork.
+
 
 
 Downside is the rules are infuriatingly oppressive by the virtue of these multipliers:
@@ -33,3 +37,13 @@ This requires:
 This is not a Sniffer that can monitor traffic; only the 'nft' add ruleset approach.
 
 This gets you more than compliance with Common Core, DoD, CISecurity, PMCIA, HIPAA and other common cycbersecurity standards for networked firewall.
+
+== Tweaking rules ==
+This gives you the desired activation model:
+
+Operation	Result
+Create .rule file	Enable rule
+Delete .rule file	Disable rule
+Rename .rule to .disabled	Disable rule
+Rename .disabled to .rule	Enable rule
+Create another matching file	Extend ruleset
