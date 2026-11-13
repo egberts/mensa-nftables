@@ -18,8 +18,8 @@ Downside is the rules are infuriatingly oppressive by the virtue of these multip
 
 * in BOTH directions
 * for each of 9 Linux network hooks
-* for each zone that you set (red, dmz, green; public, dmz, private).
-* for each interface
+* for ant number of zones that you set (red, dmz, green; public, dmz, private).
+* for any and all interfaces
 * and for each interface types
 
 And this framework licks them all into a single file for your simple editing.
