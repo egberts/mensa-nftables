@@ -11,7 +11,8 @@ I think I finally perfected the framework of the nft/nftables where it has the f
 * no compiler, and
 * no external firewall-management framework.
 * state-less policy or connection tracking
-
+* shared regular chain, with conntrack handling the reply direction automatically.
+* dispatch lookup using `map`/`vmap` for interfaces, layer 4 protocols, and (TODO layer 7 protocols).
 
 'nft' tool is all you need.
 
@@ -38,12 +39,19 @@ This is not a Sniffer that can monitor traffic; only the 'nft' add ruleset appro
 
 This gets you more than compliance with Common Core, DoD, CISecurity, PMCIA, HIPAA and other common cycbersecurity standards for networked firewall.
 
-== Tweaking rules ==
+Configuration Tool (TODO)
+====
+Need a `nft-common-configure.sh` to create the `nft-common.sh`
+
+Tweaking rules
+====
 This gives you the desired activation model:
 
 Operation	Result
-Create .rule file	Enable rule
-Delete .rule file	Disable rule
-Rename .rule to .disabled	Disable rule
-Rename .disabled to .rule	Enable rule
-Create another matching file	Extend ruleset
+
+* Create .rule file	Enable rule
+* Delete .rule file	Disable rule
+* Rename .rule to .disabled	Disable rule
+* Rename .disabled to .rule	Enable rule
+* Create another matching file	Extend ruleset
+
