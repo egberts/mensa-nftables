@@ -1,4 +1,3 @@
-testing 1, 2, 3
 
 I think I finally perfected the framework of the nft/nftables where it has the following attributes:
 
@@ -13,6 +12,11 @@ I think I finally perfected the framework of the nft/nftables where it has the f
 * state-less policy or connection tracking
 * shared regular chain, with conntrack handling the reply direction automatically.
 * dispatch lookup using `map`/`vmap` for interfaces, layer 4 protocols, and (TODO layer 7 protocols).
+
+Philosophy
+====
+
+The filesystem represents the policy architecture; `nftables` remains the execution engine.
 
 'nft' tool is all you need.
 
