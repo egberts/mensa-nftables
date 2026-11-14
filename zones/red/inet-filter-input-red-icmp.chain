@@ -3,7 +3,7 @@
 # Title:    Rules for ICMP packets in red zone with type filter and hook input
 # Family:   inet
 # Table:    *
-# Chain:    inet_filter_input_red_icmp
+# Chain:    inet_filter_input_red_icmpv4
 # Type:     filter
 # Hook:     input
 # Priority: filter(0)
@@ -16,49 +16,20 @@
     map map_dispatch_inet_filter_input_red_protocol {
         type inet_proto : verdict;
         elements = {
-            icmp : goto inet_filter_input_red_icmp,
+            icmp : goto inet_filter_input_red_icmpv4,
         }
     }
 
-    chain inet_filter_input_red_icmp {
+    chain inet_filter_input_red_icmpv4 {
 
         counter
 
-        # ip6 nexthdr ipv6-icmp limit rate 4/second accept
-
-        # Permit essential IPv6 ICMP error messages.
-        icmpv6 type {
-            destination-unreachable,
-            packet-too-big,
-            time-exceeded,
-            parameter-problem } counter accept
-
-        # Permit IPv6 Neighbor Discovery
-        icmpv6 type {
-            nd-neighbor-solicit,
-            nd-neighbor-advert
-            } ip6 hoplimit 255 counter accept
-        ip6 daddr ::1/128 counter drop comment "drop invalid loopback traffic"
-
-        # Permit Router Advertisements (if using SLAAC).
-        icmpv6 type nd-router-advert ip6 hoplimit 255 counter accept
-
-        # Optional: permit inbound IPv6 echo requests.
-        icmpv6 type echo-request counter accept
-
-        icmpv6 type 143 icmpv6 code 0 counter drop
-        icmpv6 type 136 icmpv6 code 0 counter drop
-        meta l4proto ipv6-icmp counter log prefix "ACCEPT: inet/filter/input/red/icmp: " accept
-
-        meta l4proto ipv6-icmp counter accept comment "Allow IPv6 neighbor discovery"
         meta l4proto icmp counter accept comment "Allow ping"
 
         ip protocol icmp counter accept
-        meta l4proto ipv6-icmp counter accept comment "Accept ICMPv6";
 
         # drop loopback traffic on non-loopback interfaces
         ip daddr 127.0.0.0/8 counter log prefix "DROP invalid loopback: " drop
-        ip6 daddr ::1/128 counter log prefix "DROP invalid loopback: " drop
 
         log prefix "DROP filter/input/red/icmp: " counter drop
     }

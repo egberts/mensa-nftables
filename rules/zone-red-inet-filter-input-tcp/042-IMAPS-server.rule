@@ -1,0 +1,2 @@
+
+tcp dport 993 counter accept comment "Allow inbound IMAPS connections to the local mail server"

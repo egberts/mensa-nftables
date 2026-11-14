@@ -1,0 +1,4 @@
+
+tcp sport 6697 counter accept comment "Accept inbound responses from remote IRC servers using TCP port 6697"
+
+

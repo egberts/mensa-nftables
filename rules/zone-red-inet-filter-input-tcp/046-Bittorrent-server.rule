@@ -1,0 +1,4 @@
+
+# BitTorrent services (optional).
+# tcp dport { $TORRENT_PORT_LAN, $TORRENT_PORT_WAN, $TRACKER_TORRENT_PORT_WAN } ct state new counter accept comment "Allow inbound BitTorrent TCP connections"
+# udp dport { $TORRENT_PORT_LAN, $TORRENT_PORT_WAN, $TRACKER_TORRENT_PORT_WAN } counter accept comment "Allow inbound BitTorrent UDP traffic"

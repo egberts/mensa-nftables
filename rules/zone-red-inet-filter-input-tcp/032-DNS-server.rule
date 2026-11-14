@@ -1,0 +1,2 @@
+
+tcp dport 53 counter accept comment "Allow inbound TCP DNS queries to the local DNS server"

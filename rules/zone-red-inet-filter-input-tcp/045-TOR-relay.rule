@@ -1,0 +1,5 @@
+
+# Tor services (optional).
+# tcp dport 9001 counter accept comment "Allow inbound Tor relay connections (ORPort)"
+# tcp dport 9030 counter accept comment "Allow inbound Tor directory connections (DirPort)"
+# tcp dport 443 counter accept comment "Allow inbound Tor bridge connections (obfs4; requires dedicated address or port)"
