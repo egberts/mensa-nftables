@@ -20,6 +20,8 @@ The filesystem represents the policy architecture; `nftables` remains the execut
 
 'nft' tool is all you need.
 
+And top-level directory name represent the binding between zone, family, chain type, chain hook, and layer-4 protocol.
+
 
 
 
