@@ -1,2 +1,0 @@
-
-tcp dport 587 counter accept comment "Allow inbound SMTP submission connections to the local mail server"

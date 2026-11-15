@@ -1,4 +1,0 @@
-
-# local IPP client requests to remote IPP server
-
-tcp dport 631 accept

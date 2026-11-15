@@ -70,8 +70,8 @@
     chain inet_filter_input_red {
 
         counter comment "inet/filter/input/red"
-
     }
+
     include "./zones/red/inet-filter-input-red-*.chain"  # wildcard is by-l4protocol
 
     chain inet_filter_input_red {

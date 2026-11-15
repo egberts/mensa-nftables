@@ -17,14 +17,6 @@
 
     chain arp_filter_output_red {
 
-        # request
-        arp operation 1 arp ptype 0x0800 arp saddr ip { $WAN_INTF_ADDR, $GATEWAY_ROUTE_DEFAULT } counter accept
-        arp operation 1 arp ptype 0x0800 arp daddr ip { $WAN_INTF_ADDR, $GATEWAY_ROUTE_DEFAULT } counter accept
-
-        # reply
-        arp operation 2 arp ptype 0x0800 arp saddr ip { $WAN_INTF_ADDR, $GATEWAY_ROUTE_DEFAULT } counter accept
-        arp operation 2 arp ptype 0x0800 arp daddr ip { $WAN_INTF_ADDR, $GATEWAY_ROUTE_DEFAULT } counter accept
-
         include "rules/zone-red-arp-filter-output/*.rule"
 
     }

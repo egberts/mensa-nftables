@@ -12,8 +12,7 @@
 #
 #
 
-    # Our fancy callback registry into the firewall
-    # makes it easy to delete this file and not impact nft infrastructure
+    # Register a DeviceInterface-to-firewall dispatch registry
     map map_dispatch_inet_filter_input_interface {
         typeof iif : verdict
         elements = {
@@ -22,6 +21,16 @@
         }
     }
 
+    # no layer-7 protocol-specific dispatcher needed in ARP family
     chain inet_filter_input_lan {
-        counter log prefix "inet/filter/input/lan: " return
+
+        counter comment "inet/filter/input/lan"
+    }
+
+    include "./zones/lan/inet-filter-input-lan.chain"  # no wildcard
+
+    chain inet_filter_input_lan {
+
+        # Log and count denied traffic.
+        counter log prefix "DROP inet/filter/input/lan unknown ARP in lan zone: " drop
     }

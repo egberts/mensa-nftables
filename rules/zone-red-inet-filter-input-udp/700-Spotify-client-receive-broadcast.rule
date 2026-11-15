@@ -1,7 +1,0 @@
-# Policy: Spotify local-network peer discovery
-# Protocol: UDP
-# Destination: 192.168.1.255
-# Destination port: 57621
-# Source port: 57621
-
-ip daddr $WAN_INTF_BCAST udp sport == 57621 udp dport == 57621 accept

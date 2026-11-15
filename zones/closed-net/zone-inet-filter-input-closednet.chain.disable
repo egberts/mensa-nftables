@@ -1,0 +1,36 @@
+# File:     zone-inet-filter-input-closednet.chain
+# Path:     *
+# Family:   inet
+# Table:    *
+# Chain:    inet_filter_input_closednet
+# Type:     filter
+# Hook:     input
+# Priority: filter(0)
+# Policy:   DROP
+# Zone:     closednet
+# Description:
+#
+#
+
+    # Register a DeviceInterface-to-firewall dispatch registry
+    map map_dispatch_inet_filter_input_interface {
+        typeof iif : verdict
+        elements = {
+            # use goto, this is the final descendance
+            $CLOSEDNET_INTF_DEV : goto inet_filter_input_closednet,
+        }
+    }
+
+    # no layer-7 protocol-specific dispatcher needed in ARP family
+    chain inet_filter_input_closednet {
+
+        counter comment "inet/filter/input/closednet"
+    }
+
+    include "./zones/closednet/inet-filter-input-closednet.chain"  # no wildcard
+
+    chain inet_filter_input_closednet {
+
+        # Log and count denied traffic.
+        counter log prefix "DROP inet/filter/input/closednet unknown ARP in closednet zone: " drop
+    }

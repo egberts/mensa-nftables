@@ -1,0 +1,5 @@
+#
+# File: 100-icmp-all-out-accept.rule
+# Policy: Allow any outbound ICMP
+
+        meta l4proto icmp counter accept comment "local-to-remote ICMP/IP (ping)"

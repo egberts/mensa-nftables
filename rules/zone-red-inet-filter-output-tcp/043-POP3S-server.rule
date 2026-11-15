@@ -1,2 +1,0 @@
-
-tcp dport 995 counter accept comment "Allow inbound POP3S connections to the local mail server"

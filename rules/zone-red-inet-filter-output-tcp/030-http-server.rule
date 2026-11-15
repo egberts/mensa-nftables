@@ -1,8 +1,0 @@
-# Policy: HTTP server
-# Title: Permits inbound HTTP requests.
-# Direction: Server
-# Service: HTTP
-# Port: 80
-# Description:
-
-tcp sport 80 counter accept comment "Accept inbound HTTP server responses from remote TCP port 80"

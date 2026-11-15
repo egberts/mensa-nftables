@@ -23,16 +23,8 @@
 
     chain inet_filter_output_red_udp {
 
-        counter comment "Count all packets entering this chain"
+        include "rules/zone-red-inet-filter-output-udp/*.rule"
 
-        meta nfproto ipv4 counter comment "Diagnostic: count IPv4 packets"
-        meta nfproto ipv6 counter comment "Diagnostic: count IPv6 packets"
-
-        meta l4proto tcp counter comment "Diagnostic: count TCP packets"
-        meta l4proto udp counter comment "Diagnostic: count UDP packets"
-
-        ct state { established, related } counter accept comment "Accept packets belonging to established or related connections"
-        ct state invalid counter drop comment "Drop packets classified as invalid by connection tracking"
 
         # Multicast blackholes. These must stay ahead of the accepts below,
         # otherwise the 5353 accepts shadow them.

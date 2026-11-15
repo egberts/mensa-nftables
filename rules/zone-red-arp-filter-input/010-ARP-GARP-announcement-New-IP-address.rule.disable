@@ -1,7 +1,0 @@
-
-
-
-
-# pseudo-equivalence of (arp saddr ip) eq (arp daddr ip) counter log prefix "New IP address: " drop
-@nh,112,32 == @nh,192,32 counter
-(arp saddr ip) == (arp daddr ip)

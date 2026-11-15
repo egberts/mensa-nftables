@@ -1,3 +1,0 @@
-
-tcp dport { 139, 445 } counter drop comment "Drop inbound NetBIOS/SMB connections (TCP ports 139 and 445)"
-

@@ -69,8 +69,8 @@
     chain inet_filter_prerouting_raw_red {
 
         counter
-
     }
+
     include "./zones/red/inet-filter-prerouting_raw-red-*.chain"
 
     chain inet_filter_prerouting_raw_red {

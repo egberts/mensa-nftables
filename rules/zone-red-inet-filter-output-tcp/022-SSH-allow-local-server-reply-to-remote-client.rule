@@ -1,3 +1,0 @@
-
-tcp sport 22 counter accept comment "allow SSH server reply to remote SSH client"
-

@@ -26,8 +26,8 @@
     chain arp_filter_output_red {
 
         counter comment "arp/filter/output/red"
-
     }
+
     include "./zones/red/arp-filter-output-red.chain"  # no wildcard
 
     chain arp_filter_output_red {

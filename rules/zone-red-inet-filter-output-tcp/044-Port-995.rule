@@ -1,2 +1,0 @@
-
-tcp dport 922 counter accept comment "Allow inbound TCP connections to local port 922 (service designation pending)"

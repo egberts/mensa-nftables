@@ -1,0 +1,25 @@
+# File:     inet-filter-output-loopback.chain
+# Path:     zones/loopback/
+# Title:    Rules for  packets in loopback zone with type filter and hook output
+# Family:   inet
+# Table:    *
+# Chain:    inet_filter_output_loopback
+# Type:     filter
+# Hook:     output
+# Priority: filter(0)
+# Policy:   DROP
+# Zone:     loopback
+# Called by: zones/zone-inet-filter-output-loopback.chain
+# Description:
+#
+
+    # no protocol dispatcher here
+
+    chain inet_filter_output_loopback {
+
+        # Accept loopback traffic.
+        # 'iif' used over 'iifname' due to stable network index number and processing speed
+
+        include "rules/zone-loopback-inet-filter-output/*.rule"
+
+    }

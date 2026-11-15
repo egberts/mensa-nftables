@@ -70,9 +70,6 @@
 
         counter
 
-        # Drop locals from internet
-        ip saddr 121.12.242.43 counter drop  # BANNED
-
         # drop loopback traffic on non-loopback interfaces
         ip daddr 127.0.0.1/8 counter drop comment "drop invalid loopback traffic"
         ip6 daddr ::1/128 counter drop comment "drop invalid loopback traffic"

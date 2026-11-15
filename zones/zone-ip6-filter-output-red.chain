@@ -69,11 +69,8 @@
     chain ip6_filter_output_red {
 
         counter
-
-        # Drop locals from internet
-        # ip6 saddr 121.12.242.43 counter drop  # BANNED
-
     }
+
     include "./zones/red/ip6-filter-output-red-*.chain"
 
     chain ip6_filter_output_red {

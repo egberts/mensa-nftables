@@ -1,3 +1,0 @@
-# File: 100-icmp-in-all-accept.rule
-
-        meta l4proto icmp counter accept comment "remote-local ICMP/IP (ping)"

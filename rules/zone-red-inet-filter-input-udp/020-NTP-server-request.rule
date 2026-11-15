@@ -1,3 +1,0 @@
-
-
-udp dport 123 notrack counter accept comment "remote NTP client request to local NTP server"
