@@ -1,0 +1,13 @@
+# File:     020-NTP-client.rule
+# Path:     rules/zone-red-inet-filter-output-udp
+# Family:   *
+# Table:    *
+# Chain:    inet_filter_output_udp
+# Type:     filter
+# Hook:     output
+# Priority: filter(0)
+# Called by: zones/red/zone-red-inet-filter-output (TODO: confirm)
+
+# Accept outgoing untracked NTP responses
+udp dport 123 ct state untracked accept comment "local NTP client request outbound to remote NTP server"
+
