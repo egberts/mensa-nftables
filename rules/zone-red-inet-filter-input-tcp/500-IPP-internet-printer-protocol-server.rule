@@ -1,0 +1,5 @@
+
+# File: 500-IPP-tcp-sport631-in-reply-accept.rule
+# Title: Allow remote Internet Printer Protocol server reply to local IPP client
+
+tcp sport 631 accept

@@ -1,0 +1,34 @@
+# File:     arp-filter-input-lan.chain
+# Path:     zones/lan/
+# Title:    Regular chain for lan zone arp-family TCP packets in input hook
+# Family:   arp
+# Table:    *
+# Chain:    arp_filter_input_lan_tcp
+# Type:     filter
+# Hook:     input
+# Priority: filter(0)
+# Policy:   DROP
+# Zone:     lan
+# Called by: zones/zone-arp-filter-input-lan.chain
+# Description:
+#
+
+# no L7 protocol in ARP, not even L4-protocol, straight mapping
+
+    chain arp_filter_input_lan {
+
+
+        # request
+        arp operation 1 arp ptype 0x0800 arp saddr ip { $LAN_INTF_ADDR, $GATEWAY_ROUTE_DEFAULT } counter accept
+        arp operation 1 arp ptype 0x0800 arp daddr ip { $LAN_INTF_ADDR, $GATEWAY_ROUTE_DEFAULT } counter accept
+
+        # reply
+        arp operation 2 arp ptype 0x0800 arp saddr ip { $LAN_INTF_ADDR, $GATEWAY_ROUTE_DEFAULT } counter accept
+        arp operation 2 arp ptype 0x0800 arp daddr ip { $LAN_INTF_ADDR, $GATEWAY_ROUTE_DEFAULT } counter accept
+
+
+        include "rules/zone-lan-arp-filter-input/*.rule"
+
+    }
+
+

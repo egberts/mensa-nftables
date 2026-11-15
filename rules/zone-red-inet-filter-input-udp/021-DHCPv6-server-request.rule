@@ -1,0 +1,3 @@
+
+meta nfproto ipv6 udp sport 547 udp dport 546 counter accept comment "from remote DHCPv6 server"
+

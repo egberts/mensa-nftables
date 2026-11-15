@@ -22,10 +22,8 @@
     }
 
     chain inet_filter_input_red_tcp {
-        counter comment "Count all packets entering this chain"
 
         include "rules/zone-red-inet-filter-input-tcp/*.rule"
 
         log prefix "DROP inet/filter/input/red/tcp: " counter drop comment "Log and drop all remaining TCP packets reaching this chain"
-}
-
+    }

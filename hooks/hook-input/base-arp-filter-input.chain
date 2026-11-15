@@ -6,7 +6,7 @@
 # Chain:    arp_filter_input
 # Type:     filter
 # Hook:     input
-# Priority: -5 (filter(0) - 5)
+# Priority: -10 (over Libvirt/Docker filter(0) and ip/ip6 filter-1)
 # Policy:   DROP
 # Called by: types/type-filter/filter-arp.nft
 # Description:
@@ -15,3 +15,20 @@
 # Double-indented for rules-only
 #
 
+    # Declare an interface-to-chain dispatcher for input hook
+    map map_dispatch_arp_filter_input_interface {
+        typeof iif : verdict
+    }
+    chain arp_filter_input {
+        type filter hook input priority -10; policy drop;
+
+        # A cool lookup to jump into a protocol-specific regular chain
+        # dispatch map built by including/excluding chain-inet-filter-*.nft files
+        iif vmap @map_dispatch_arp_filter_input_interface
+    }
+
+    include "./zones/zone-arp-filter-input-*.chain";  # wildcard by zone name
+
+    chain arp_filter_input {
+        counter log prefix "DROP arp/filter/input unknown ZONE: " drop
+    }

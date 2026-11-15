@@ -1,0 +1,4 @@
+
+
+udp sport 123 notrack counter accept comment "remote NTP server reply to local NTP client"
+

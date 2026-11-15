@@ -1,0 +1,32 @@
+# File:     arp-filter-output-red.chain
+# Path:     zones/red/
+# Title:    Regular chain for red zone arp-family TCP packets in output hook
+# Family:   arp
+# Table:    *
+# Chain:    arp_filter_output_red_tcp
+# Type:     filter
+# Hook:     output
+# Priority: filter(0)
+# Policy:   DROP
+# Zone:     red
+# Called by: zones/zone-arp-filter-output-red.chain
+# Description:
+#
+
+# no L7 protocol in ARP, not even L4-protocol, straight mapping
+
+    chain arp_filter_output_red {
+
+        # request
+        arp operation 1 arp ptype 0x0800 arp saddr ip { $WAN_INTF_ADDR, $GATEWAY_ROUTE_DEFAULT } counter accept
+        arp operation 1 arp ptype 0x0800 arp daddr ip { $WAN_INTF_ADDR, $GATEWAY_ROUTE_DEFAULT } counter accept
+
+        # reply
+        arp operation 2 arp ptype 0x0800 arp saddr ip { $WAN_INTF_ADDR, $GATEWAY_ROUTE_DEFAULT } counter accept
+        arp operation 2 arp ptype 0x0800 arp daddr ip { $WAN_INTF_ADDR, $GATEWAY_ROUTE_DEFAULT } counter accept
+
+        include "rules/zone-red-arp-filter-output/*.rule"
+
+    }
+
+

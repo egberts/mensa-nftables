@@ -9,7 +9,7 @@
 # Priority: filter(0)
 # Policy:   DROP
 # Zone:     red
-# Description:
+# Called by: ./hooks/hook-input/base-inet-filter-input.chain
 # Description: Stateful inbound host firewall
 #
 # Control	Security purpose
@@ -69,25 +69,10 @@
     }
     chain inet_filter_input_red {
 
-        counter
-
-        # Specific RED-zone blackhole goes here
-         ip saddr \
-                {  \
-		        192.168.0.0/24,  \
-		        192.168.2.0/23, \
-		        192.168.4.0/22, \
-                192.168.8.0/21, \
-		        192.168.16.0/20, \
-		        192.168.32.0/19, \
-		        192.168.64.0/18, \
-		        192.168.128.0/17, \
-		        10.0.0.0/8, \
-		        172.16.0.0/12 } \
-		        log prefix "DROP filter/input/red stray_packet " counter drop comment "stray packet"
+        counter comment "inet/filter/input/red"
 
     }
-    include "./zones/red/inet-filter-input-red-*.chain"
+    include "./zones/red/inet-filter-input-red-*.chain"  # wildcard is by-l4protocol
 
     chain inet_filter_input_red {
 		 meta l4proto vmap @map_dispatch_inet_filter_input_red_protocol

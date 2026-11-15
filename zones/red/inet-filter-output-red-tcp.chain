@@ -23,23 +23,9 @@
 
     chain inet_filter_output_red_tcp {
 
-        counter comment "Count all packets entering this chain"
+        include "rules/zone-red-inet-filter-output-tcp/*.rule"
 
-        meta nfproto ipv4 counter comment "Diagnostic: count IPv4 packets"
-        meta nfproto ipv6 counter comment "Diagnostic: count IPv6 packets"
-
-        meta l4proto tcp counter comment "Diagnostic: count TCP packets"
-        meta l4proto udp counter comment "Diagnostic: count UDP packets"
-
-        # Accept established and related connections.
-        ct state { established, related } counter accept comment "Accept packets belonging to established or related connections"
-        ct state invalid counter drop comment "Drop packets classified as invalid by connection tracking"
-
-        # it is presumed to be a NEW state at this point
-
-        ###### Explicitly authorized remote servers
         #### do all the remote services firstly, outbound requests
-        tcp dport 22 counter accept comment "Allow outbound SSH connections to remote TCP port 22"
         tcp dport 53 counter accept comment "Allow outbound DNS queries to remote TCP port 53"
         tcp dport 443 counter accept comment "Allow outbound HTTPS connections to remote TCP port 443"
         tcp dport 80 counter accept comment "Allow outbound HTTP connections to remote TCP port 80"

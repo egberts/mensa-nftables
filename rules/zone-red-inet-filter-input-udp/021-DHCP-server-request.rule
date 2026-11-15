@@ -1,0 +1,17 @@
+# Policy: Local DHCPv4 client sending requests to DHCP server
+# Description:
+#   Permits DHCPv4 request sent by a remote DHCP client
+#   to the local DHCP server.
+#
+# Local role: Server
+# Exchange: client-to-server
+# IP version: IPv4
+# Service: DHCP
+# Protocol: UDP
+# Source port: 68
+# Destination port: 67
+
+meta nfproto ipv4 udp sport 68 udp dport 67 counter accept \
+    comment "inbound remote DHCP client request"
+
+udp dport 67 udp sport 68 notrack counter accept comment "remote DHCPv4 client request to local DHCPv4 server"

@@ -46,7 +46,7 @@ include "types/type-filter/filter-inet.nft"
 # include "types/type-filter/filter-ip.nft"
 # include "types/type-filter/filter-ip6.nft"
 # include "types/type-filter/filter-bridge.nft"
-# include "types/type-filter/filter-arp.nft"
+include "types/type-filter/filter-arp.nft"
 
 include "types/type-nat/nat-inet.nft"
 # include "types/type-nat/nat-ip.nft"

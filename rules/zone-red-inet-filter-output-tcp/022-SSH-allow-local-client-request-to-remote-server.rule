@@ -1,0 +1,3 @@
+
+tcp dport 22 counter accept comment "allow local SSH client request to remote SSH server"
+

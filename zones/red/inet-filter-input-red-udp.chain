@@ -22,21 +22,9 @@
     }
 
     chain inet_filter_input_red_udp {
-        counter
-        # diagnostic
-        meta nfproto ipv4 counter
-        meta nfproto ipv6 counter
-        meta l4proto tcp counter
-        meta l4proto udp counter
 
-        ct state invalid counter drop comment "Drop invalid packets"
+        include "rules/zone-red-inet-filter-input-udp/*.rule"
 
-        # Accept established and related connections.
-        ct state { established, related } counter accept  # silent accept
-        counter
-
-        ip protocol udp ct state invalid counter drop
-        counter
 
         # it is presumed to be a NEW state at this point
 
@@ -45,12 +33,9 @@
         ip daddr 224.0.0.251 udp dport 5353 counter drop  comment "blocks local mdns/iOS Bonjour/Avahi 5353/udp"
         ip daddr 239.255.255.250 udp dport 1900 counter drop  comment "blocks local uPnP (SSDP multicast)"
 
-        #### do all the inbound requests firstly
         #### do all the inbound requests firstly, inside services
-        udp dport 53 counter accept  comment "inbound DNS (local DNS server here)"
         udp dport 5353 counter accept  comment "inbound DNS (local DNS server here)"
 
-        #### do all the inbound requests firstly, outside services
         udp dport 51820 counter accept comment "inbound to local WireGuard server"
         udp dport 1194 counter accept comment "inbound to local OpenVPN server"
         udp dport 21027 counter accept comment "inbound to local Syncthing server"
@@ -59,29 +44,7 @@
         #### do all the inbound responses lastly, outside services
         udp sport 53 counter accept  comment "inbound DNS responses"
         udp sport 5353 counter accept  comment "inbound DNS responses"
-        meta nfproto ipv6 udp sport 547 udp dport 546 counter accept comment "from remote DHCPv6 server"
 
-        #### do all the inbound responses lastly, inside services
-        # Permit DHCPv4 client responses (if DHCP client).
-        udp sport 67 udp dport 68 counter accept  comment "inbound remote DHCP server response"
-        udp sport 123 udp dport 123 counter accept comment "inbound NTP, local NTP here"
-
-        # ip saddr 192.168.0.0/16 udp dport 111 counter accept comment "NFS portmapper local"
-        # ip saddr 192.168.0.0/16 udp dport 2049 counter accept comment "NFS local"
-        # ip saddr 192.168.0.0/16 udp dport 20048 counter accept comment "NFS mountd local"
-        # ip saddr 172.16.0.0/12 udp dport 111 counter accept comment "NFS portmapper 172.16.x"
-        # ip saddr 172.16.0.0/12 udp dport 2049 counter accept comment "NFS 172.16.x"
-        # ip saddr 172.16.0.0/12 udp dport 20048 counter accept comment "NFS mountd 172.16.x"
-        # ip saddr 10.0.0.0/8 udp dport 111 counter accept comment "NFS portmapper 10.x"
-        # ip saddr 10.0.0.0/8 udp dport 2049 counter accept comment "NFS 10.x"
-        # ip saddr 10.0.0.0/8 udp dport 20048 counter accept comment "NFS mountd 10.x"
-
-        # Blackholes
-        udp dport { 137, 138} counter drop comment "silently drop NetBios"
-        ip daddr 255.255.255.255 udp dport 9999 counter drop comment "Blocks TP-Link Kasa discovery broadcasts"
-
-
-        # Catch-All report
         log prefix "DROP filter/input/red/udp: " counter drop
 
     }

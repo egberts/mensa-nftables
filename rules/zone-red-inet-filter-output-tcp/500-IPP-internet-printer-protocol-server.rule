@@ -1,0 +1,4 @@
+
+# local IPP server responses to remote IPP client
+
+tcp sport 631 accept

@@ -1,0 +1,37 @@
+# File:     zone-arp-filter-output-red.chain
+# Path:     *
+# Title:    Regular chain?
+# Family:   arp
+# Table:    *
+# Chain:    arp_filter_output_red
+# Type:     filter
+# Hook:     output
+# Priority: filter(0)+10
+# Policy:   *
+# Zone:     red
+# Called by: ./hooks/hook-output/base-arp-filter-output.chain
+# Description: Stateful inbound host firewall
+#
+
+    # Register a DeviceInterface-to-firewall dispatch registry
+    map map_dispatch_arp_filter_output_interface {
+        typeof oif : verdict
+        elements = {
+            # use goto, this is the final descendance
+            $WAN_INTF_DEV : goto arp_filter_output_red,
+        }
+    }
+
+    # no layer-7 protocol-specific dispatcher needed in ARP family
+    chain arp_filter_output_red {
+
+        counter comment "arp/filter/output/red"
+
+    }
+    include "./zones/red/arp-filter-output-red.chain"  # no wildcard
+
+    chain arp_filter_output_red {
+
+        # Log and count denied traffic.
+        counter log prefix "DROP arp/filter/output/red unknown ARP in red zone: " drop
+    }

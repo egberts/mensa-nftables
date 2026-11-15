@@ -77,20 +77,6 @@
         # drop loopback traffic on non-loopback interfaces
         ip daddr 127.0.0.1/8 counter drop comment "drop invalid loopback traffic"
 
-         ip saddr \
-                {  \
-		        192.168.0.0/24,  \
-		        192.168.2.0/23, \
-		        192.168.4.0/22, \
-                192.168.8.0/21, \
-		        192.168.16.0/20, \
-		        192.168.32.0/19, \
-		        192.168.64.0/18, \
-		        192.168.128.0/17, \
-		        10.0.0.0/8, \
-		        172.16.0.0/12 } \
-		        log prefix "DROP filter/output/red stray_packet: " counter drop comment "stray packet"
-
     }
     include "./zones/red/ip-filter-output-red-*.chain"
 

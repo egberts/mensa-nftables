@@ -24,12 +24,10 @@
 
         counter
 
-        meta l4proto icmp counter accept comment "Allow ping"
+        include "rules/zone-red-inet-filter-input-icmp/*.rule"
 
-        ip protocol icmp counter accept
-
-        # drop loopback traffic on non-loopback interfaces
         ip daddr 127.0.0.0/8 counter log prefix "DROP invalid loopback: " drop
 
+        # Catch-all
         log prefix "DROP filter/input/red/icmp: " counter drop
     }
