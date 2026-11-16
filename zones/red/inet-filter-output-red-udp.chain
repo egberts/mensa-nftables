@@ -28,9 +28,6 @@
 
         # Multicast blackholes. These must stay ahead of the accepts below,
         # otherwise the 5353 accepts shadow them.
-        ip daddr 224.0.0.251 udp dport 5353 counter drop comment "Drop IPv4 mDNS multicast traffic to 224.0.0.251:5353"
-        ip daddr 239.255.255.250 udp dport 1900 counter drop comment "Drop IPv4 SSDP/UPnP multicast traffic to 239.255.255.250:1900"
-
         udp dport 123 counter accept comment "Allow outbound UDP traffic from local NTP port 123 to remote NTP port 123"
 
         ip protocol udp udp dport 5353 counter accept comment "Allow outbound IPv4 UDP traffic to port 5353 (mDNS)"

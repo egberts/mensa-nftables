@@ -20,14 +20,11 @@
             icmp : goto inet_filter_output_red_icmpv4,
         }
     }
-
     chain inet_filter_output_red_icmpv4 {
 
         counter
 
-        ip protocol icmp counter accept
-
-
+        include "rules/zone-red-inet-filter-output-icmp/*.rule"
 
         log prefix "DROP filter/output/red/icmp : " counter drop
     }
