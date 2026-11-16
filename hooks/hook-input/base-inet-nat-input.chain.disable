@@ -21,15 +21,9 @@
     chain inet_nat_input {
         type nat hook input priority -10; policy accept;
 
-        # Reject invalid connection states.
-        # ct state invalid counter log prefix "DROP: inet/nat/input/invalid " drop
-
-
-        # A cool lookup to jump into a protocol-specific regular chain
         # dispatch map built by including/excluding chain-inet-nat-*.nft files
         iif vmap @map_dispatch_inet_nat_input_interface
     }
-
 
     # Selectively load our input protocol regular chains
     # registers with 'map_dispatch_inet_nat_input_interface' dispatch mapper)

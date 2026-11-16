@@ -100,6 +100,9 @@
 
         # Example: HTTPS outbound.
         # tcp dport 443 ct state new counter accept
+
+        # dispatch map built by including/excluding chain-inet-route-*.nft files
+        oif vmap @map_dispatch_ip6_filter_output_interface
     }
 
     # Selectively load our output protocol regular chains
@@ -108,12 +111,7 @@
 
     # Post-interface output process
     chain ip6_filter_output {
-        # A cool lookup to jump into a protocol-specific regular chain
-        # dispatch map built by including/excluding chain-inet-route-*.nft files
-        oif vmap @map_dispatch_ip6_filter_output_interface
-
         counter
-
         # Log and count denied traffic.
         limit rate 5/second log prefix "DROP ip6/filter/output: "
     }

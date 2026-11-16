@@ -105,7 +105,7 @@ table arp filter {
         arp saddr ether 00:00:00:00:00:00 counter drop
 
         # Permit Ethernet/IPv4 ARP on authorized interfaces.
-        oifname { "eno2", "wlo1" } arp htype 1 arp ptype ip arp hlen 6 arp plen 4 arp operation { request, reply } counter accept
+        oif { "eno2", "wlo1" } arp htype 1 arp ptype ip arp hlen 6 arp plen 4 arp operation { request, reply } counter accept
 
         # Audit and drop everything else.
         limit rate 5/minute log prefix "DROP arp-filter-output: "

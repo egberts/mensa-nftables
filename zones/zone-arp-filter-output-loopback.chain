@@ -1,0 +1,37 @@
+# File:     zone-arp-filter-output-loopback.chain
+# Path:     *
+# Title:    Regular chain?
+# Family:   arp
+# Table:    *
+# Chain:    arp_filter_output_loopback
+# Type:     filter
+# Hook:     output
+# Priority: filter(0)+10
+# Policy:   *
+# Zone:     loopback
+# Called by: ./hooks/hook-output/base-arp-filter-output.chain
+# Description: Stateful inbound host firewall
+#
+
+    # Register a DeviceInterface-to-firewall dispatch registry
+    map map_dispatch_arp_filter_output_interface {
+        typeof oif : verdict
+        elements = {
+            # use goto, this is the final descendance
+            $LOOPBACK_INTF_DEV : goto arp_filter_output_loopback,
+        }
+    }
+
+    # no layer-7 protocol-specific dispatcher needed in ARP family
+    chain arp_filter_output_loopback {
+
+        counter comment "arp/filter/output/loopback"
+    }
+
+    include "./zones/loopback/arp-filter-output-loopback.chain"  # no wildcard
+
+    chain arp_filter_output_loopback {
+
+        # Log and count denied traffic.
+        counter log prefix "DROP arp/filter/output/loopback unknown ARP in loopback zone: " drop
+    }

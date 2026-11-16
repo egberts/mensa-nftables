@@ -19,19 +19,9 @@
     chain bridge_filter_input {
         type filter hook input priority -10; policy drop;
 
-        # Accept loopback traffic.
-        iifname "lo" counter accept
-
-        # blackholes goes here
-
-        # put rules affecting ALL interfaces here
-        # otherwise, put them in zones/*/zone-bridge-filter-input-*.chain file
-
-        # A cool lookup to jump into a protocol-specific regular chain
         # dispatch map built by including/excluding chain-bridge-filter-*.nft files
         iif vmap @map_dispatch_bridge_filter_input_interface
     }
-
 
     # Selectively zone-load our input protocol regular chains
     # registers with 'map_dispatch_bridge_filter_input_interface' dispatch mapper)

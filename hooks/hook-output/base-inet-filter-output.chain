@@ -21,20 +21,17 @@
     }
     chain inet_filter_output {
         type filter hook output priority 10; policy drop;
-        oifname "lo" accept
 
         counter
+
+        # dispatch map built by including/excluding chain-inet-filter-*.nft files
+        oif vmap @map_dispatch_inet_filter_output_interface
     }
 
-    # Selectively load our protocol regular chains
     # registers with 'map_dispatch_inet_filter_output_interface' dispatch mapper)
     include "./zones/zone-inet-filter-output-*.chain";
 
     # Post-interface output process
     chain inet_filter_output {
-        # A cool lookup to jump into a protocol-specific regular chain
-        # dispatch map built by including/excluding chain-inet-filter-*.nft files
-        oif vmap @map_dispatch_inet_filter_output_interface
-
         counter log prefix "DROP inet/filter/output: " drop
     }

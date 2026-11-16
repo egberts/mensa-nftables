@@ -22,7 +22,6 @@
     chain arp_filter_output {
         type filter hook output priority -10; policy drop;
 
-        # A cool lookup to jump into a protocol-specific regular chain
         # dispatch map built by including/excluding chain-inet-filter-*.nft files
         oif vmap @map_dispatch_arp_filter_output_interface
     }

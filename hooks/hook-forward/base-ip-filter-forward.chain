@@ -22,17 +22,16 @@
     chain ip_filter_forward {
         type filter hook forward priority -1; policy drop;
 
-        # Reject invalid connection states.
-        ct state invalid counter drop
-
-        iifname "lo" accept
-
         # A cool lookup to jump into a protocol-specific regular chain
         # dispatch map built by including/excluding chain-ip-filter-*.nft files
         iif vmap @map_dispatch_ip_filter_forward_interface
-
-        counter log prefix "DROP ip/filter/forward: " drop comment "unidentified interface filter forward"
     }
+
     # Selectively load our protocol regular chains
     # registers with 'map_dispatch_ip_filter_forward' dispatch mapper)
     include "./ip-filter-forward-*.chain";
+
+    chain ip_filter_forward {
+
+        counter log prefix "DROP ip/filter/forward: " drop comment "unidentified interface filter forward"
+    }

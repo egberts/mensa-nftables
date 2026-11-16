@@ -107,9 +107,6 @@ table arp arp_filter {
 
         type filter hook input priority filter; policy drop;
 
-        # Allow local loopback to go back in
-        iifname "lo" accept
-
         # Accept standard Ethernet/IPv4 ARP requests and replies.
         arp htype 1 arp ptype ip arp hlen 6 arp plen 4 jump arp_filter_input_operation
 

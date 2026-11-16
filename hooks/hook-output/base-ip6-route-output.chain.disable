@@ -21,19 +21,17 @@
     }
     chain ip6_route_output {
         type route hook output priority 5; policy accept;
-        oifname "lo" accept
 
         counter
+
+        # dispatch map built by including/excluding chain-ip6-route-*.nft files
+        oif vmap @map_dispatch_ip6_route_output_interface
     }
-    # Selectively load our protocol regular chains
+
     # registers with 'map_dispatch_ip6_route_output_interface' dispatch mapper)
     include "./zones/zone-ip6-route-output-*.chain";
 
     # Post-interface output process
     chain ip6_route_output {
-        # A cool lookup to jump into a protocol-specific regular chain
-        # dispatch map built by including/excluding chain-ip6-route-*.nft files
-        oif vmap @map_dispatch_ip6_route_output_interface
-
         counter
     }

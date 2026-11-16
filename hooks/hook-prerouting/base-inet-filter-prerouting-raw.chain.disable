@@ -1,27 +1,3 @@
-# File:     base-inet-filter-prerouting-raw.chain
-# Path:     hooks/hook-prerouting/
-# Title:    Base chain for the prerouting hook (inet family, filter type) at RAW priority
-# Family:   inet
-# Table:    *
-# Chain:    inet_filter_prerouting_raw
-# Type:     filter
-# Hook:     prerouting
-# Priority: raw(-300)
-# Policy:   accept
-# Called by: types/type-filter/filter-inet.nft
-# Description:
-#     filter_prerouting_raw is used for non-inet as pseudo-ingress (ip, ip6, bridge, arp)
-
-    chain inet_filter_prerouting_raw {
-        type filter hook prerouting priority -300;
-        policy accept;
-
-        include "zones/red/"
-
-    }
-
-### XXXXX
-
 # File:     base-ip-filter-prerouting_raw.chain
 # Path:     hooks/hook-prerouting_raw/
 # Title:    Base chain for the prerouting hook (ip family, filter type) for raw(-300) priority
@@ -45,19 +21,16 @@
     }
     chain ip_filter_prerouting_raw {
         type filter hook prerouting priority -310; policy accept;
-        oifname "lo" accept
 
         counter
+
+        # dispatch map built by including/excluding chain-ip-filter-prerouting_raw-*.nft files
+        oif vmap @map_dispatch_inet_filter_prerouting_raw_interface_stable
     }
-    # Selectively load our protocol regular chains
     # registers with 'map_dispatch_inet_filter_prerouting_raw_interface_stable' dispatch mapper)
     # include "./zones/zone-ip-filter-prerouting_raw-*.chain";
 
     # Post-interface prerouting_raw process
     chain ip_filter_prerouting_raw {
-        # A cool lookup to jump into a protocol-specific regular chain
-        # dispatch map built by including/excluding chain-ip-filter-prerouting_raw-*.nft files
-        oif vmap @map_dispatch_inet_filter_prerouting_raw_interface_stable
-
         counter log prefix "DROP ip/filter/prerouting_raw: " drop
     }
