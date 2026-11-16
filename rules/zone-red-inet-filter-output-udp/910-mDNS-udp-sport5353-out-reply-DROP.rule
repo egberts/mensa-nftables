@@ -4,6 +4,5 @@
 # Description:
 #    Drop IPv4 mDNS multicast traffic to 224.0.0.251:5353
 
-# ip saddr 224.0.0.251 udp sport 5353 counter drop comment "local-to-remote mDNS/UDP/5353 multicast reply"
-meta pkttype multicast udp sport 5353 counter drop comment "local-to-remote mDNS/UDP/5353 multicast reply"
-meta pkttype multicast udp dport 5353 counter drop comment "local-to-remote mDNS/UDP/5353 multicast request"
+ip saddr 224.0.0.251 udp sport 5353 counter drop comment "local-to-remote mDNS/UDP/5353 multicast reply"
+ip6 saddr ff02::fb udp sport 5353 counter drop comment "local-to-remote mDNS/UDP/5353 multicast reply"
