@@ -1,0 +1,7 @@
+#
+# File: 100-traceroute-udp-dports33434-out-req-accept.rule
+# Title: Allow local traceroute client request to remote traceroute server
+
+# Outbound UDP traceroute request
+udp dport 33434-33534 accept comment "local-to-remote outbound traceroute request"
+
