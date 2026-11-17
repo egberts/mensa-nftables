@@ -23,25 +23,7 @@
 
     chain ip_filter_input_red_tcp {
 
-        counter
-
-        tcp sport 443 counter accept
-        tcp sport 80 counter accept
-        tcp sport 53 counter accept
-        tcp dport 53 counter accept
-        tcp dport 22 counter accept
-        tcp dport 922 counter accept
-        tcp dport { 139, 445} counter drop comment "silently drop NetBios"
-
-        #  ip protocol tcp tcp dport
-        #         { $TORRENT_PORT_LAN, $TORRENT_PORT_WAN,
-        #                 $TRACKER_TORRENT_PORT_WAN } ct state new counter accept;
-        #  ip protocol udp udp dport
-        #         { $TORRENT_PORT_LAN, $TORRENT_PORT_WAN,
-        #                 $TRACKER_TORRENT_PORT_WAN } ct state new counter accept;
-
-        ip protocol tcp ct state new counter accept
+        include "rules/zone-red-ip-filter-input-tcp*"        directory wildcard
 
         log prefix "DROP ip/filter/input/red/tcp " counter drop
     }
-

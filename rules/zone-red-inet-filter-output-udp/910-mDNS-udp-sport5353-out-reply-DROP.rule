@@ -6,3 +6,4 @@
 
 ip saddr 224.0.0.251 udp sport 5353 counter drop comment "local-to-remote mDNS/UDP/5353 multicast reply"
 ip6 saddr ff02::fb udp sport 5353 counter drop comment "local-to-remote mDNS/UDP/5353 multicast reply"
+udp sport 5353 counter drop comment "local-to-remote mDNS/UDP/5353  reply"

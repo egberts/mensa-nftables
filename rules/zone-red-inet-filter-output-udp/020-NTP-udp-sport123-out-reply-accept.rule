@@ -1,4 +1,4 @@
-
+#
 # File: 020-NTP-udp-sport123-out-reply-accept.rule
 # Title: Allow local NTP server reply to remote NTP client
 

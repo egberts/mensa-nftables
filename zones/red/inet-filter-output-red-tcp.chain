@@ -26,5 +26,4 @@
         include "rules/zone-red-inet-filter-output-tcp/*.rule"
 
         log prefix "DROP inet/filter/output/red/tcp: " counter drop comment "Log and drop all remaining TCP packets reaching this chain"
-
     }

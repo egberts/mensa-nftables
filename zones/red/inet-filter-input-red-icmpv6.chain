@@ -53,13 +53,8 @@
         icmpv6 type 143 icmpv6 code 0 counter drop
         icmpv6 type 136 icmpv6 code 0 counter drop
 
-        meta l4proto icmp counter accept comment "Allow ping"
-
-        ip protocol icmp counter accept
-
         # drop loopback traffic on non-loopback interfaces
-        ip daddr 127.0.0.0/8 counter log prefix "DROP invalid loopback: " drop
         ip6 daddr ::1/128 counter log prefix "DROP invalid loopback: " drop
 
-        log prefix "DROP filter/input/red/icmp: " counter drop
+        log prefix "DROP filter/input/red/icmpv6: " counter drop
     }

@@ -25,26 +25,5 @@
 
         include "rules/zone-red-inet-filter-input-udp/*.rule"
 
-
-        # it is presumed to be a NEW state at this point
-
-        # Multicast blackholes. These must stay ahead of the accepts below,
-        # otherwise the 5353 accept shadows them.
-        ip daddr 224.0.0.251 udp dport 5353 counter drop  comment "blocks local mdns/iOS Bonjour/Avahi 5353/udp"
-        ip daddr 239.255.255.250 udp dport 1900 counter drop  comment "blocks local uPnP (SSDP multicast)"
-
-        #### do all the inbound requests firstly, inside services
-        udp dport 5353 counter accept  comment "inbound DNS (local DNS server here)"
-
-        udp dport 51820 counter accept comment "inbound to local WireGuard server"
-        udp dport 1194 counter accept comment "inbound to local OpenVPN server"
-        udp dport 21027 counter accept comment "inbound to local Syncthing server"
-
-        #### do all the inbound responses lastly
-        #### do all the inbound responses lastly, outside services
-        udp sport 53 counter accept  comment "inbound DNS responses"
-        udp sport 5353 counter accept  comment "inbound DNS responses"
-
         log prefix "DROP filter/input/red/udp: " counter drop
-
     }
