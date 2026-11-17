@@ -1,0 +1,39 @@
+
+define CHAIN_TYPE = filter
+define CHAIN_HOOK = input
+define FAMILY = "inet"
+
+
+# Testzone failure:  Unable to dynamically insert zone name here
+# Analysis:  no way to pass an identifier into a constructed filename
+#
+# Attempt#1: Use 'nft -DFAMILY="inet"' and a common zone?
+#  Failure: the zone would not then contain a customized ruleset
+#
+# Attempt#2 Use 'nft -DFAMILY="inet" -DCHAIN_TYPE="filter" -DCHAIN_HOOK="input"'?
+#  Failure: the 4-tuple will fail due to lack of 'include'
+#           directory path naming reconstruction.
+#
+# All correctable using a preprocessor/non-NFT scripting language:
+# which is what we're trying to avoid here.
+#
+# That is the primary reason for using a fully fleshed out directory tree
+# with custom scripting to access zone-specific rulesets
+#
+# Most importantly, without any preprocessor/non-NFT script assist.
+#
+# What about adding a new zone?  This is the only instance where
+# 'nft-config.sh'/'nft-config.py' would be required to set up the
+# ruleset and thusly its new cloned from 'source/rules'.
+#
+# Which then generates the final but singular boot-up nft ruleset file.
+#
+# Would it be helpful to have 'define' construct 'include' paths?
+# YES
+
+include "zones/testzone/type-filter-hook-input/arp/*.rule"
+include "zones/testzone/type-filter-hook-input/ip/*.rule"
+include "zones/testzone/type-filter-hook-input/ip6/*.rule"
+include "zones/testzone/type-filter-hook-input/inet/*.rule"
+include "zones/testzone/type-filter-hook-input/netdev/*.rule"
+include "zones/testzone/type-filter-hook-input/bridge/*.rule"

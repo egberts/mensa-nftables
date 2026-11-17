@@ -1,0 +1,9 @@
+#
+# File: 240-ARP-Duplicate-address-claim-out-drop.rule
+# Policy: Drop outgoing ARP claims for the local IPv4 address with an unexpected hardware address
+# Description:
+#     Runs after ARP hook and zone interface map/vmap dispatch; no interface matching here.
+#     Enforces the configured local IP/MAC binding; virtual MACs and failover require exceptions.
+#     Direction: local-to-remote; intended for arp output hook.
+#
+arp saddr ip $ZONE_INTF_IPADDR arp saddr ether != $ZONE_INTF_MACADDR counter drop comment "local-to-remote Local IP MAC mismatch"

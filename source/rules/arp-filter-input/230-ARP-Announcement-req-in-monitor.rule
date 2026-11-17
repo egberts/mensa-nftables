@@ -1,0 +1,9 @@
+#
+# File: 230-ARP-Announcement-req-in-monitor.rule
+# Policy: Monitor RFC 5227 ARP announcement candidates for the zone interface address
+# Description:
+#     Runs after ARP hook and zone interface map/vmap dispatch; no interface matching here.
+#     An announcement request uses equal sender and target IPv4 addresses.
+#     Direction: remote-to-local; intended for arp input hook.
+#
+arp operation request arp saddr ip $ZONE_INTF_IPADDR arp daddr ip $ZONE_INTF_IPADDR counter comment "remote-to-local Announcement req monitor"

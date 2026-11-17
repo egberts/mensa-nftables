@@ -1,0 +1,5 @@
+#
+# File: 100-ARP-operation-request-in-accept.rule
+# Policy: Allow remote ARP client operation request to local ARP server
+
+arp operation 1 arp ptype 0x0800 arp daddr ip { $WAN_INTF_ADDR, $GATEWAY_ROUTE_DEFAULT } counter accept comment "remote-to-local ARP opcode request"
