@@ -1,6 +1,7 @@
 #
 # File: 901-Kasa-udp-dport9999-in-bcast-DROP.rule
 # Policy: DENY remote Kasa server broadcast to local Kasa client
+# Called by: zones/red/ip-filter-input-red-udp.chain
 
 ip daddr 255.255.255.255 udp dport 9999 counter drop comment "Blocks TP-Link Kasa discovery broadcasts"
 

@@ -8,6 +8,7 @@
 # Hook:     input
 # Priority: -5 (filter(0) - 5, after inet-input(-10), same as ip-input(-5))
 # Policy:   accept
+# Called by: types/type-nat/nat-ip.nft
 # Description:
 #
 

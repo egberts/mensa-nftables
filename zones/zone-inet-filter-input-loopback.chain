@@ -8,6 +8,7 @@
 # Priority: filter(0)
 # Policy:   DROP
 # Zone:     loopback
+# Called by: hooks/hook-input/base-inet-filter-input.chain
 # Description:
 #
 #

@@ -41,17 +41,17 @@ flush table inet inet_route
 flush table ip ip_route
 flush table ip6 ip6_route
 
-# include "types/filter-netdev.nft"
-include "types/filter-inet.nft"
-# include "types/filter-ip.nft"
-# include "types/filter-ip6.nft"
-# include "types/filter-bridge.nft"
-include "types/filter-arp.nft"
+# include "types/type-filter/filter-netdev.nft"
+include "types/type-filter/filter-inet.nft"
+# include "types/type-filter/filter-ip.nft"
+# include "types/type-filter/filter-ip6.nft"
+# include "types/type-filter/filter-bridge.nft"
+include "types/type-filter/filter-arp.nft"
 
-include "types/nat-inet.nft"
-# include "types/nat-ip.nft"
-# include "types/nat-ip6.nft"
+include "types/type-nat/nat-inet.nft"
+# include "types/type-nat/nat-ip.nft"
+# include "types/type-nat/nat-ip6.nft"
 
-include "types/route-inet.nft"
-# include "types/route-ip.nft"
-# include "types/route-ip6.nft"
+# include "types/type-route/route-inet.nft"
+# include "types/type-route/route-ip.nft"
+# include "types/type-route/route-ip6.nft"

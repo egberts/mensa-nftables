@@ -1,6 +1,7 @@
 #
 # File: 100-icmp-all-out-accept.rule
 # Policy: Allow any outbound ICMP
+# Called by: zones/red/inet-filter-output-red-icmp.chain
 # Description:
 #
 # CMPv4 Type and Code reference

@@ -1,5 +1,6 @@
 #
 # File: 030-http-udp-sport80-in-req-accept.rule
 # Title: Allow remote HTTP UDP client request to local HTTP UDP server
+# Called by: zones/red/ip6-filter-input-red-udp.chain
 
 udp dport 80 counter accept comment "remote-to-local HTTP/UDP/80 request"

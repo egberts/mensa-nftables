@@ -9,7 +9,7 @@
 # Priority: filter(0)
 # Policy:   DROP
 # Zone:     lan
-# Called by: zones/zone-arp-filter-input-lan.chain
+# Called by: none
 # Description:
 #
 

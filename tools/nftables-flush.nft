@@ -2,6 +2,7 @@
 #
 # File: nftables-flush.nft
 # Title: Flushing out all existing tables and chains
+# Called by: none
 # Description:
 #   A multi-config file approach for a complete default deny firewall using
 #   nftables.  Covers all:

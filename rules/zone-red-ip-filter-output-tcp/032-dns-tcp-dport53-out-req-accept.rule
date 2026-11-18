@@ -1,5 +1,6 @@
 #
 # File: 032-dns-tcp-dport53-out-req-accept.rule
 # Title: Allow local DNS client request to remote DNS server
+# Called by: none
 
 tcp dport 53 counter accept comment "local-to-remote DNS/TCP/53 request"

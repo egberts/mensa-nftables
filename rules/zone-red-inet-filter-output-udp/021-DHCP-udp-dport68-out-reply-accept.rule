@@ -1,6 +1,7 @@
 
 # File: 021-DHCP-udp-dport68-out-reply-accept.rule
 # Policy: Allow local DHCPv4 server reply to remote DHCPv4 client
+# Called by: zones/red/inet-filter-output-red-udp.chain
 
 meta nfproto ipv4 udp sport 67 udp dport 68 counter accept \
     comment "local-to-remote DHCP/UDP/68 reply"

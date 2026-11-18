@@ -1,5 +1,6 @@
 #
 # File: 911-uPnP-udp-dport1900-in-req-DROP.rule
 # Title: Allow remote uPnP server multicast request to local uPnP clients
+# Called by: zones/red/ip-filter-input-red-udp.chain
 
 ip daddr 239.255.255.250 udp dport 1900 counter drop comment "remote-to-local uPnP/UDP/1900 multicast request"

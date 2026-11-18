@@ -3,4 +3,5 @@
 # Title: Allow remote traceroute client request to local traceroute server
 
 # Inbound UDP traceroute request
+# Called by: zones/red/inet-filter-input-red-udp.chain
 udp dport 33434-33534 accept comment "remote-to-local inbound traceroute request"

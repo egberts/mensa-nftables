@@ -13,5 +13,6 @@
 # 33434	TCP/UDP	Alexa service connectivity
 # 40317	TCP/UDP	Alexa service connectivity
 # 49317	TCP/UDP	Alexa service connectivity
+# Called by: zones/red/inet-filter-input-red-udp.chain
 
 udp sport 3478 counter accept comment "remote-to-local AlexaSTUN/UDP/3478 reply"

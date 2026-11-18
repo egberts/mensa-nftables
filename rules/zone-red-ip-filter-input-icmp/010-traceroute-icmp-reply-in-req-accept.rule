@@ -3,6 +3,7 @@
 # Title: Allow remote NTP client request to local NTP server
 
 # Inbound ICMP Time Exceeded response to outbound traceroute
+# Called by: zones/red/ip-filter-input-red-icmp.chain
 icmp type time-exceeded accept comment "remote-to-local outbound traceroute ICMP exceeded response"
 
 # Inbound ICMP Destination Unreachable response to outbound traceroute

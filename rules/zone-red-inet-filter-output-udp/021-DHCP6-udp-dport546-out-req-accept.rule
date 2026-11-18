@@ -1,5 +1,6 @@
 
 # File: 021-DHCP6-udp-dport546-out-req-accept.rule
 # Policy: Allow local DHCPv4 client request to remote DHCPv4 server
+# Called by: zones/red/inet-filter-output-red-udp.chain
 
 meta nfproto ipv6 udp sport 547 udp dport 546 counter accept comment "local-to-remote DHCPv6/UDP/546 request"

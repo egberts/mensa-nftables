@@ -1,5 +1,6 @@
 
 # File: 021-DHCP6-udp-sport546-out-reply-accept.rule
 # Policy: Allow local DHCPv4 server reply to remote DHCPv4 client
+# Called by: zones/red/inet-filter-output-red-udp.chain
 
 meta nfproto ipv6 udp dport 547 udp sport 546 counter accept comment "local-to-remote DHCPv6/UDP/546 reply"

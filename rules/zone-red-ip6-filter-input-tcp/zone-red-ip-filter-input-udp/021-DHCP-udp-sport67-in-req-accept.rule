@@ -1,6 +1,7 @@
 
 # File: 021-DHCP-udp-sport67-in-req-accept.rule
 # Policy: Allow remote DHCPv4 client request to local DHCPv4 server
+# Called by: zones/red/ip-filter-input-red-udp.chain
 
 
 meta nfproto ipv4 udp sport 68 udp dport 67 counter accept \

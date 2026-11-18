@@ -1,5 +1,6 @@
 #
 # File: IMAPS-tcp-sport993-out-reply-accept.rule
 # Title: Allow local IMAPS server reply to remote IMAPS client
+# Called by: none
 
 tcp sport 993 counter accept comment "local-to-remote IMAPS/TCP/993 reply"

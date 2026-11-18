@@ -9,6 +9,7 @@
 # Hook:        postrouting
 # Priority:    filter (0)
 # Policy:      DROP
+# Called by: none
 # Description: Filters Ethernet frames after bridge forwarding decisions.
 #
 # Hook:

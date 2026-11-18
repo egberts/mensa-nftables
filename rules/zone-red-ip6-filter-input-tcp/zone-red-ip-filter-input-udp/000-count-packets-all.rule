@@ -1,2 +1,3 @@
+# Called by: zones/red/ip-filter-input-red-udp.chain
 
 counter comment "Count all packets entering this chain"

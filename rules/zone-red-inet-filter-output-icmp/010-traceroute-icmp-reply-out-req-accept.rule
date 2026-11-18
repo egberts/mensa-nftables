@@ -4,6 +4,7 @@
 
 
 # Outbound ICMP Time Exceeded response to inbound traceroute
+# Called by: zones/red/inet-filter-output-red-icmp.chain
 icmp type time-exceeded accept comment "local-to-remote inbound traceroute iCMP exceeded response"
 
 # Outbound ICMP Destination Unreachable response to inbound traceroute

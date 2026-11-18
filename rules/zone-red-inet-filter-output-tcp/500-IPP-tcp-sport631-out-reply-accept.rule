@@ -1,5 +1,6 @@
 #
 # File: 500-IPP-tcp-sport631-out-reply-accept.rule
 # Title: Allow local Internet Printer Protocol server reply to remote IPP client
+# Called by: zones/red/inet-filter-output-red-tcp.chain
 
 tcp sport 631 accept comment "local-to-remote IPP/TCP/631 reply"

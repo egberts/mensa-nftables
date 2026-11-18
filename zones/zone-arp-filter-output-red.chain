@@ -9,7 +9,7 @@
 # Priority: filter(0)+10
 # Policy:   *
 # Zone:     red
-# Called by: ./hooks/hook-output/base-arp-filter-output.chain
+# Called by: hooks/hook-output/base-arp-filter-output.chain
 # Description: Stateful inbound host firewall
 #
 
@@ -28,7 +28,6 @@
         counter comment "arp/filter/output/red"
     }
 
-    include "./zones/red/arp-filter-output-red.chain"  # no wildcard
     include "./zones/red/arp-filter-output-red.chain"  # no wildcard
 
     chain arp_filter_output_red {

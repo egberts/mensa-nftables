@@ -1,6 +1,7 @@
 #
 # File: 100-OpenVPN-udp-sport1194-out-reply-accept.rule
 # Title: Allow local OpenVPN server reply to remote OpenVPN client
+# Called by: none
 
 udp sport 1194 counter accept comment "local-to-remote OpenVPN/UDP/1194 reply"
 

@@ -9,6 +9,7 @@
 # Hook:        output
 # Priority:    filter (0)
 # Policy:      DROP
+# Called by: none
 # Description: Filters locally generated ARP packets before transmission.
 #
 # Hook:

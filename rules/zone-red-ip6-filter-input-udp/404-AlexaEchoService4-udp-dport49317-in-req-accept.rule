@@ -13,5 +13,6 @@
 # 33434	TCP/UDP	Alexa service connectivity
 # 40317	TCP/UDP	Alexa service connectivity
 # 49317	TCP/UDP	Alexa service connectivity
+# Called by: zones/red/ip6-filter-input-red-udp.chain
 
 udp dport 49317 counter accept comment "remote-to-local AlexaEchoService4/UDP/49317 request"

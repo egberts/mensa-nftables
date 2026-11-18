@@ -9,6 +9,7 @@
 # Hook:        prerouting
 # Priority:    filter (0)
 # Policy:      DROP
+# Called by: none
 # Description: Filters incoming Ethernet frames before bridge forwarding decisions.
 #
 # Hook:

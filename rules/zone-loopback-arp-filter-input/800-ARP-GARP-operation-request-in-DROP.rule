@@ -7,6 +7,7 @@
 # (arp saddr ip) == (arp daddr ip)
 
 # for now, we detect MACDST=00:00:00:00:00:00
+# Called by: zones/loopback/arp-filter-input-loopback.chain
 
 arp daddr ether 00:00:00:00:00:00 counter drop  # comment "remote-to-local GARP new IP address"
 arp daddr ether ff:ff:ff:ff:ff:ff counter drop  # comment "remote-to-local GARP new IP address"

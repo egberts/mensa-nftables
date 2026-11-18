@@ -9,6 +9,7 @@
 # Hook:        input
 # Priority:    filter (0)
 # Policy:      DROP
+# Called by: none
 # Description: Filters incoming ARP packets destined for the local host.
 #
 # Hook:

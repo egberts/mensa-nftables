@@ -1,6 +1,7 @@
 #
 # File: 701-net_talk-udp-port889-out-DROP.rule
 # Policy: DENY outbound net_talk broadcast
+# Called by: zones/red/inet-filter-output-red-udp.chain
 # Description:
 #  Used by GIGABYTE cFosSpeed LAN statistics broadcast
 #  Last seen by MAC: 10:FF:E0:36:DE:81

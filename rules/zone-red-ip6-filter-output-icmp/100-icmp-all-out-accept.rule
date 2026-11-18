@@ -1,6 +1,7 @@
 #
 # File: 100-icmp-all-out-accept.rule
 # Policy: Allow any outbound ICMP
+# Called by: none
 # Description:
 #
 # CMPv4 Type and Code reference

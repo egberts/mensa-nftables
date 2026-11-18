@@ -9,7 +9,7 @@
 # Priority: filter(0)
 # Policy:   *
 # Zone:     loopback
-# Called by: ./hooks/hook-input/base-arp-filter-input.chain
+# Called by: hooks/hook-input/base-arp-filter-input.chain
 # Description: Stateful inbound host firewall
 #
     # Register a DeviceInterface-to-firewall dispatch registry

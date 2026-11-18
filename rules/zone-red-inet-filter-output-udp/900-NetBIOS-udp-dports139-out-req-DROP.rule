@@ -1,6 +1,7 @@
 #
 # File: 900-NetBIOS-udp-dports139-out-req-DROP.rule
 # Policy: DENY local NetBIOS client request to remote NetBIOS server
+# Called by: zones/red/inet-filter-output-red-udp.chain
 
 udp dport { 137, 138, 139, 445 } counter drop comment "local-to-remote NetBIOS/UDP/139,445 request"
 

@@ -9,6 +9,7 @@
 # Hook:        forward
 # Priority:    filter (0)
 # Policy:      DROP
+# Called by: none
 # Description: Filters Ethernet frames forwarded between bridge ports.
 #
 # Hook:

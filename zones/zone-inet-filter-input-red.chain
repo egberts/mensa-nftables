@@ -9,7 +9,7 @@
 # Priority: filter(0)
 # Policy:   DROP
 # Zone:     red
-# Called by: ./hooks/hook-input/base-inet-filter-input.chain
+# Called by: hooks/hook-input/base-inet-filter-input.chain
 # Description: Stateful inbound host firewall
 #
 # Control	Security purpose

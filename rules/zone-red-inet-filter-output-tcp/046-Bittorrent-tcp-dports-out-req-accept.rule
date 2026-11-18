@@ -3,4 +3,5 @@
 # Title: Allow local Bittorrent client request to remote Bittorrent client
 
 # BitTorrent services (optional).
+# Called by: zones/red/inet-filter-output-red-tcp.chain
 tcp dport { $TORRENT_PORT_LAN, $TORRENT_PORT_WAN, $TRACKER_TORRENT_PORT_WAN } ct state new counter accept comment "local-to-remote BitTorrent/TCP/various request"

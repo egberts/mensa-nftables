@@ -1,5 +1,6 @@
 #
 # File: POP3S-tcp-dport993-in-req-accept.rule
 # Title: Allow remote POP3S client request to local POP3S server
+# Called by: zones/red/ip6-filter-input-red-tcp.chain
 
 tcp dport 995 counter accept comment "remote-to-local POP3S/TCP/955 request"

@@ -1,5 +1,6 @@
 #
 # File: 061-Syncthing-tcp-sport22000-out-reply-accept.rule
 # Title: Allow local Syncthing server reply to remote Syncthing client
+# Called by: zones/red/inet-filter-output-red-tcp.chain
 
 tcp sport 22000 counter accept comment "local-to-remote Syncthing/TCP/22000 reply"

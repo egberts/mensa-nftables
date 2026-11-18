@@ -1,4 +1,5 @@
 # File: 040-IRC-tcp-sport6697-in-reply-accept.rule
+# Called by: zones/red/ip-filter-input-red-tcp.chain
 
 tcp sport 6697 counter accept comment "remote-to-local IRCS/TCP/6697 reply"
 

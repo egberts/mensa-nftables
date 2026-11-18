@@ -3,6 +3,7 @@
 # Title: Site-specific settings for `nftables.nft` ruleset
 #
 #
+# Called by: nftables.nft
 define GATEWAY_ROUTE_DEFAULT = { 192.168.1.254 }
 
 define WAN_INTF_DEV = wlo1

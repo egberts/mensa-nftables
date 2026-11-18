@@ -1,5 +1,6 @@
 #
 # File: IMAPS-tcp-dport993-out-req-accept.rule
 # Title: Allow local IMAPS client request to server IMAPS server
+# Called by: zones/red/inet-filter-output-red-tcp.chain
 
 tcp dport 993 counter accept comment "local-to-remote IMAPS/TCP/993 request"

@@ -9,7 +9,7 @@
 # Priority: filter(0)
 # Policy:   DROP
 # Zone:     red
-# Called by: zones/red/zone-inet-filter-prerouting-red.chain
+# Called by: none
 # Description:
 #
 
