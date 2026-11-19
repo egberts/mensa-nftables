@@ -1,0 +1,30 @@
+#!/usr/sbin/nft -f
+#
+# File:     filter-ip.nft
+# Path:     types/
+# Title:    Valid hooks for IPv4 family and filter chain-type
+# Family:   ip
+# Table:    ip_filter
+# Chain:    *
+# Type:     filter
+# Hook:     *
+# Priority: N/A
+# Policy:   *
+# Called by: nftables.nft
+# Description:
+#
+# Single-indented for base-chain and regular-chain
+# Double-indented for rules-only
+#
+
+table ip ip_filter {
+
+    # was half-expecting ingress here, but no (only in inet)
+
+    include "./hooks/hook-prerouting/base-ip-filter-prerouting*.chain";
+    include "./hooks/hook-input/base-ip-filter-input*.chain";
+    include "./hooks/hook-forward/base-ip-filter-forward*.chain";
+    include "./hooks/hook-output/base-ip-filter-output*.chain";
+    include "./hooks/hook-postrouting/base-ip-filter-postrouting*.chain";
+
+}

@@ -1,0 +1,29 @@
+#!/usr/sbin/nft -f
+#
+# File:     route-inet.nft
+# Path:     type-route/
+# Title:    Valid hooks for inet family and route chain-type
+# Family:   inet
+# Table:    inet_route
+# Chain:    *
+# Type:     route
+# Hook:     *
+# Priority: N/A
+# Policy:   *
+# Called by: nftables.nft
+# Description:
+#
+# Single-indented for base-chain and regular-chain
+# Double-indented for rules-only
+#
+
+table inet inet_route {
+
+    # inet/route/prerouting not supported
+    # inet/route/input not supported
+
+    include "./hooks/hook-output/base-inet-route-output*.chain";
+
+    # include "./hooks/hook-postrouting/base-inet-route-postrouting*.chain";
+}
+
