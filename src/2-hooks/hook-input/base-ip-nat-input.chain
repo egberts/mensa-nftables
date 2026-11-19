@@ -1,5 +1,5 @@
 # File:     base-ip-nat-input.chain
-# Path:     hooks/hook-input/
+# Path:     2-hooks/hook-input/
 # Title:    Base chain for the input hook (ip family, nat type)
 # Family:   ip
 # Table:    *
@@ -8,7 +8,7 @@
 # Hook:     input
 # Priority: -5 (filter(0) - 5, after inet-input(-10), same as ip-input(-5))
 # Policy:   accept
-# Called by: types/type-nat/nat-ip.nft
+# Called by: 1-types/nat-ip.table
 # Description:
 #
 

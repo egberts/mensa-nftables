@@ -1,5 +1,5 @@
 # File:     base-inet-filter-postrouting-security.chain
-# Path:     hooks/hook-postrouting/
+# Path:     2-hooks/hook-postrouting/
 # Title:    Base chain for the postrouting hook (inet family, filter type) for FILTER priority
 # Family:   inet
 # Table:    *
@@ -8,7 +8,7 @@
 # Hook:     postrouting
 # Priority: 210 ()
 # Policy:   accept
-# Called by: types/type-filter/filter-inet.nft
+# Called by: 1-types/filter-inet.table
 # Description:
 #  TODO: What is this???
 

@@ -1,5 +1,5 @@
 # File:     base-inet-filter-ingress.nft
-# Path:     hooks/hook-ingress/
+# Path:     2-hooks/hook-ingress/
 # Title:    ALL ingress hooks for inet family and filter chain-type
 # Family:   inet
 # Table:    *
@@ -8,7 +8,7 @@
 # Hook:     ingress
 # Priority: *
 # Policy:   *
-# Called by: types/filter-ingress.nft
+# Called by: 1-types/filter-ingress.table
 # Description:
 #     Scanning across all zones, picking up ingress chain candidates
 #

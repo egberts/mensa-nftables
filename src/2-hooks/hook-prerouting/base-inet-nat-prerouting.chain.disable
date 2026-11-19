@@ -1,5 +1,5 @@
 # File:     base-inet-nat-prerouting.chain
-# Path:     hooks/hook-prerouting/
+# Path:     2-hooks/hook-prerouting/
 # Title:    Base chain for the prerouting hook (inet family, nat type)
 # Family:   inet
 # Table:    *
@@ -8,7 +8,7 @@
 # Hook:     prerouting
 # Priority: various
 # Policy:   accept
-# Called by: types/type-nat/nat-inet.nft
+# Called by: 1-types/nat-inet.table
 # Description:
 #
 

@@ -1,5 +1,5 @@
 # File:     base-inet-route-output.chain
-# Path:     hooks/hook-output/
+# Path:     2-hooks/hook-output/
 # Title:    Base chain for the output hook (inet family, route type)
 # Family:   inet
 # Table:    *
@@ -8,7 +8,7 @@
 # Hook:     output
 # Priority: 10 (over Libvirt/Docker filter(0) and ip/ip6 filter+1)
 # Policy:   ACCEPT
-# Called by: types/type-route/route-inet.nft
+# Called by: 1-types/route-inet.table
 # Description:
 #
 # Single-indented for base-chain and regular-chain

@@ -1,5 +1,5 @@
 # File:     base-ip6-filter-postrouting-srcnat.chain
-# Path:     hooks/hook-postrouting/
+# Path:     2-hooks/hook-postrouting/
 # Title:    Base chain for the postrouting hook (ip6 family, filter type) for Source NAT
 # Family:   ip6
 # Table:    *
@@ -8,7 +8,7 @@
 # Hook:     postrouting
 # Priority: 105 (srcnat(100)+5, after Libvirt/Docker srcnat(50))
 # Policy:   accept
-# Called by: types/type-filter/filter-ip6.nft
+# Called by: 1-types/filter-ip6.table
 # Description:
 #
 

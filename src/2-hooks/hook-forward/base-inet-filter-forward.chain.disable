@@ -1,5 +1,5 @@
 # File:     base-inet-filter-forward.chain
-# Path:     hooks/hook-forward/
+# Path:     2-hooks/hook-forward/
 # Title:    Scan all zones for inet-filter-forward chains
 # Family:   inet
 # Type:     filter
@@ -8,7 +8,7 @@
 # Chain:    inet_filter_forward
 # Priority: -3 (filter(0)-3, before ip-forward(-1))
 # Policy:   DROP
-# Called by: types/types-filter/filter-inet.nft
+# Called by: 1-types/filter-inet.table
 # Description:
 #
 # Single-indented for base-chain and regular-chain

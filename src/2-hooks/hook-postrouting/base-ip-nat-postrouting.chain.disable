@@ -1,5 +1,5 @@
 # File:     base-ip-nat-postrouting.chain
-# Path:     hooks/hook-prerouting/
+# Path:     2-hooks/hook-prerouting/
 # Title:    Base chain for the postrouting hook (ip family, nat type)
 # Family:   ip
 # Table:    *
@@ -8,7 +8,7 @@
 # Hook:     postrouting
 # Priority: various
 # Policy:   accept
-# Called by: types/type-nat/nat-ip.nft
+# Called by: 1-types/nat-ip.table
 # Description:
 #
 

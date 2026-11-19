@@ -1,5 +1,5 @@
 # File:     base-bridge-filter-output.chain
-# Path:     hooks/hook-output/
+# Path:     2-hooks/hook-output/
 # Title:    Base chain for the output hook (bridge family, filter type)
 # Family:   bridge
 # Table:    *
@@ -8,7 +8,7 @@
 # Hook:     output
 # Priority: 110 (out(100) + 10)
 # Policy:   DROP
-# Called by: types/type-filter/filter-bridge.nft
+# Called by: 1-types/filter-bridge.table
 # Description:
 #
 

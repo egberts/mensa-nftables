@@ -1,5 +1,5 @@
 # File:     base-ip-filter-input.chain
-# Path:     hooks/hook-input/
+# Path:     2-hooks/hook-input/
 # Title:    Base chain for the input hook (ip family, filter type)
 # Family:   ip
 # Table:    *
@@ -8,7 +8,7 @@
 # Hook:     input
 # Priority: -5 (filter(0) - 5, after inet-input(-10), same as ip-input(-5))
 # Policy:   DROP
-# Called by: types/type-filter/filter-ip.nft
+# Called by: 1-types/filter-ip.table
 # Description:
 #
 

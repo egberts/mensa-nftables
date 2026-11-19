@@ -1,5 +1,5 @@
 # File:     base-ip-filter-prerouting_raw.chain
-# Path:     hooks/hook-prerouting_raw/
+# Path:     2-hooks/hook-prerouting_raw/
 # Title:    Base chain for the prerouting hook (ip family, filter type) for raw(-300) priority
 # Family:   ip
 # Table:    *
@@ -8,7 +8,7 @@
 # Hook:     prerouting
 # Priority: raw(-300) - 10
 # Policy:   accept
-# Called by: types/type-filter/filter-ip.nft
+# Called by: 1-types/filter-ip.table
 # Description:
 #
 # Single-indented for base-chain and regular-chain

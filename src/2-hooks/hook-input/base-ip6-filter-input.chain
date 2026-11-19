@@ -1,5 +1,5 @@
 # File:     base-ip6-filter-input.chain
-# Path:     hooks/hook-input/
+# Path:     2-hooks/hook-input/
 # Title:    Base chain for the input hook (ip6 family, filter type)
 # Family:   ip6
 # Table:    *
@@ -8,7 +8,7 @@
 # Hook:     input
 # Priority: -5 (filter(0) - 5, after inet-input(-10), same as ip-input(-5))
 # Policy:   DROP
-# Called by: types/type-filter/filter-ip6.nft
+# Called by: 1-types/filter-ip6.table
 # Description: Stateful IPv6 inbound host firewall
 #
 # The input hook sees IPv6 packets destined for the local system.
