@@ -1,6 +1,6 @@
 #!/usr/sbin/nft -f
 #
-# File:     filter-netdev.nft
+# File:     filter-netdev.table
 # Path:     1-types/
 # Title:    Valid hooks for netdev family and filter chain-type
 # Family:   netdev

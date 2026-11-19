@@ -1,7 +1,7 @@
 #!/usr/sbin/nft -f
 #
 # File:     route-ip6.nft
-# Path:     type-route/
+# Path:     1-route/
 # Title:    Valid hooks for IPv6 family and route chain-type
 # Family:   ip6
 # Table:    ip6_route

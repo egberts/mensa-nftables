@@ -1,7 +1,7 @@
 #!/usr/sbin/nft -f
 #
 # File:     nat-ip.nft
-# Path:     types/
+# Path:     1-types/
 # Title:    Valid hooks for IPv4 and NAT chain-type
 # Family:   ip
 # Table:    ip_nat

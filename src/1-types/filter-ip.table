@@ -1,7 +1,7 @@
 #!/usr/sbin/nft -f
 #
-# File:     filter-ip.nft
-# Path:     types/
+# File:     filter-ip.table
+# Path:     1-types/
 # Title:    Valid hooks for IPv4 family and filter chain-type
 # Family:   ip
 # Table:    ip_filter

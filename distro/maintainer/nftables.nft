@@ -6,7 +6,7 @@
 #   A multi-config file approach for a complete default-deny firewall using
 #   nftables.  Covers all:
 #     * zone names
-#     * base chain types and
+#     * base chain types and 
 #     * all base chain hooks.
 #
 
@@ -41,17 +41,17 @@ flush table inet inet_route
 flush table ip ip_route
 flush table ip6 ip6_route
 
-# include "testzone/zone.nft"
-include "zones/testzone/zone.nft"
-# include "testzone/filter-ip.nft"
-# include "testzone/filter-ip6.nft"
-# include "testzone/filter-bridge.nft"
-# include "testzone/filter-arp.nft"
+# include "types/filter-netdev.nft"
+include "types/filter-inet.nft"
+# include "types/filter-ip.nft"
+# include "types/filter-ip6.nft"
+# include "types/filter-bridge.nft"
+include "types/filter-arp.nft"
 
-# include "testzone/type-nat/nat-inet.nft"
-# include "testzone/type-nat/nat-ip.nft"
-# include "testzone/type-nat/nat-ip6.nft"
+include "types/nat-inet.nft"
+# include "types/nat-ip.nft"
+# include "types/nat-ip6.nft"
 
-# include "testzone/type-route/route-inet.nft"
-# include "testzone/type-route/route-ip.nft"
-# include "testzone/type-route/route-ip6.nft"
+# include "types/route-inet.nft"
+# include "types/route-ip.nft"
+# include "types/route-ip6.nft"

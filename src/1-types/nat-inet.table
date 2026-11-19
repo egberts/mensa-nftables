@@ -1,7 +1,7 @@
 #!/usr/sbin/nft -f
 #
 # File:     nat-inet.nft
-# Path:     type-nat/
+# Path:     1-types/
 # Title:    Valid hooks for inet family and NAT chain-type
 # Family:   inet
 # Table:    inet_nat
