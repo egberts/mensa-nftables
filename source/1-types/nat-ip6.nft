@@ -1,0 +1,27 @@
+#!/usr/sbin/nft -f
+#
+# File:     nat-ip6.nft
+# Path:     types/
+# Title:    Valid hooks for IPv6 family and NAT chain-type
+# Family:   ip6
+# Table:    ip6_nat
+# Chain:    *
+# Type:     nat
+# Hook:     *
+# Priority: N/A
+# Policy:   *
+# Called by: nftables.nft
+# Description:
+#
+# Single-indented for base-chain and regular-chain
+# Double-indented for rules-only
+#
+
+table ip6 ip6_nat {
+
+    include "./hooks/hook-prerouting/base-ip6-nat-prerouting*.chain";
+    include "./hooks/hook-input/base-ip6-nat-input*.chain";
+    include "./hooks/hook-output/base-ip6-nat-output*.chain";
+    include "./hooks/hook-postrouting/base-ip6-nat-postrouting*.chain";
+}
+

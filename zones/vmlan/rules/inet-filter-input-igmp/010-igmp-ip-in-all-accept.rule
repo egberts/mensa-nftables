@@ -1,3 +1,0 @@
-# 010-igmp-ip-in-all-accept.rule
-
-        ip protocol igmp counter accept comment "outbound IPv4 IGMP"

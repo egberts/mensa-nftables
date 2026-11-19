@@ -1,8 +1,0 @@
-
-
-        # Reject externally received loopback-addressed traffic.
-        iif != "lo" ip daddr 127.0.0.0/8 counter log prefix "DROP inet/filter/input/loopback/ip: " drop
-        iif != "lo" ip6 daddr ::1 counter log prefix "DROP inet/filter/input/loopback/ip6: " drop
-
-        iif "lo" counter accept comment "Allows loopback"  # earlier vmap got this already
-

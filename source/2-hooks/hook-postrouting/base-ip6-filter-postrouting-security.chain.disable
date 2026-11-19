@@ -1,0 +1,19 @@
+# File:     base-ip6-filter-postrouting-security.chain
+# Path:     hooks/hook-postrouting/
+# Title:    Base chain for the postrouting hook (ip6 family, filter type)
+# Family:   ip6
+# Table:    *
+# Chain:    ip6_filter_postrouting_security
+# Type:     filter
+# Hook:     postrouting
+# Priority: 225
+# Policy:   accept
+# Called by: types/type-filter/filter-ip6.nft
+# Description:
+#
+
+    chain ip6_filter_postrouting_security {
+        type filter hook postrouting priority 225;
+        policy accept;
+
+    }

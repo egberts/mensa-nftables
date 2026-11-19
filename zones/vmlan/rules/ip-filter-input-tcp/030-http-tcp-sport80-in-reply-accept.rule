@@ -1,4 +1,0 @@
-# File: 030-http-tcp-sport80-in-reply-accept.rule
-# Title: Allow remote HTTP server reply to local HTTP client
-
-tcp sport 80 counter accept comment "remote-to-local HTTP/TCP/80 reply"

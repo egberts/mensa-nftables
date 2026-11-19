@@ -1,0 +1,27 @@
+# File:     zone-arp-filter-input-ZONE.chain
+# Path:     *
+# Title:    Regular chain?
+# Family:   arp
+# Table:    *
+# Chain:    arp_filter_input_ZONE
+# Type:     filter
+# Hook:     input
+# Priority: filter(0)
+# Policy:   *
+# Zone:     ZONE
+# Called by: hooks/hook-input/base-arp-filter-input.chain
+# Description: Stateful inbound host firewall
+#
+
+    # no layer-7 protocol-specific dispatcher needed in ARP family
+    chain arp_filter_input_ZONE {
+
+        counter comment "arp/filter/input/ZONE"
+    }
+
+    include "./zones/ZONE/arp-filter-input-ZONE.chain"  # no wildcard
+
+    chain arp_filter_input_ZONE {
+        # Log and count denied traffic.
+        counter log prefix "DROP arp/filter/input/ZONE unknown packet in ZONE zone: " drop
+    }

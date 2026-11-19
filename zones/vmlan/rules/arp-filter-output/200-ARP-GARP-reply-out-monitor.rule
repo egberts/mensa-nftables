@@ -1,9 +1,0 @@
-#
-# File: 200-ARP-GARP-reply-out-monitor.rule
-# Policy: Monitor gratuitous ARP reply candidates for the zone interface address
-# Description:
-#     Runs after ARP hook and zone interface map/vmap dispatch; no interface matching here.
-#     Self-addressed ARP replies are one GARP form; matching does not establish whether unsolicited.
-#     Direction: local-to-remote; intended for arp output hook.
-#
-arp operation reply arp saddr ip $ZONE_INTF_IPADDR arp daddr ip $ZONE_INTF_IPADDR counter comment "local-to-remote GARP reply monitor"

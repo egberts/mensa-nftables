@@ -1,0 +1,27 @@
+# File:     zone-arp-filter-output-ZONE.chain
+# Path:     *
+# Title:    Regular chain?
+# Family:   arp
+# Table:    *
+# Chain:    arp_filter_output_ZONE
+# Type:     filter
+# Hook:     output
+# Priority: filter(0)+10
+# Policy:   *
+# Zone:     ZONE
+# Called by: hooks/hook-output/base-arp-filter-output.chain
+# Description: Stateful inbound host firewall
+#
+
+    chain arp_filter_output_ZONE {
+
+        counter comment "arp/filter/output/ZONE"
+    }
+
+    include "./zones/ZONE/arp-filter-output-ZONE.chain"  # no wildcard
+
+    chain arp_filter_output_ZONE {
+
+        # Log and count denied traffic.
+        counter log prefix "DROP arp/filter/output/ZONE unknown in ZONE zone: " drop
+    }

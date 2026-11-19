@@ -1,0 +1,38 @@
+# File:     base-ip-route-output.chain
+# Path:     hooks/hook-output/
+# Title:    Base chain for the output hook (ip family, route type)
+# Family:   ip
+# Table:    *
+# Chain:    ip_route_output
+# Type:     route
+# Hook:     output
+# Priority: 5 (filter(0)+5, over Libvirt/Docker filter(0))
+# Policy:   ACCEPT
+# Called by: types/type-route/route-ip.nft
+# Description:
+#
+# Single-indented for base-chain and regular-chain
+# Double-indented for rules-only
+#
+
+    # Declare an interface-to-chain dispatcher for output hook
+    map map_dispatch_ip_route_output_interface {
+        typeof oif : verdict
+    }
+    chain ip_route_output {
+        type route hook output priority 5; policy accept;
+
+        counter
+
+        # dispatch map built by including/excluding chain-ip-route-*.nft files
+        oif vmap @map_dispatch_ip_route_output_interface
+    }
+
+    # registers with 'map_dispatch_ip_route_output_interface' dispatch mapper)
+    include "./zones/zone-ip-route-output-*.chain";
+
+    # Post-interface output process
+    chain ip_route_output {
+
+        counter
+    }

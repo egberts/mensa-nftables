@@ -1,4 +1,0 @@
-# File: 041-SMTPsubmission-tcp-dport587-in-req-accept.rule
-# Title: Allow remote SMTP/Submission client request to local SMTP/Submission server
-
-tcp dport 587 counter accept comment "remote-to-local SMTPSubmission/TCP/587 request"

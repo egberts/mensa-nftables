@@ -1,0 +1,37 @@
+# File:     base-ip6-nat-output.chain
+# Path:     hooks/hook-output/
+# Title:    Base chain for the output hook (ip6 family, nat type)
+# Family:   ip6
+# Table:    *
+# Chain:    ip6_nat_output
+# Type:     nat
+# Hook:     output
+# Priority: 5 (filter(0)+5, over Libvirt/Docker filter(0))
+# Policy:   ACCEPT
+# Called by: types/type-nat/nat-ip6.nft
+# Description:
+#
+# Single-indented for base-chain and regular-chain
+# Double-indented for rules-only
+#
+
+    # Declare an interface-to-chain dispatcher for output hook
+    map map_dispatch_ip6_nat_output_interface {
+        typeof oif : verdict
+    }
+    chain ip6_nat_output {
+        type nat hook output priority 5; policy accept;
+
+        counter
+
+        # dispatch map built by including/excluding chain-ip6-nat-*.nft files
+        oif vmap @map_dispatch_ip6_nat_output_interface
+    }
+
+    # registers with 'map_dispatch_ip6_nat_output_interface' dispatch mapper)
+    include "./zones/zone-ip6-nat-output-*.chain";
+
+    # Post-interface output process
+    chain ip6_nat_output {
+        counter accept
+    }

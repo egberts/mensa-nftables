@@ -1,9 +1,0 @@
-#
-# File: 250-ARP-Flux-reply-out-monitor.rule
-# Policy: Monitor outbound ARP replies using the expected local IP/MAC pair
-# Description:
-#     Runs after ARP hook and zone interface map/vmap dispatch; no interface matching here.
-#     For true ARP-flux control, configure per-interface ownership and kernel ARP settings.
-#     Direction: local-to-remote; intended for arp output hook.
-#
-arp operation reply arp saddr ip $ZONE_INTF_IPADDR arp saddr ether $ZONE_INTF_MACADDR counter comment "local-to-remote Local address reply monitor"
