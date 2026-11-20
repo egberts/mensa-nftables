@@ -1,0 +1,19 @@
+# File:     base-inet-filter-postrouting-security.chain
+# Path:     2-hooks/hook-postrouting/
+# Title:    Base chain for the postrouting hook (inet family, filter type) for SECURITY priority
+# Family:   inet
+# Table:    *
+# Chain:    inet_filter_postrouting_security
+# Type:     filter
+# Hook:     postrouting
+# Priority: 60 (security(50)+10, after Libvirt/Docker security(50))
+# Policy: accept
+# Called by: 1-types/filter-inet.table
+# Description:
+#
+
+    chain inet_filter_postrouting_security {
+        type filter hook postrouting priority 60;
+        policy accept;
+
+    }

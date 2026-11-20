@@ -1,12 +1,9 @@
-Trying out a new design
+DESIGN of src/ subdirectories
 
   1 - types
-    2 - hooks
-      3 - devices
-        4 - base chain
-          5 - zone
-            6 - inter-zone
-              7 - rules
+  2 - hooks
+  3 - bindings
+  4 - template-rules
 
 types
 ===
@@ -32,27 +29,7 @@ Next is to narrow down the combos is the hooks; of the 7 hooks:
 
 But there are only 41 valid combos.  Most common is inet-filter-input and inet-filter-output.
 
-devices
-===
-To cut this down further, we have devices (network interfaces); they are nominally 2 to 5, depending on PC platform usage (workstation, router, VMs/containers, data center).
-
-
-base chain
-===
-Now hooks must be made, base chains needs declaring.  Some base chains have 'device', prior layer provided this
-
-zone
-===
-Now, zones can be established.
-
-- a zone may have 1 or more devices
-- a device may split into two zones (either overlapping or strict segregated)
-
-inter-zone
-===
-This pesky zone-to-zone ruleset that I've been chasing.
-
-rules
+template-rules
 ===
 This is the easiest part.  A template rules subdirectory will contain all known rules and place them into their appropriate 3-tuple (family-type-hook) subdirectory.  This 3-tuple is chosen to ensure that a certain rule cannot be used by other 3-tuple.
 

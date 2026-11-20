@@ -1,0 +1,19 @@
+# File:     base-ip6-filter-prerouting-dstnat.chain
+# Path:     2-hooks/hook-prerouting/
+# Title:    Base chain for the prerouting hook (ip6 family, filter type) at DSTNAT priority
+# Family:   ip6
+# Table:    *
+# Chain:    ip6_filter_prerouting_dstnat
+# Type:     filter
+# Hook:     prerouting
+# Priority: -105 (dstnat (-100) - 5, after inet-dstnat(-115), same as ip-dstnat(-105))
+# Policy:   accept
+# Called by: 1-types/filter-ip6.table
+# Description:
+#
+
+    chain ip6_filter_prerouting_dstnat {
+        type filter hook prerouting priority -110;
+        policy accept;
+
+    }

@@ -1,0 +1,27 @@
+# File:     base-ip6-nat-prerouting.chain
+# Path:     2-hooks/hook-prerouting/
+# Title:    Base chain for the prerouting hook (ip6 family, nat type)
+# Family:   ip6
+# Table:    *
+# Chain:    ip6_nat_prerouting_*
+# Type:     nat
+# Hook:     prerouting
+# Priority: various
+# Policy:   accept
+# Called by: 1-types/nat-ip6.table
+# Description:
+#
+
+    chain ip6_nat_prerouting_dstnat {
+        type nat hook prerouting priority -100;
+        policy accept;
+
+    }
+
+    chain ip6_nat_prerouting_mangle {
+        type nat hook prerouting priority -150;
+        policy accept;
+
+    }
+
+    # ip6/nat/prerouting cannot use priority less or equal to -300

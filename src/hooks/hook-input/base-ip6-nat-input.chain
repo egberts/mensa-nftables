@@ -1,0 +1,44 @@
+# File:     base-ip6-nat-input.chain
+# Path:     2-hooks/hook-input/
+# Title:    Base chain for the input hook (ip6 family, nat type)
+# Family:   ip6
+# Table:    *
+# Chain:    ip6_nat_input
+# Type:     nat
+# Hook:     input
+# Priority: -5 (filter(0) - 5, after inet-input(-10), same as ip-input(-5))
+# Policy:   accept
+# Called by: 1-types/nat-ip6.table
+# Description:
+#
+
+    # Declare an interface-to-chain dispatcher for input hook
+    map map_dispatch_ip6_nat_input_interface {
+        typeof iif : verdict
+    }
+    chain ip6_nat_input {
+        type nat hook input priority -5; policy accept;
+
+        # Reject invalid connection states.
+        ct state invalid counter log prefix "DROP: ip6/nat/input/invalid " drop
+
+        # blackholes goes here
+        # push daddr 255.255.255.255/32 to zone-specific ruleset(s)
+        #   ip6 daddr 255.255.255.255/32 counter drop comment "really drop unsolicited IPv4 broadcast"
+
+        # Accept established and related connections.
+        ct state { established, related } counter accept  # silent accept
+
+        # A cool lookup to jump into a protocol-specific regular chain
+        # dispatch map built by including/excluding chain-ip6-nat-*.nft files
+        iif vmap @map_dispatch_ip6_nat_input_interface
+    }
+
+    # Selectively load our input protocol regular chains
+    # registers with 'map_dispatch_ip6_nat_input_interface' dispatch mapper)
+    include "./zones/zone-ip6-nat-input-*.chain";
+
+    # Post-interface input process
+    chain ip6_nat_input {
+        counter log prefix "DROP ip6/nat/input: " drop comment "unidentified interface nat input"
+    }

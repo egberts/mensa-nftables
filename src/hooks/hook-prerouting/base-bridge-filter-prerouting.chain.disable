@@ -1,0 +1,17 @@
+# File:     base-bridge-filter-prerouting.chain
+# Path:     2-hooks/hook-prerouting/
+# Title:    Base chain for the prerouting hook (bridge family, filter type)
+# Family:   bridge
+# Table:    *
+# Chain:    bridge_filter_prerouting
+# Type:     filter
+# Hook:     prerouting
+# Priority: -210 (filter (-200) - 10)
+# Policy:   ACCEPT
+# Called by: 1-types/filter-bridge.table
+# Description:
+#
+# Single-indented for base-chain and regular-chain
+# Double-indented for rules-only
+#
+

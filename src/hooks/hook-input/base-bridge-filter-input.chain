@@ -1,0 +1,33 @@
+# File:     base-bridge-filter-input.chain
+# Path:     2-hooks/hook-input/
+# Title:    input hook and base chain declaration for bridge family, chain-filter type
+# Family:   bridge
+# Table:    *
+# Chain:    bridge_filter_input
+# Type:     filter
+# Hook:     input
+# Priority: -5 (filter(0) - 5)
+# Policy:   DROP
+# Called by: 1-types/filter-bridge.table
+# Description:
+#
+
+    # Declare an interface-to-chain dispatcher for input hook
+    map map_dispatch_bridge_filter_input_interface {
+        typeof iif : verdict
+    }
+    chain bridge_filter_input {
+        type filter hook input priority -10; policy drop;
+
+        # dispatch map built by including/excluding chain-bridge-filter-*.nft files
+        iif vmap @map_dispatch_bridge_filter_input_interface
+    }
+
+    # Selectively zone-load our input protocol regular chains
+    # registers with 'map_dispatch_bridge_filter_input_interface' dispatch mapper)
+    include "./zones/zone-bridge-filter-input-*.chain";
+
+    # Post-interface input process
+    chain bridge_filter_input {
+        counter log prefix "DROP bridge/filter/input: " drop comment "unidentified interface filter input"
+    }

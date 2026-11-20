@@ -1,0 +1,18 @@
+# File:     base-inet-filter-prerouting-mangle.chain
+# Path:     2-hooks/hook-prerouting/
+# Title:    Base chain for the prerouting hook (inet family, filter type) at MANGLE priority
+# Family:   inet
+# Table:    *
+# Chain:    inet_filter_prerouting_mangle
+# Type:     filter
+# Hook:     prerouting
+# Priority: -160 (mangle (-150) - 10)
+# Policy:   accept
+# Called by: 1-types/filter-inet.table
+# Description: is used for non-inet as pseudo-ingress (ip, ip6, bridge, arp)
+
+    chain inet_filter_prerouting_mangle {
+        type filter hook prerouting priority -160;
+        policy accept;
+
+    }

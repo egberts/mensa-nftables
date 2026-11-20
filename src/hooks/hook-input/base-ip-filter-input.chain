@@ -1,0 +1,40 @@
+# File:     base-ip-filter-input.chain
+# Path:     2-hooks/hook-input/
+# Title:    Base chain for the input hook (ip family, filter type)
+# Family:   ip
+# Table:    *
+# Chain:    ip_filter_input
+# Type:     filter
+# Hook:     input
+# Priority: -5 (filter(0) - 5, after inet-input(-10), same as ip-input(-5))
+# Policy:   DROP
+# Called by: 1-types/filter-ip.table
+# Description:
+#
+
+    # Declare an interface-to-chain dispatcher for input hook
+    map map_dispatch_ip_filter_input_interface {
+        typeof iif : verdict
+    }
+    chain ip_filter_input {
+        type filter hook input priority -5; policy drop;
+
+        # Reject invalid connection states.
+        ct state invalid counter log prefix "DROP ip/filter/input/invalid: " drop
+
+        # Accept established and related connections.
+        ct state { established, related } counter accept  # silent accept
+    }
+
+    # Selectively load our input protocol regular chains
+    # registers with 'map_dispatch_ip_filter_input_interface' dispatch mapper)
+    include "./zones/zone-ip-filter-input-*.chain";
+
+    # Post-interface input process
+    chain ip_filter_input {
+        # A cool lookup to jump into a protocol-specific regular chain
+        # dispatch map built by including/excluding chain-ip-filter-*.nft files
+        iif vmap @map_dispatch_ip_filter_input_interface
+
+        counter log prefix "DROP ip/filter/input: " drop comment "unidentified interface filter input"
+    }

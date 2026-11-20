@@ -22,7 +22,7 @@ table netdev netdev_filter {
     # netdev/nat/ingress not supported
     # netdev/nat/egress not supported
 
-    include "./2-hooks/hook-ingress/base-netdev-filter-ingress*.chain"
-    include "./2-hooks/hook-egress/base-netdev-filter-egress*.chain"
+    include "./2-hooks/hook-ingress/base-netdev-filter-ingress*.table_block"
+    # include "./2-hooks/hook-egress/base-netdev-filter-egress*.table_block"
 }
 

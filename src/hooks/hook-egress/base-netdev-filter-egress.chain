@@ -1,0 +1,17 @@
+# File:     base-netdev-filter-egress.nft
+# Path:     2-hooks/hook-egress/
+# Title:    Scan all devices for netdev-filter-egress hooks
+# Family:   netdev
+# Type:     filter
+# Hook:     egress
+# Table:    netdev_filter
+# Chain:    *
+# Device:   *
+# Priority: *
+# Policy:   *
+# Called by: 1-types/filter-egress.table
+# Description:
+#
+
+    include "3-bindings/devices/*/netdev-filter-egress.chain"
+
