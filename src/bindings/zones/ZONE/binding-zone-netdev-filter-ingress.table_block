@@ -1,0 +1,22 @@
+# File:     binding-zone-netdev-filter-ingress.table_block
+# Path:     3-bindings/zones/ZONE/
+# Title:    In zone ZONE, scan for ALL devices for netdev family and filter chain-type
+# Family:   netdev
+# Table:    filter_netdev
+# Chain:    filter_netdev_ingress_ZONE
+# Type:     filter
+# Hook:     ingress
+# Priority: *
+# Policy:   *
+# Called by: 2-hooks/hook-ingress/base-netdev-filter-ingress.table_block
+# Description:
+#     Scanning within this ZONE zone, picking up ingress chain candidates
+#
+# The device name must identify an existing network interface.
+#
+#
+# No table here yet, (still have 'ingress' and 'egress' to go)
+# No base chain here yet, that's zone-specific (by chain 'device' interface)
+#
+
+    include "3-bindings/zones/*/netdev-filter-ingress.table_block"  # wildcard is the ALL-zone name

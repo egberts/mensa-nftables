@@ -1,0 +1,27 @@
+# File:     zone-bridge-filter-input-ZONE.chain
+# Path:     *
+# Title:    Zone boundary for bridge-filter-input 
+# Family:   bridge
+# Table:    *
+# Chain:    bridge_filter_input_ZONE
+# Type:     filter
+# Hook:     input
+# Priority: filter(0)
+# Policy:   *
+# Zone:     ZONE
+# Called by: hooks/hook-input/base-bridge-filter-input.chain
+# Description: Stateful inbound host firewall
+#
+
+    # no layer-7 protocol-specific dispatcher needed in ARP family
+    chain bridge_filter_input_ZONE {
+
+        counter comment "bridge/filter/input/ZONE"
+    }
+
+    include "./zones/ZONE/bridge-filter-input-ZONE.chain"  # no wildcard
+
+    chain bridge_filter_input_ZONE {
+        # Log and count denied traffic.
+        counter log prefix "DROP bridge/filter/input/ZONE unknown packet in ZONE zone: " drop
+    }

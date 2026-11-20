@@ -1,0 +1,7 @@
+there can be only the following subdirectories for 3-bindings/zones/ZONE:
+
+    rules/
+    devices/          (optional, this is your device on zone mapping)
+    devices/DEVICE    (optional, this is your 1:N relation of zone/devices)
+    zones/            (optional, this is your zone on zone mapping directory, inclusion by 'include' statement wildcard )
+    zones/DIFFERENT_ZONE_NAME      (optional, this is your zone-to-zone filtering)
