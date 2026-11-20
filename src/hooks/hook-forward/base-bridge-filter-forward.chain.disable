@@ -1,5 +1,5 @@
-# File:     base-bridge-filter-forward.chain
-# Path:     2-hooks/hook-forward/
+# File:     base-bridge-filter-forward.table_block
+# Path:     hooks/hook-forward/
 # Title:    Scan all zones for bridge-filter-forward chains
 # Family:   bridge
 # Table:    *
@@ -8,7 +8,7 @@
 # Hook:     forward
 # Priority: -10 (filter(0) - 10, before ip-forward(-5) and ip6-forward(-5))
 # Policy:   DROP
-# Called by: 1-types/filter-bridge.table
+# Called by: types/filter-bridge.table
 # Description:
 #
 

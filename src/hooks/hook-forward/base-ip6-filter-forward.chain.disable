@@ -1,5 +1,5 @@
 # File:     base-ip6-filter-forward.chain
-# Path:     2-hooks/hook-forward/
+# Path:     hooks/hook-forward/
 # Title:    Base chain for the forward hook (ip6 family, filter type)
 # Family:   ip6
 # Table:    *
@@ -8,7 +8,7 @@
 # Hook:     forward
 # Priority: -1 (filter(0)-1, before Libvirt/Docker forward/filter(0))
 # Policy:   DROP
-# Called by: 1-types/filter-ip6.table
+# Called by: types/filter-ip6.table
 # Description:
 #
 # Single-indented for base-chain and regular-chain
