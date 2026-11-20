@@ -15,13 +15,13 @@
 
     # no declarative base chain here, chain devices are used in 'egress' and done later
 
-    # zone-in-device is done via 'devices/DEVICE/' subdirectories under this 3-bindings/zones/ZONE/
+    # zone-in-device is done via 'devices/DEVICE/' subdirectories under this bindings/zones/ZONE/
     include "bindings/devices/*/binding-device-netdev-filter-egress.base_chain"  # wildcard is in device name
 
-    # zones-in-zone are done via 'zones/ZONE/' subdirectories again under this 3-bindings/zones/ZONE/
+    # zones-in-zone are done via 'zones/ZONE/' subdirectories again under this bindings/zones/ZONE/
     # include "bindings/zones/*/binding-zone-netdev-filter-egress.chain"  # wildcard is in zone name
 
     # elsewhere,
-    # devices-in-zone are done via 'zones/ZONE/' subdirectories under 3-bindings/devices/DEVICE/
+    # devices-in-zone are done via 'zones/ZONE/' subdirectories under bindings/devices/DEVICE/
 
 
