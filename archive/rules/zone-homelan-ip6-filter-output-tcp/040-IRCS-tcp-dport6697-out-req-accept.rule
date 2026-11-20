@@ -1,0 +1,8 @@
+#
+# File: 040-IRCS-tcp-dport6697-out-req-accept.rule
+# Title: Allow local IRC client request to remote secured IRC server
+# Called by: none
+
+tcp dport 6697 counter accept comment "local-to-remote IRCS/TCP/6697 request"
+
+

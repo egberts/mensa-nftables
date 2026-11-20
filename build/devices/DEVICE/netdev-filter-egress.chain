@@ -1,0 +1,31 @@
+#
+# File:     netdev-filter-egress.chain
+# Path:     3-devices/DEVICE/
+# Title:    Scan all devices for netdev-filter-egress hooks and its base chains
+# Family:   netdev
+# Type:     filter
+# Hook:     egress
+# Table:    netdev_filter
+# Chain:    netdev_filter_egress_DEVICE
+# Device:   DEVICE
+# Priority: *
+# Policy:   *
+# Called by: 2-hooks/hook-egress/base-netdev-filter-egress.chain
+# Description:
+#
+
+    chain netdev_filter_egress_DEVICE {
+        type filter hook egress device $ZONE_INTF_DEV priority 0; policy accept;
+
+        counter comment "netdev/filter/egress/DEVICE"
+    }
+
+    # 4-zones/*/DEVICE - supports multiple zones per device (rare)
+    # 4-zones/*/DEVICE - supports multiple zones per device (rare)
+    include "4-zones/*/DEVICE/netdev-filter-egress.chain"    # wildcard is the device name (all-zones)
+
+    chain netdev_filter_egress_DEVICE {
+
+        counter comment "netdev/filter/egress/DEVICE"
+    }
+

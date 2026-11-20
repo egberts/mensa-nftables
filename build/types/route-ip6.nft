@@ -1,0 +1,43 @@
+#!/usr/sbin/nft -f
+#
+# File:     route-ip6.nft
+# Path:     type-route/
+# Title:    Valid hooks for IPv6 family and route chain-type
+# Family:   ip6
+# Table:    ip6_route
+# Chain:    *
+# Type:     route
+# Hook:     *
+# Priority: N/A
+# Policy:   *
+# Called by: nftables.nft
+# Description:
+#    The purpose of a route chain is to trigger a fresh
+#    routing decision when relevant packet properties
+#    change, such as:
+#
+#      * Source IP address
+#      * Destination IP address
+#      * Packet mark (meta mark)
+#
+#    For locally generated traffic, the sequence is:
+#
+#      67. A process generates a packet.
+#      68. The initial routing decision is made.
+#      69. The packet traverses the output hook.
+#      70. Your route chain modifies a routing-relevant field.
+#      71. The kernel performs another route lookup.
+#
+#    route is about triggering a new routing decision,
+#    not about occupying a particular position in the
+#    packet-processing pipeline.
+#
+# Single-indented for base-chain and regular-chain
+# Double-indented for rules-only
+#
+
+table ip6 ip6_route {
+
+    include "build/hooks/hook-output/base-ip6-route-output*.chain";
+}
+

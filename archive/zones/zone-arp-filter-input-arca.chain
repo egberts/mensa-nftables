@@ -1,0 +1,35 @@
+# File:     zone-arp-filter-input-arca.chain
+# Path:     *
+# Title:    Regular chain?
+# Family:   arp
+# Table:    *
+# Chain:    arp_filter_input_arca
+# Type:     filter
+# Hook:     input
+# Priority: filter(0)
+# Policy:   *
+# Zone:     arca
+# Called by: hooks/hook-input/base-arp-filter-input.chain
+# Description: Stateful inbound host firewall
+#
+    # Register a DeviceInterface-to-firewall dispatch registry
+    map map_dispatch_arp_filter_input_interface {
+        typeof iif : verdict
+        elements = {
+            # use goto, this is the final descendance
+            $HOMELAN_INTF_DEV : goto arp_filter_input_arca,
+        }
+    }
+
+    # no layer-7 protocol-specific dispatcher needed in ARP family
+    chain arp_filter_input_arca {
+
+        counter comment "arp/filter/input/arca"
+    }
+
+    include "./zones/arca/arp-filter-input-arca.chain"  # no wildcard
+
+    chain arp_filter_input_arca {
+        # Log and count denied traffic.
+        counter log prefix "DROP arp/filter/input/arca unknown ARP packet in arca zone: " drop
+    }

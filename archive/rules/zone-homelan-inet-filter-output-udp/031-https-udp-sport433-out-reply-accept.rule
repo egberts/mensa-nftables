@@ -1,0 +1,6 @@
+#
+# File: 031-https-udp-sport443-out-reply-accept.rule
+# Title: Allow local HTTPS UDP server reply to remote HTTPS UDP client
+# Called by: zones/red/inet-filter-output-red-udp.chain
+
+udp sport 443 counter accept comment "local-to-remote HTTPS/UDP/443 reply"

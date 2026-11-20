@@ -1,0 +1,6 @@
+
+# File: 500-IPP-tcp-dport631-in-req-accept.rule
+# Title: Allow remote Internet Printer Protocol client request to local IPP server
+# Called by: zones/red/inet-filter-input-red-tcp.chain
+
+tcp dport 631 accept

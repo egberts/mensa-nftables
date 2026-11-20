@@ -1,0 +1,4 @@
+# Called by: none
+
+
+meta nfproto ipv6 counter comment "Diagnostic: count IPv6 packets"

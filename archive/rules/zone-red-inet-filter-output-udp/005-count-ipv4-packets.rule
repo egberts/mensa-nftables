@@ -1,0 +1,7 @@
+# Policy: Diagnostic
+# Title: count IPv4 packets
+# Direction: Server
+# Called by: zones/red/inet-filter-output-red-udp.chain
+# Description:
+
+meta nfproto ipv4 counter comment "Diagnostic: count IPv4 packets"

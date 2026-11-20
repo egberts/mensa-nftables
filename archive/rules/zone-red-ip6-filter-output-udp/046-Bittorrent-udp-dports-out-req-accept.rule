@@ -1,0 +1,7 @@
+#
+# File: 046-Bittorrent-udp-dport123-out-req-accept.rule
+# Title: Allow local Bittorrent client request to remote Bittorrent server
+
+# BitTorrent services (optional).
+# Called by: none
+udp dport { $TORRENT_PORT_LAN, $TORRENT_PORT_WAN, $TRACKER_TORRENT_PORT_WAN } counter accept comment "local-to-remote BitTorrent/UDP/various request"

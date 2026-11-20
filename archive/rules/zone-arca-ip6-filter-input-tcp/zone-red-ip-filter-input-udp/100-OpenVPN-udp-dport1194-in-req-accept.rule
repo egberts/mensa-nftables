@@ -1,0 +1,6 @@
+#
+# File: 100-OpenVPN-udp-dport1194-in-req-accept.rule
+# Title: Allow remote OpenVPN client request to local OpenVPN server
+# Called by: zones/red/ip-filter-input-red-udp.chain
+
+udp dport 1194 counter accept comment "remote-to-local OpenVPN/UDP/1194 request"

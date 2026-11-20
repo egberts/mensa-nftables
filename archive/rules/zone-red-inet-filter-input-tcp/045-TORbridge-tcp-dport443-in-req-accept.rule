@@ -1,0 +1,6 @@
+
+# File: 045-TORbridge-tcp-dport433-in-req-accept.rule
+# Title: Allow remote TORbridge client request to local TORbridge server
+# Called by: zones/red/inet-filter-input-red-tcp.chain
+
+tcp dport 443 counter accept comment "remote-to-local TORbridge/TCP?443 request "

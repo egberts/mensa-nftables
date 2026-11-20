@@ -1,0 +1,26 @@
+# File:     zone-netdev-filter-ingress-arca.chain
+# Path:     zones/arca/
+# Title:    ingress base chain for netdev-fdamily and filter chain-type
+# Family:   netdev
+# Table:    *
+# Chain:    netdev_filter_ingress_arca
+# Type:     filter
+# Hook:     ingress
+# Priority: -310 (filter(0)-300)
+# Policy:   *
+# Zone:     arca
+# Called by: zones/zone-netdev-filter-ingress-arca.chain
+# Description:
+#
+
+    chain netdev_filter_ingress_arca {
+        type filter hook ingress device $arca_INTF_DEV priority -310; policy accept
+
+        counter comment "netdev-filter-ingress BEGIN"
+
+        include "zones/rules/netdev-filter-ingress/*.rule"
+
+        counter comment "netdev-filter-ingress END"
+        return
+    }
+

@@ -1,0 +1,6 @@
+#
+# File: 720-Steam-udp-dport27036-out-req-accept.rule
+# Policy: Allow local Steam client request to remote Steam server
+# Called by: zones/red/inet-filter-output-red-udp.chain
+
+udp dport 27036 counter accept comment "local-to-remote Steam/UDP/27036 request"

@@ -1,0 +1,20 @@
+# File:     netdev-filter-ingress-red.chain
+# Path:     zones/red/
+# Title:    Regular chain for red zone arp-family TCP packets in ingress hook
+# Family:   arp
+# Table:    *
+# Chain:    arp_filter_ingress_red_tcp
+# Type:     filter
+# Hook:     ingress
+# Priority: filter(+10)
+# Policy:   DROP
+# Zone:     red
+# Called by: zones/zone-arp-filter-ingress-red.chain
+# Description:
+#
+
+    chain arp_filter_ingress_red {
+
+        include "rules/zone-red-arp-filter-ingress/*.rule"
+    }
+

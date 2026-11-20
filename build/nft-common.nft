@@ -1,0 +1,29 @@
+#!/usr/sbin/nft -f
+# File: nft-common.nft
+# Title: Site-specific settings for `nftables.nft` ruleset
+#
+#
+# Called by: nftables.nft
+define GATEWAY_ROUTE_DEFAULT = { 192.168.1.254 }
+
+define ZONE_INTF_DEV = wlo1
+define ZONE_INTF_LOCALNET = 192.168.1.0/24
+define ZONE_INTF_BCAST = 192.168.1.255
+define ZONE_INTF_ADDR = { 192.168.1.237, 192.168.1.172 }
+
+define LOOPBACK_INTF_DEV = lo
+define LOOPBACK_INTF_LOCALNET = 127.0.0.0/8
+define LOOPBACK_INTF_BCAST = 127.255.255.255
+define LOOPBACK_INTF_ADDR = 127.0.0.1
+
+define TRACKER_TORRENT_PORT_WAN = 4949
+define TORRENT_PORT_WAN = 55414
+define TORRENT_PORT_LAN = 55413
+
+
+define NTP_SERVERS_LOCALNET = { 172.28.132.1  }
+define DNS_RESOLVERS_LOCALNET = { 172.28.132.1  }
+
+# define MAC[2]=00:00:45:00:00:00
+# define MAC[20]=00:00:dc:00:00:00
+

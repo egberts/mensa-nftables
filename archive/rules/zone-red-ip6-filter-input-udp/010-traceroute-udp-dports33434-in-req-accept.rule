@@ -1,0 +1,7 @@
+#
+# File: 010-traceroute-udp-dports33434-in-req-accept.rule
+# Title: Allow remote traceroute client request to local traceroute server
+
+# Inbound UDP traceroute request
+# Called by: zones/red/ip6-filter-input-red-udp.chain
+udp dport 33434-33534 accept comment "remote-to-local inbound traceroute request"

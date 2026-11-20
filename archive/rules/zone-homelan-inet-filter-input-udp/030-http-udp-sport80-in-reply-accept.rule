@@ -1,0 +1,6 @@
+#
+# File: 030-http-udp-sport80-in-reply-accept.rule
+# Title: Allow remote HTTP UDP server reply to local HTTP UDP client
+# Called by: zones/red/inet-filter-input-red-udp.chain
+
+udp sport 80 counter accept comment "remote-to-local HTTP/UDP/80 reply"

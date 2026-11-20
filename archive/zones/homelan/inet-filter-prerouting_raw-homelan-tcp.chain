@@ -1,0 +1,30 @@
+# File:     inet-filter-prerouting_raw-homelan-tcp.chain
+# Path:     zones/homelan/
+# Title:    Regular chain for homelan zone inet-family TCP packets in prerouting hook at raw-10 priority
+# Family:   inet
+# Table:    *
+# Chain:    inet_filter_prerouting_raw_homelan_tcp
+# Type:     filter
+# Hook:     prerouting
+# Priority: raw(-300) - 10
+# Policy:   accept
+# Zone:     homelan
+# Called by: zones/zone-inet-filter-prerouting_raw-homelan.chain
+# Description:
+#
+
+    # Register a protocol-to-firewall dispatch registry
+    map map_dispatch_inet_filter_prerouting_raw_homelan_protocol {
+        type inet_proto : verdict;
+        elements = {
+            tcp : goto inet_filter_prerouting_raw_homelan_tcp,
+        }
+    }
+
+    chain inet_filter_prerouting_raw_homelan_tcp {
+
+        include "rules/zone-homelan-inet-filter-prerouting_raw-tcp/*.rule"
+
+        log prefix "DROP inet/filter/prerouting_raw/homelan/tcp: " counter drop comment "Log and drop all remaining TCP packets reaching this chain"
+}
+

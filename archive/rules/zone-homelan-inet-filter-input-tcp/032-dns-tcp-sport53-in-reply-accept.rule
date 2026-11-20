@@ -1,0 +1,4 @@
+# File: 032-dns-tcp-sport53-in-reply-accept.rule
+# Called by: zones/red/inet-filter-input-red-tcp.chain
+
+tcp sport 53 counter accept comment "remote-to-local DNS/TCP/53 reply"

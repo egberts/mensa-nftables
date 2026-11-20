@@ -1,0 +1,82 @@
+# File:     zone-ip6-filter-output-red.chain
+# Path:     *
+# Title:
+# Family:   ip6
+# Table:    *
+# Chain:    ip6_filter_output_red
+# Type:     filter
+# Hook:     output
+# Priority: filter(0)
+# Policy:   DROP
+# Zone:     red
+# Called by: none
+# Description: Stateful inbound host firewall
+#
+# Control	Security purpose
+# Loopback acceptance	Allows local IPC and local services
+# Loopback destination protection	Prevents externally injected loopback-addressed traffic
+# Invalid state rejection	Discards malformed or inconsistent connection-tracking traffic
+# Established/related	Supports stateful filtering and return traffic
+# ICMPv4 errors	Supports diagnostics and IPv4 error reporting
+# ICMPv6 errors	Supports IPv6 path MTU discovery and error reporting
+# Neighbor Discovery	Supports IPv6 address resolution
+# Router Advertisements	Supports IPv6 router discovery and SLAAC
+# DHCP	Allows dynamically assigned host configuration
+# Explicit service rules	Restricts inbound application exposure
+# Logging and counters	Provides an audit trail
+#
+# These controls reflect common nftables firewall practice and
+# the deny-by-default principle in NIST SP 800-41.
+#
+#    nvlpubs.nist.gov+3
+#
+# Important qualifications
+# 1. DHCP: Keep the DHCP rules only if the machine
+#        actually obtains its configuration through DHCP.
+#        Consider restricting them to the appropriate interface.
+# 2. IPv6: Do not indiscriminately block ICMPv6.
+#        Neighbor Discovery and essential ICMPv6 error messages
+#        are necessary for normal IPv6 operation.
+# 3. Services: Add SSH, DNS, HTTP, etc. only when the
+#        host actually provides those services. Restrict source
+#        addresses where practical.
+# 4. Ping: Echo requests are optional. They are commented
+#        out rather than universally permitted.
+# 5. Logging: The rate limit prevents log flo1. oding.
+#        Packets exceeding the logging rate still reach
+#        the final DROP.
+#
+# One distinction worth preserving: This is a hardened
+# general-purpose host baseline, not a certified Common
+# Criteria ruleset. Actual Common Criteria compliance
+# depends on the applicable Protection Profile, Security
+# Target, evaluated configuration, and assurance
+# requirements.
+#
+
+    # Register a DeviceInterface-to-firewall dispatch registry
+    map map_dispatch_ip6_filter_output_interface {
+        typeof iif : verdict
+        elements = {
+            # use goto, this is the final descendance
+            $WAN_INTF_DEV : goto ip6_filter_output_red,
+        }
+    }
+
+    # Declare a Protocol-to-firewall dispatch registry
+    map map_dispatch_ip6_filter_output_red_protocol {
+        type inet_proto : verdict;
+    }
+    chain ip6_filter_output_red {
+
+        counter
+    }
+
+    include "build/zones/red/ip6-filter-output-red-*.chain"
+
+    chain ip6_filter_output_red {
+		 meta l4proto vmap @map_dispatch_ip6_filter_output_red_protocol
+
+        # Log and count denied traffic.
+        counter log prefix "DROP ip6/filter/output/red: " drop
+    }

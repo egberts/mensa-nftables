@@ -1,0 +1,24 @@
+# File:     arp-filter-input-homelan.chain
+# Path:     zones/homelan/
+# Title:    Regular chain for homelan zone arp-family TCP packets in input hook
+# Family:   arp
+# Table:    *
+# Chain:    arp_filter_input_homelan_tcp
+# Type:     filter
+# Hook:     input
+# Priority: filter(0)
+# Policy:   DROP
+# Zone:     homelan
+# Called by: zones/zone-arp-filter-input-homelan.chain
+# Description:
+#
+
+# no L7 protocol in ARP, not even L4-protocol, straight mapping
+
+    chain arp_filter_input_homelan {
+
+        include "rules/zone-homelan-arp-filter-input/*.rule"
+
+    }
+
+

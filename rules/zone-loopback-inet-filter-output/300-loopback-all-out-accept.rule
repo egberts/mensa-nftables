@@ -1,9 +1,0 @@
-
-
-        # Reject externally received loopback-addressed traffic.
-# Called by: zones/loopback/inet-filter-output-loopback.chain
-        oif != "lo" ip daddr 127.0.0.0/8 counter log prefix "DROP inet/filter/output/loopback/ip: " drop
-        oif != "lo" ip6 daddr ::1 counter log prefix "DROP inet/filter/output/loopback/ip6: " drop
-
-        oif "lo" counter accept comment "Allows loopback"  # earlier vmap got this already
-

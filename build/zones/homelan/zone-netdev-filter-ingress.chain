@@ -1,0 +1,26 @@
+# File:     zone-netdev-filter-ingress-homelan.chain
+# Path:     zones/homelan/
+# Title:    ingress base chain for netdev-fdamily and filter chain-type
+# Family:   netdev
+# Table:    *
+# Chain:    netdev_filter_ingress_homelan
+# Type:     filter
+# Hook:     ingress
+# Priority: -310 (filter(0)-300)
+# Policy:   *
+# Zone:     homelan
+# Called by: zones/zone-netdev-filter-ingress-homelan.chain
+# Description:
+#
+
+    chain netdev_filter_ingress_homelan {
+        type filter hook ingress device $homelan_INTF_DEV priority -310; policy accept
+
+        counter comment "netdev-filter-ingress BEGIN"
+
+        include "zones/rules/netdev-filter-ingress/*.rule"
+
+        counter comment "netdev-filter-ingress END"
+        return
+    }
+

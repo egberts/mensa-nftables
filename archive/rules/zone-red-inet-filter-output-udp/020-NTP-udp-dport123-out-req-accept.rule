@@ -1,0 +1,6 @@
+#
+# File: 020-NTP-udp-dport123-out-req-accept.rule
+# Title: Allow local NTP client request to remote NTP server
+# Called by: zones/red/inet-filter-output-red-udp.chain
+
+udp dport 123 notrack counter accept comment "local-to-remote NTP/UDP/123 request"

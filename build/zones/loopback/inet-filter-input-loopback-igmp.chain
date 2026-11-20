@@ -1,0 +1,31 @@
+# File:     inet-filter-input-red-igmp.chain
+# Path:     zones/red/
+# Title:
+# Family:   inet
+# Table:    *
+# Chain:    inet_filter_input_red_igmp
+# Type:     filter
+# Hook:     input
+# Priority: filter(0)
+# Policy:   DROP
+# Zone:     lan
+# Called by: zones/zone-inet-filter-input-red.chain
+# Description:
+#
+
+    # Register a protocol-to-firewall dispatch registry
+    map map_dispatch_inet_filter_input_red_protocol {
+        type inet_proto : verdict;
+        elements = {
+            igmp : goto inet_filter_input_red_igmp,
+        }
+    }
+
+    chain inet_filter_input_red_igmp {
+
+        counter
+
+        ip protocol igmp counter accept comment "Accept IGMP"
+
+        counter log prefix "DROP inet/filter/input/red/igmp: " drop
+    }

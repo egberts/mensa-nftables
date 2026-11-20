@@ -1,0 +1,8 @@
+#
+# File: 500-NFS-udp-dports-out-request-DROP.rule
+# Policy: DENY local NFS client request to remote NFS server
+# Called by: zones/red/inet-filter-output-red-udp.chain
+
+udp sport 111 counter drop comment "local-to-remote NFSportmapper/UDP/111 request"
+udp sport 2049 counter drop comment "local-to-remote NFS/UDP/2049 request"
+udp sport 20048 counter drop comment "local-to-remote NFSmountd/UDP/20048 request"

@@ -1,0 +1,29 @@
+# File:     ip6-filter-input-homelan-udp.chain
+# Path:     zones/homelan/
+# Title:
+# Family:   ip6
+# Table:    *
+# Chain:    ip6_filter_input_homelan_udp
+# Type:     filter
+# Hook:     input
+# Priority: filter(0)
+# Policy:   DROP
+# Zone:     homelan
+# Called by: none
+# Description:
+#
+
+    # Register a protocol-to-firewall dispatch registry
+    map map_dispatch_ip6_filter_input_homelan_protocol {
+        type inet_proto : verdict;
+        elements = {
+            udp : goto ip6_filter_input_homelan_udp,
+        }
+    }
+
+    chain ip6_filter_input_homelan_udp {
+
+        include "rules/zone-homelan-ip6-filter-input-udp/*.rule"        directory wildcard
+
+        log prefix "DROP ip6/filter/input/homelan/udp " counter drop
+    }

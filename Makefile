@@ -1,15 +1,15 @@
 # Mensa nftables
 #
-#   source/  -> all templating
+#   src/  -> all templating
 #   build/   -> final file directory layouts needed to reconstruct the
 #               nft script file
 #
 # Targets:
 #   help   - show this message
-#   all    - generate build/ from source/ (default target)
-#   build  - generate the final layouts in build/ from source/
+#   all    - generate build/ from src/ (default target)
+#   build  - generate the final layouts in build/ from src/
 
-SRC      ?= source
+SRC      ?= src
 BUILDDIR ?= build
 ZONES    ?= arca homelan loopback red
 
@@ -19,11 +19,11 @@ all: build
 
 help:
 	@echo 'Mensa nftables'
-	@echo '  all    - generate build/ from source/ (default)'
-	@echo '  build  - generate the final layouts in build/ from source/'
+	@echo '  all    - generate build/ from src/ (default)'
+	@echo '  build  - generate the final layouts in build/ from src/'
 	@echo '  help   - show this message'
 
-# ---- generate the final layouts in build/ from source/ ----
+# ---- generate the final layouts in build/ from src/ ----
 
 build: $(BUILDDIR)/nftables.nft $(BUILDDIR)/template-rules
 
@@ -67,7 +67,7 @@ $(BUILDDIR)/template-rules: $(SRC)/template-rules Makefile
 
 $(BUILDDIR)/zones: $(SRC)/4-zones Makefile
 	mkdir -p $(BUILDDIR)/zones
-	# per-zone dirs: source/4-zones/ZONE -> build/zones/<zone>/
+	# per-zone dirs: src/4-zones/ZONE -> build/zones/<zone>/
 	for z in $(ZONES); do \
 		mkdir -p $(BUILDDIR)/zones/$$z; \
 		cp -a $(SRC)/4-zones/ZONE/. $(BUILDDIR)/zones/$$z/; \
@@ -79,7 +79,7 @@ $(BUILDDIR)/zones: $(SRC)/4-zones Makefile
 			[ "$$f" = "$$new" ] || mv "$$f" "$$new"; \
 		done; \
 	done
-	# flat set: source/4-zones/zone-*-ZONE.chain -> build/zones/zone-*-<zone>.chain
+	# flat set: src/4-zones/zone-*-ZONE.chain -> build/zones/zone-*-<zone>.chain
 	for z in $(ZONES); do \
 		for f in $(SRC)/4-zones/zone-*-ZONE.chain; do \
 			[ -e "$$f" ] || continue; \

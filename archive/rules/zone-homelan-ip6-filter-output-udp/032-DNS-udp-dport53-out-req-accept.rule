@@ -1,0 +1,6 @@
+#
+# File: 032-DNS-udp-dport53-out-req-accept.rule
+# Policy: Allow local DNS client request to remote DNS server
+# Called by: none
+
+udp dport 53 counter accept comment "local-to-remote DNS/UDP/53 request"

@@ -1,0 +1,6 @@
+# File: 020-ssh-tcp-sport22-in-reply-accept.rule
+# Title: Allow remote SSH server reply to local SSH client
+# Called by: zones/red/ip-filter-input-red-tcp.chain
+
+tcp sport 22 counter accept comment "remote-to-local SSH/TCP/22 reply"
+

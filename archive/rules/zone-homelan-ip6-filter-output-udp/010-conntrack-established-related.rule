@@ -1,0 +1,5 @@
+
+# Accept established and related connections.
+# Called by: none
+ct state { established, related } counter accept comment "Accept packets belonging to established or related connections"
+

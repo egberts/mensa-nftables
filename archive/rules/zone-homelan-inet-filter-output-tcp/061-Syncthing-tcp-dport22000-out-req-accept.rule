@@ -1,0 +1,6 @@
+#
+# File: 061-Syncthing-tcp-dport22000-out-req-accept.rule
+# Title: Allow local Syncthing client request to remote Syncthing server
+# Called by: zones/red/inet-filter-output-red-tcp.chain
+
+tcp dport 22000 counter accept comment "local-to-remote Syncthing/TCP/22000 request"

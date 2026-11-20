@@ -1,0 +1,7 @@
+
+# File: 020-NTP-udp-sport123-in-reply-accept.rule
+# Title: Allow remote NTP server reply to local NTP client
+# Called by: zones/red/ip6-filter-input-red-udp.chain
+
+udp sport 123 notrack counter accept comment "remote-to-local NTP/UDP/123 reply"
+

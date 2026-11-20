@@ -1,0 +1,3 @@
+# Called by: zones/red/ip6-filter-input-red-udp.chain
+
+meta l4proto tcp counter comment "Diagnostic: count TCP packets"

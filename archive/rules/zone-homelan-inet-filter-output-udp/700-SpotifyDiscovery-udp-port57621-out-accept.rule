@@ -1,0 +1,6 @@
+#
+# File: 700-SpotifyDiscovery-udp-port57621-out-accept.rule
+# Policy: Allow outbound Spotify Discovery broadcast
+# Called by: zones/red/inet-filter-output-red-udp.chain
+
+ip daddr $WAN_INTF_BCAST udp sport == 57621 udp dport == 57621 accept comment "local-to-remote Spotify/UDP/56621 broadcast"

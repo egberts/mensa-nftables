@@ -23,7 +23,11 @@ The filesystem represents the policy architecture; `nftables` remains the execut
 And top-level directory name represent the binding between zone, family, chain type, chain hook, and layer-4 protocol.
 
 
+In short,
 
+* kernel-defined architecture,
+* filesystem-defined composition,
+* native nftables execution.
 
 Downside is the rules are infuriatingly oppressive by the virtue of these multipliers:
 

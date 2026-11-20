@@ -1,0 +1,5 @@
+# File: 041-SMTPsubmission-tcp-dport587-in-req-accept.rule
+# Title: Allow remote SMTP/Submission client request to local SMTP/Submission server
+# Called by: zones/red/inet-filter-input-red-tcp.chain
+
+tcp dport 587 counter accept comment "remote-to-local SMTPSubmission/TCP/587 request"

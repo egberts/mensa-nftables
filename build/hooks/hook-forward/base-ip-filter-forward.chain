@@ -1,0 +1,37 @@
+# File:     base-ip-filter-forward.chain
+# Path:     hooks/hook-forward/A
+# Title:    Base chain for the forward hook (ip family, filter type)
+# Family:   ip
+# Table:    *
+# Chain:    ip_filter_forward
+# Type:     filter
+# Hook:     forward
+# Priority: -1 (filter(0)-1, before Libvirt/Docker forward/filter(0))
+# Policy:   DROP
+# Called by: types/type-filter/filter-ip.nft
+# Description:
+#
+# Single-indented for base-chain and regular-chain
+# Double-indented for rules-only
+#
+
+    # Declare an interface-to-chain dispatcher for forward hook
+    map map_dispatch_ip_filter_forward_interface {
+        typeof iif : verdict
+    }
+    chain ip_filter_forward {
+        type filter hook forward priority -1; policy drop;
+
+        # A cool lookup to jump into a protocol-specific regular chain
+        # dispatch map built by including/excluding chain-ip-filter-*.nft files
+        iif vmap @map_dispatch_ip_filter_forward_interface
+    }
+
+    # Selectively load our protocol regular chains
+    # registers with 'map_dispatch_ip_filter_forward' dispatch mapper)
+    include "./ip-filter-forward-*.chain";
+
+    chain ip_filter_forward {
+
+        counter log prefix "DROP ip/filter/forward: " drop comment "unidentified interface filter forward"
+    }

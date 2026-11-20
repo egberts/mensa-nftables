@@ -1,0 +1,62 @@
+# File:     inet-filter-output-homelan-icmpv6.chain
+# Path:     zones/homelan/
+# Title:    Rules for ICMPv6 packets in homelan zone with type filter and hook output
+# Family:   inet
+# Table:    *
+# Chain:    inet_filter_output_homelan_icmpv6
+# Type:     filter
+# Hook:     output
+# Priority: filter(0)
+# Policy:   DROP
+# Zone:     homelan
+# Called by: zones/zone-inet-filter-output-homelan.chain
+# Description:
+#
+
+    # Register a protocol-to-firewall dispatch registry
+    map map_dispatch_inet_filter_output_homelan_protocol {
+        type inet_proto : verdict;
+        elements = {
+            ipv6-icmp : goto inet_filter_output_homelan_icmpv6,
+        }
+    }
+
+    chain inet_filter_output_homelan_icmpv6 {
+        counter comment "Count all packets entering this chain"
+
+        meta nfproto ipv4 counter comment "Diagnostic: count IPv4 packets"
+        meta nfproto ipv6 counter comment "Diagnostic: count IPv6 packets"
+
+        meta l4proto icmpv6 counter comment "Diagnostic: count ICMPv6 packets"
+
+        ct state { established, related } counter accept comment "Accept established and related connections"
+        ct state invalid counter drop comment "Drop packets classified as invalid"
+
+        icmpv6 type echo-request counter accept comment "Allow outbound IPv6 ICMP Echo Requests (ping)"
+
+        # Permit essential IPv6 ICMP error messages.
+        icmpv6 type {
+            destination-unreachable,
+            packet-too-big,
+            time-exceeded,
+            parameter-problem } counter accept
+
+        # Permit IPv6 Neighbor Discovery, Router Solicitations and Advertisements.
+        icmpv6 type {
+            nd-router-solicit,
+            nd-neighbor-solicit,
+            nd-neighbor-advert,
+            nd-router-advert } ip6 hoplimit 255 counter accept
+        ip6 daddr ::1/128 counter drop comment "drop invalid loopback traffic"
+
+        icmpv6 type 135 icmpv6 code 0 counter accept
+        icmpv6 type 143 icmpv6 code 0 counter drop
+        icmpv6 type 136 icmpv6 code 0 counter drop
+
+        ip protocol icmp counter accept
+
+        # homelan output ICMP disallow
+        ip6 daddr ::1/128 counter drop
+
+        log prefix "DROP inet/filter/output/homelan/icmpv6: " counter drop comment "Log and drop all remaining ICMPv6 packets"
+    }

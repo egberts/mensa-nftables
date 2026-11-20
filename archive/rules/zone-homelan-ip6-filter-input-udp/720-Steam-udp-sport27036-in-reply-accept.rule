@@ -1,0 +1,6 @@
+#
+# File: 720-Steam-udp-sport27036-in-reply-accept.rule
+# Policy: Allow remote Steam server reply to local Steam client
+# Called by: zones/red/ip6-filter-input-red-udp.chain
+
+udp sport 27036 counter accept comment "remote-to-local Steam/UDP/27036 reply"

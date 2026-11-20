@@ -1,0 +1,44 @@
+#
+# File: 100-icmp-all-out-accept.rule
+# Policy: Allow any outbound ICMP
+# Called by: zones/red/inet-filter-output-red-icmp.chain
+# Description:
+#
+# CMPv4 Type and Code reference
+# Type	Code	Description
+# 0	0	Echo Reply
+# 3	0	Destination Network Unreachable
+# 3	1	Destination Host Unreachable
+# 3	2	Destination Protocol Unreachable
+# 3	3	Destination Port Unreachable
+# 3	4	Fragmentation Needed
+# 3	5	Source Route Failed
+# 3	6	Destination Network Unknown
+# 3	7	Destination Host Unknown
+# 3	9	Network Administratively Prohibited
+# 3	10	Host Administratively Prohibited
+# 3	11	Network Unreachable for TOS
+# 3	12	Host Unreachable for TOS
+# 3	13	Communication Administratively Prohibited
+# 3	14	Host Precedence Violation
+# 3	15	Precedence Cutoff
+# 4	0	Source Quench (Deprecated)
+# 5	0	Redirect Network
+# 5	1	Redirect Host
+# 5	2	Redirect TOS and Network
+# 5	3	Redirect TOS and Host
+# 8	0	Echo Request
+# 9	0	Router Advertisement
+# 10	0	Router Solicitation
+# 11	0	TTL Exceeded in Transit
+# 11	1	Fragment Reassembly Time Exceeded
+# 12	0	Parameter Problem
+# 12	1	Missing Required Option
+# 12	2	Bad Length
+# 13	0	Timestamp Request (Deprecated)
+# 14	0	Timestamp Reply (Deprecated)
+# 17	0	Address Mask Request (Deprecated)
+# 18	0	Address Mask Reply (Deprecated)
+#
+
+        meta l4proto icmp counter accept comment "local-to-remote ICMP/IP (ping)"

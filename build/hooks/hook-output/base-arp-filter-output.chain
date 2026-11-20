@@ -1,0 +1,33 @@
+# File:     base-arp-filter-output.chain
+# Path:     hooks/hook-output/
+# Title:    Base chain for the output hook (arp family, filter type)
+# Family:   arp
+# Table:    *
+# Chain:    arp_filter_output
+# Type:     filter
+# Hook:     output
+# Priority: 10 (over Libvirt/Docker filter(0) and ip/ip6 filter+1)
+# Policy:   DROP
+# Called by: types/type-filter/filter-arp.nft
+# Description:
+#
+# Single-indented for base-chain and regular-chain
+# Double-indented for rules-only
+#
+
+    # Declare an interface-to-chain dispatcher for output hook
+    map map_dispatch_arp_filter_output_interface {
+        typeof oif : verdict
+    }
+    chain arp_filter_output {
+        type filter hook output priority -10; policy drop;
+
+        # dispatch map built by including/excluding chain-inet-filter-*.nft files
+        oif vmap @map_dispatch_arp_filter_output_interface
+    }
+
+    include "build/zones/zone-arp-filter-output-*.chain";  # wildcard by zone name
+
+    chain arp_filter_output {
+        counter log prefix "DROP arp/filter/output unknown ZONE: " drop
+    }

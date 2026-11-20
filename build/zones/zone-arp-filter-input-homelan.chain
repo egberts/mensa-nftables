@@ -1,0 +1,27 @@
+# File:     zone-arp-filter-input-homelan.chain
+# Path:     *
+# Title:    Regular chain?
+# Family:   arp
+# Table:    *
+# Chain:    arp_filter_input_homelan
+# Type:     filter
+# Hook:     input
+# Priority: filter(0)
+# Policy:   *
+# Zone:     homelan
+# Called by: hooks/hook-input/base-arp-filter-input.chain
+# Description: Stateful inbound host firewall
+#
+
+    # no layer-7 protocol-specific dispatcher needed in ARP family
+    chain arp_filter_input_homelan {
+
+        counter comment "arp/filter/input/homelan"
+    }
+
+    include "build/zones/homelan/arp-filter-input-homelan.chain"  # no wildcard
+
+    chain arp_filter_input_homelan {
+        # Log and count denied traffic.
+        counter log prefix "DROP arp/filter/input/homelan unknown packet in homelan zone: " drop
+    }

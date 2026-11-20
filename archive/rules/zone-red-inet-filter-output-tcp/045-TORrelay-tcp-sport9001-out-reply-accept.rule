@@ -1,0 +1,7 @@
+
+# File: 045-TORrelay-tcp-sport9001-out-reply-accept.rule
+# Title: Allow local TORrelay server reply to remote TORrelay client
+# Called by: zones/red/inet-filter-output-red-tcp.chain
+
+tcp sport 9001 counter accept comment "local-to-remote TORrelay/TCP/9001 reply"
+

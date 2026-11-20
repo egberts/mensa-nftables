@@ -1,0 +1,8 @@
+#
+# File: 500-NFS-udp-sports-out-reply-DROP.rule
+# Policy: DENY local DNS client reply to remote NFS server
+# Called by: zones/red/inet-filter-output-red-udp.chain
+
+udp sport 111 counter drop comment "local-to-remote NFSportmapper/UDP/111 reply"
+udp sport 2049 counter drop comment "local-to-remote NFS/UDP/2049 reply"
+udp sport 20048 counter drop comment "local-to-remote NFSmountd/UDP/20048 reply"

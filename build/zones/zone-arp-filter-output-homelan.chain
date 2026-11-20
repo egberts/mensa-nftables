@@ -1,0 +1,27 @@
+# File:     zone-arp-filter-output-homelan.chain
+# Path:     *
+# Title:    Regular chain?
+# Family:   arp
+# Table:    *
+# Chain:    arp_filter_output_homelan
+# Type:     filter
+# Hook:     output
+# Priority: filter(0)+10
+# Policy:   *
+# Zone:     homelan
+# Called by: hooks/hook-output/base-arp-filter-output.chain
+# Description: Stateful inbound host firewall
+#
+
+    chain arp_filter_output_homelan {
+
+        counter comment "arp/filter/output/homelan"
+    }
+
+    include "build/zones/homelan/arp-filter-output-homelan.chain"  # no wildcard
+
+    chain arp_filter_output_homelan {
+
+        # Log and count denied traffic.
+        counter log prefix "DROP arp/filter/output/homelan unknown in homelan zone: " drop
+    }

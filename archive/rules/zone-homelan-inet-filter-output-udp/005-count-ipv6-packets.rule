@@ -1,0 +1,4 @@
+# Called by: zones/red/inet-filter-output-red-udp.chain
+
+
+meta nfproto ipv6 counter comment "Diagnostic: count IPv6 packets"

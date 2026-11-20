@@ -1,0 +1,27 @@
+# File:     netdev-filter-egress-arca.chain
+# Path:     zones/arca/
+# Title:    egress hook, base chain for netdev-family and filter chain-type
+# Family:   netdev
+# Table:    netdev_filter
+# Chain:    netdev_filter_egress_arca
+# Type:     filter
+# Hook:     egress
+# Priority: +310 (filter(0)+300)
+# Policy:   accept
+# Zone:     arca
+# Called by: hooks/hooks-egress/base-netdev-filter-egress.chain
+# Description:
+#
+
+    # No registry, using 'device'-based base chain
+    chain netdev_filter_egress_arca {
+        type filter hook egress device $arca_INTF_DEV priority 310; policy accept
+
+        counter comment "netdev/filter/egress BEGIN"
+
+        include "zones/arca/rules/netdev-filter-egress/*.rule"
+
+        counter comment "netdev/filter/egress END"
+        return
+    }
+

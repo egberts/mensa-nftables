@@ -1,0 +1,36 @@
+# File:     base-ip-filter-prerouting_raw.chain
+# Path:     hooks/hook-prerouting_raw/
+# Title:    Base chain for the prerouting hook (ip family, filter type) for raw(-300) priority
+# Family:   ip
+# Table:    *
+# Chain:    ip_filter_prerouting_raw
+# Type:     filter
+# Hook:     prerouting
+# Priority: raw(-300) - 10
+# Policy:   accept
+# Called by: types/type-filter/filter-ip.nft
+# Description:
+#
+# Single-indented for base-chain and regular-chain
+# Double-indented for rules-only
+#
+
+    # Declare an interface-to-chain dispatcher for prerouting hook at raw(-300) priority
+    map map_dispatch_inet_filter_prerouting_raw_interface_stable {
+        typeof oif : verdict
+    }
+    chain ip_filter_prerouting_raw {
+        type filter hook prerouting priority -310; policy accept;
+
+        counter
+
+        # dispatch map built by including/excluding chain-ip-filter-prerouting_raw-*.nft files
+        oif vmap @map_dispatch_inet_filter_prerouting_raw_interface_stable
+    }
+    # registers with 'map_dispatch_inet_filter_prerouting_raw_interface_stable' dispatch mapper)
+    # include "build/zones/zone-ip-filter-prerouting_raw-*.chain";
+
+    # Post-interface prerouting_raw process
+    chain ip_filter_prerouting_raw {
+        counter log prefix "DROP ip/filter/prerouting_raw: " drop
+    }

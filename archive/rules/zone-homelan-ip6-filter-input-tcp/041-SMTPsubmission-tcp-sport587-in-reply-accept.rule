@@ -1,0 +1,5 @@
+# File: 041-SMTPsubmission-tcp-sport587-in-reply-accept.rule
+# Title: Allow remote SMTP/Submission server reply to local SMTP/Submission client
+# Called by: zones/red/ip6-filter-input-red-tcp.chain
+
+tcp sport 587 counter accept comment "remote-to-local Submission/TCP/587 reply"

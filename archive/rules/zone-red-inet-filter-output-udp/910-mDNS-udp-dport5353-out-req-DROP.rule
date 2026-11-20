@@ -1,0 +1,10 @@
+#
+# File: 910-mDNS-udp-dport5353-out-req-DROP.rule
+# Title: Allow local mDNS server multicast request to remote mDNS clients
+# Called by: zones/red/inet-filter-output-red-udp.chain
+# Description:
+#    Drop IPv4 mDNS multicast traffic to 224.0.0.251:5353
+
+ip daddr 224.0.0.251 udp dport 5353 counter drop comment "local-to-remote mDNS/UDP/5353 multicast request"
+ip6 daddr ff02::fb udp dport 5353 counter drop comment "local-to-remote mDNS/UDP/5353 multicast request"
+udp dport 5353 counter drop comment "local-to-remote mDNS/UDP/5353 request"

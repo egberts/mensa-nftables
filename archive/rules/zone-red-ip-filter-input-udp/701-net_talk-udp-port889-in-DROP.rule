@@ -1,0 +1,13 @@
+#
+# File: 701-net_talk-udp-port889-in-DROP.rule
+# Policy: DENY remote net_talk server request to local net_talk client
+# Called by: zones/red/ip-filter-input-red-udp.chain
+# Description:
+#  Used by GIGABYTE cFosSpeed LAN statistics broadcast
+#  Last seen by MAC: 10:FF:E0:36:DE:81
+#      Destination: 192.168.1.255
+#      TTL: 1
+#  Purpose: Traffic-shaping statistics exchange
+#
+
+udp sport 889 udp dport 889 drop comment "remote-to-local net_talk/UDP/889 broadcast"

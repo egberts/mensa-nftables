@@ -1,0 +1,60 @@
+# File:     ip-filter-output-red-icmp.chain
+# Path:     zones/red/
+# Title:    Rules for ICMP packets in red zone with type filter and hook output
+# Family:   ip
+# Table:    *
+# Chain:    ip_filter_output_red_icmp
+# Type:     filter
+# Hook:     output
+# Priority: filter(0)
+# Policy:   DROP
+# Zone:     red
+# Called by: zones/zone-ip-filter-output-red.chain
+# Description:
+#
+
+    # Register a protocol-to-firewall dispatch registry
+    map map_dispatch_ip_filter_output_red_protocol {
+        type inet_proto : verdict;
+        elements = {
+            icmp : goto ip_filter_output_red_icmp,
+        }
+    }
+
+    chain ip_filter_output_red_icmp {
+
+        counter
+
+        # red output ICMP disallow
+        ip daddr 127.0.0.0/8 counter log prefix "DROP ip/filter/output/red/icmp localhost denied: " drop
+
+        # allow 'incoming ping request'
+        icmp type echo-request counter accept;
+
+        # responds to 'incoming ping request' with a reply
+        icmp type echo-reply counter accept;
+
+        # Permit essential IPv4 ICMP error messages.
+        icmp type {
+            destination-unreachable,
+            time-exceeded,
+            parameter-problem
+            } counter log prefix "ACCEPT ip/filter/input/red/icmp: " accept
+
+        # accept ping
+        icmp type router-advertisement counter accept;
+
+        # deny certain ICMP types, silently
+        icmp type source-quench counter drop;
+        icmp type redirect counter drop;
+        icmp type router-solicitation counter drop;
+        icmp type timestamp-request counter drop;
+        icmp type timestamp-reply counter drop;
+        icmp type info-request counter drop;
+        icmp type info-reply counter drop;
+        icmp type address-mask-request counter drop;
+        icmp type address-mask-reply counter drop
+
+        # remaining of the red input ICMP dropped
+        limit rate 4/second log prefix "DROP ip/filter/output/red/icmp: " counter drop
+    }

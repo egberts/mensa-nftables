@@ -1,0 +1,6 @@
+#
+# File: 810-customDNSixfr-tcp-sport345-out-reply-accept.rule
+# Title: Allow local private DNS server IXFR-reply to remote public DNS server
+# Called by: none
+
+tcp sport 345 counter accept comment "local-to-remote DNS-IXFR/TCP/345 reply"

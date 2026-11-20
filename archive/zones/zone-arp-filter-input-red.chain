@@ -1,0 +1,35 @@
+# File:     zone-arp-filter-input-libvirt.chain
+# Path:     *
+# Title:    Regular chain?
+# Family:   arp
+# Table:    *
+# Chain:    arp_filter_input_libvirt
+# Type:     filter
+# Hook:     input
+# Priority: filter(0)
+# Policy:   *
+# Zone:     libvirt
+# Called by: hooks/hook-input/base-arp-filter-input.chain
+# Description: Stateful inbound host firewall
+#
+    # Register a DeviceInterface-to-firewall dispatch registry
+    map map_dispatch_arp_filter_input_interface {
+        typeof iif : verdict
+        elements = {
+            # use goto, this is the final descendance
+            $HOMELAN_INTF_DEV : goto arp_filter_input_libvirt,
+        }
+    }
+
+    # no layer-7 protocol-specific dispatcher needed in ARP family
+    chain arp_filter_input_libvirt {
+
+        counter comment "arp/filter/input/libvirt"
+    }
+
+    include "./zones/libvirt/arp-filter-input-libvirt.chain"  # no wildcard
+
+    chain arp_filter_input_libvirt {
+        # Log and count denied traffic.
+        counter log prefix "DROP arp/filter/input/libvirt unknown ARP packet in libvirt zone: " drop
+    }

@@ -1,0 +1,27 @@
+# File:     zone-arp-filter-output-red.chain
+# Path:     *
+# Title:    Regular chain?
+# Family:   arp
+# Table:    *
+# Chain:    arp_filter_output_red
+# Type:     filter
+# Hook:     output
+# Priority: filter(0)+10
+# Policy:   *
+# Zone:     red
+# Called by: hooks/hook-output/base-arp-filter-output.chain
+# Description: Stateful inbound host firewall
+#
+
+    chain arp_filter_output_red {
+
+        counter comment "arp/filter/output/red"
+    }
+
+    include "build/zones/red/arp-filter-output-red.chain"  # no wildcard
+
+    chain arp_filter_output_red {
+
+        # Log and count denied traffic.
+        counter log prefix "DROP arp/filter/output/red unknown in red zone: " drop
+    }

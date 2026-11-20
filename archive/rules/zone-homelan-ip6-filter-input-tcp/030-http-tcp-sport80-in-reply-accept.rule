@@ -1,0 +1,5 @@
+# File: 030-http-tcp-sport80-in-reply-accept.rule
+# Title: Allow remote HTTP server reply to local HTTP client
+# Called by: zones/red/ip6-filter-input-red-tcp.chain
+
+tcp sport 80 counter accept comment "remote-to-local HTTP/TCP/80 reply"

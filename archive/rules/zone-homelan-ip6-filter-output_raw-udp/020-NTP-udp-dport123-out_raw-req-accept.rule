@@ -1,0 +1,13 @@
+#
+# File: 020-NTP-udp-dport123-out-req-accept.rule
+# Title: Allow local NTP client request to remote NTP server
+#
+# Special case of no connection tracking ('notrack')
+
+# must have 'notrack' NTP rule in zone-red-inet-filter-prerouting_raw-udp/030-ntp-server.rule at raw(-300) priority
+# must have 'untracked' NTP rule in zone-red-inet-filter-prerouting-udp/030-ntp-server.rule at filter(0) priority
+# must have 'notrack' NTP rule in zone-red-inet-filter-output_raw-udp/030-ntp-server.rule at raw(-300) priority
+# must have 'untracked' NTP rule in zone-red-inet-filter-output-udp/030-ntp-server.rule at filter(0) priority
+# Called by: none
+
+udp dport 123 notrack counter accept comment "local-to-remote NTP/UDP/123 request"

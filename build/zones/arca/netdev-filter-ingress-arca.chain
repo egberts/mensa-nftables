@@ -1,0 +1,20 @@
+# File:     netdev-filter-ingress-arca.chain
+# Path:     zones/arca/
+# Title:    Regular chain for arca zone arp-family TCP packets in ingress hook
+# Family:   arp
+# Table:    *
+# Chain:    arp_filter_ingress_arca_tcp
+# Type:     filter
+# Hook:     ingress
+# Priority: filter(+10)
+# Policy:   DROP
+# Zone:     arca
+# Called by: zones/zone-arp-filter-ingress-arca.chain
+# Description:
+#
+
+    chain arp_filter_ingress_arca {
+
+        include "rules/zone-arca-arp-filter-ingress/*.rule"
+    }
+

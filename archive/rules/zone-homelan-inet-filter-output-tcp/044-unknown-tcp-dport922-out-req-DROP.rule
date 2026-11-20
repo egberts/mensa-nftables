@@ -1,0 +1,6 @@
+#
+# File: 044-unknown-tcp-dport922-out-reply-DROP.rule
+# Title: Deny local port 922/tcp server reply to remote port 922/tcp client
+#
+# Called by: zones/red/inet-filter-output-red-tcp.chain
+tcp sport 922 counter drop comment "local-to-remote ???/TCP/922 reply"

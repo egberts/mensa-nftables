@@ -1,0 +1,29 @@
+# File:     ip6-filter-input-red-tcp.chain
+# Path:     zones/red/
+# Title:    Regular chain for red zone ip6-family TCP packets in input hook
+# Family:   ip6
+# Table:    *
+# Chain:    ip6_filter_input_red_tcp
+# Type:     filter
+# Hook:     input
+# Priority: filter(0)
+# Policy:   DROP
+# Zone:     red
+# Called by: none
+# Description:
+#
+
+    # Register a protocol-to-firewall dispatch registry
+    map map_dispatch_ip6_filter_input_red_protocol {
+        type inet_proto : verdict;
+        elements = {
+            tcp : goto ip6_filter_input_red_tcp,
+        }
+    }
+
+    chain ip6_filter_input_red_tcp {
+
+        include "rules/zone-red-ip6-filter-input-tcp/*.rule"
+
+        log prefix "DROP ip6/filter/input/red/tcp: " counter drop comment "Log and drop all remaining TCP packets reaching this chain"
+    }

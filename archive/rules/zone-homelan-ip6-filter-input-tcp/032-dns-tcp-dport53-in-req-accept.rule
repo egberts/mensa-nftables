@@ -1,0 +1,5 @@
+# File: 032-dns-tcp-dport53-in-req-accept.rule
+# Title: Allow remote DNS client reply to local DNS server
+# Called by: zones/red/ip6-filter-input-red-tcp.chain
+
+tcp dport 53 counter accept comment "remote-to-local DNS/TCP/53 request"

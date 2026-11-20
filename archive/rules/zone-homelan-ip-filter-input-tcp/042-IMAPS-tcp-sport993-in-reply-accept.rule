@@ -1,0 +1,6 @@
+#
+# File: IMAPS-tcp-sport993-in-reply-accept.rule
+# Title: Allow remote IMAPS server reply to local IMAPS client
+# Called by: zones/red/ip-filter-input-red-tcp.chain
+
+tcp sport 993 counter accept comment "remote-to-local IMAPS/TCP/993 reply"

@@ -1,0 +1,37 @@
+# File:     base-ip-filter-output.chain
+# Path:     hooks/hook-output/
+# Title:    Base chain for the output hook (ip family, filter type)
+# Family:   ip
+# Table:    *
+# Chain:    ip_filter_output
+# Type:     filter
+# Hook:     output
+# Priority: 5 (filter(0)+5, over Libvirt/Docker filter(0))
+# Policy:   DROP
+# Called by: types/type-filter/filter-ip.nft
+# Description:
+#
+# Single-indented for base-chain and regular-chain
+# Double-indented for rules-only
+#
+
+    # Declare an interface-to-chain dispatcher for output hook
+    map map_dispatch_inet_filter_output_interface_stable {
+        typeof oif : verdict
+    }
+    chain ip_filter_output {
+        type filter hook output priority 5; policy drop;
+
+        counter
+
+        # dispatch map built by including/excluding chain-ip-filter-output-*.nft files
+        oif vmap @map_dispatch_inet_filter_output_interface_stable
+    }
+
+    # registers with 'map_dispatch_inet_filter_output_interface_stable' dispatch mapper)
+    # include "build/zones/zone-ip-filter-output-*.chain";
+
+    # Post-interface output process
+    chain ip_filter_output {
+        counter log prefix "DROP ip/filter/output: " drop
+    }

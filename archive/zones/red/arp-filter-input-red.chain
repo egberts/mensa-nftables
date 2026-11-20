@@ -1,0 +1,24 @@
+# File:     arp-filter-input-red.chain
+# Path:     zones/red/
+# Title:    Regular chain for red zone arp-family TCP packets in input hook
+# Family:   arp
+# Table:    *
+# Chain:    arp_filter_input_red_tcp
+# Type:     filter
+# Hook:     input
+# Priority: filter(0)
+# Policy:   DROP
+# Zone:     red
+# Called by: zones/zone-arp-filter-input-red.chain
+# Description:
+#
+
+# no L7 protocol in ARP, not even L4-protocol, straight mapping
+
+    chain arp_filter_input_red {
+
+        include "rules/zone-red-arp-filter-input/*.rule"
+
+    }
+
+

@@ -1,0 +1,26 @@
+#!/usr/sbin/nft -f
+#
+# File:     filter-arp.nft
+# Path:     1-types/
+# Title:    Valid hooks for ARP family and filter chain-type
+# Family:   arp
+# Table:    arp_filter
+# Chain:    *
+# Type:     filter
+# Hook:     *
+# Priority: N/A
+# Policy:   *
+# Called by: nftables.nft
+# Description:
+#
+# Single-indented for base-chain and regular-chain
+# Double-indented for rules-only
+#
+
+table arp arp_filter {
+
+    include "build/hooks/hook-input/base-arp-filter-input*.chain";
+
+    include "build/hooks/hook-output/base-arp-filter-output*.chain";
+
+}

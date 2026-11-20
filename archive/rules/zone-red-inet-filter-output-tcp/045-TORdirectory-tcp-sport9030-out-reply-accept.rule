@@ -1,0 +1,7 @@
+#
+# File: 045-TORdirectory-tcp-sport9030-out-reply-accept.rule
+# Title: Allow local TORdirectory server reply to remote TORdirectory client
+# Called by: zones/red/inet-filter-output-red-tcp.chain
+
+tcp sport 9030 counter accept comment "local-to-remote TORdirectory/TCP/9030 reply"
+

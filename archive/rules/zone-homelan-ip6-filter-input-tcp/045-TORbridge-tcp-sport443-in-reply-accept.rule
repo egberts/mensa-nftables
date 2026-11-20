@@ -1,0 +1,6 @@
+
+# File: 045-TORbridge-tcp-sport433-in-reply-accept.rule
+# Title: Allow remote TORbridge server reply to local TORbridge client
+# Called by: zones/red/ip6-filter-input-red-tcp.chain
+
+tcp sport 443 counter accept comment "remote-to-local TORbridge/TCP?443 reply"

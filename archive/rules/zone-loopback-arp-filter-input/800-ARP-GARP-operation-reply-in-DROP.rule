@@ -1,0 +1,13 @@
+#
+# File: 100-ARP-GARP-operation-reply-in-DROP.rule
+# Policy: Ignore GARP new IP address announcement
+# Called by: zones/loopback/arp-filter-input-loopback.chain
+
+# pseudo-equivalence of (arp saddr ip) eq (arp daddr ip) counter log prefix "New IP address: " drop
+# @nh,112,32 == @nh,192,32 counter
+# (arp saddr ip) == (arp daddr ip)
+
+# for now, we detect MACDST=00:00:00:00:00:00
+
+arp saddr ether 00:00:00:00:00:00 counter drop  # comment "remote-to-local GARP new IP address"
+arp saddr ether ff:ff:ff:ff:ff:ff counter drop  # comment "remote-to-local GARP new IP address"

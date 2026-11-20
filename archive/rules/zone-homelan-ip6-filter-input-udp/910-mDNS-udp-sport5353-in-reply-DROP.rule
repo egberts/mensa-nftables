@@ -1,0 +1,8 @@
+#
+# File: 910-mDNS-udp-sport5353-in-reply-DROP.rule
+# Title: Allow remote mDNS server multicast reply to local mDNS client
+# Called by: zones/red/ip6-filter-input-red-udp.chain
+# Description:
+#    Drop IPv4 mDNS multicast traffic to 224.0.0.251:5353
+
+ip saddr 224.0.0.251 udp sport 5353 counter drop comment "remote-to-local mDNS/UDP/5353 multicast reply"

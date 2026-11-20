@@ -1,0 +1,29 @@
+# File:     inet-filter-output-homelan-icmp.chain
+# Path:     zones/homelan/
+# Title:    Rules for ICMPv4 packets in homelan zone with type filter and hook output
+# Family:   inet
+# Table:    *
+# Chain:    inet_filter_output_homelan_icmpv4
+# Type:     filter
+# Hook:     output
+# Priority: filter(0)
+# Policy:   DROP
+# Zone:     homelan
+# Called by: zones/zone-inet-filter-output-homelan.chain
+# Description:
+#
+
+    # Register a protocol-to-firewall dispatch registry
+    map map_dispatch_inet_filter_output_homelan_protocol {
+        type inet_proto : verdict;
+        elements = {
+            icmp : goto inet_filter_output_homelan_icmpv4,
+        }
+    }
+
+    chain inet_filter_output_homelan_icmpv4 {
+
+        include "rules/zone-homelan-inet-filter-output-icmp/*.rule"
+
+        log prefix "DROP filter/output/homelan/icmp : " counter drop
+    }

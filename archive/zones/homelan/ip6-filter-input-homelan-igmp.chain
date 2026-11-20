@@ -1,0 +1,31 @@
+# File:     ip6-filter-input-homelan-igmp.chain
+# Path:     zones/homelan/
+# Title:
+# Family:   ip6
+# Table:    *
+# Chain:    ip6_filter_input_homelan_igmp
+# Type:     filter
+# Hook:     input
+# Priority: filter(0)
+# Policy:   DROP
+# Zone:     lan
+# Called by: none
+# Description:
+#
+
+    # Register a protocol-to-firewall dispatch registry
+    map map_dispatch_ip6_filter_input_homelan_protocol {
+        type inet_proto : verdict;
+        elements = {
+            igmp : goto ip6_filter_input_homelan_igmp,
+        }
+    }
+
+    chain ip6_filter_input_homelan_igmp {
+
+        counter
+
+        ip protocol igmp counter accept comment "Accept IGMP"
+
+        counter log prefix "DROP ip6/filter/input/homelan/igmp " drop
+    }

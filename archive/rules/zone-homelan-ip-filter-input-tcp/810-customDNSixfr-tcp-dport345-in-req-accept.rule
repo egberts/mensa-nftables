@@ -1,0 +1,6 @@
+#
+# File: 800-customDNSixfr-tcp-dport345-in-req-accept.rule
+# Title: Allow remote DNS IXFR public master server request to local DNS private master server
+# Called by: zones/red/ip-filter-input-red-tcp.chain
+
+tcp dport 345 counter accept comment "remote-to-local DNS-IXFR/TCP/345 request"

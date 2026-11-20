@@ -1,0 +1,20 @@
+# File:     netdev-filter-ingress-loopback.chain
+# Path:     zones/loopback/
+# Title:    Regular chain for loopback zone arp-family TCP packets in ingress hook
+# Family:   arp
+# Table:    *
+# Chain:    arp_filter_ingress_loopback_tcp
+# Type:     filter
+# Hook:     ingress
+# Priority: filter(+10)
+# Policy:   DROP
+# Zone:     loopback
+# Called by: zones/zone-arp-filter-ingress-loopback.chain
+# Description:
+#
+
+    chain arp_filter_ingress_loopback {
+
+        include "rules/zone-loopback-arp-filter-ingress/*.rule"
+    }
+

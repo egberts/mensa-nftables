@@ -1,0 +1,18 @@
+#
+# File: 403-AlexaEchoService4-tcp-sport49317-out-reply-accept.rule
+# Policy: Allow local Alexa Echo service4 server reply to remote Alexa Echo servicer3 client
+#
+# Amazon documentation identifies several ports associated with Alexa services:
+# Port	Protocol	Associated function
+# 123	UDP	NTP/time synchronization
+# 443	TCP	HTTPS
+# 3478	TCP/UDP	STUN/TURN connectivity
+# 4070	TCP/UDP	Alexa-associated service requirements
+# 5353	UDP	mDNS
+# 1900	UDP	SSDP discovery
+# 33434	TCP/UDP	Alexa service connectivity
+# 40317	TCP/UDP	Alexa service connectivity
+# 49317	TCP/UDP	Alexa service connectivity
+# Called by: none
+
+tcp sport 49317 counter accept comment "local-to-remote AlexaEchoService4/TCP/49317 reply"

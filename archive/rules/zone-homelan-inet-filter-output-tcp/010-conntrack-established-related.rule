@@ -1,0 +1,5 @@
+
+# Accept established and related connections.
+# Called by: zones/red/inet-filter-output-red-tcp.chain
+ct state { established, related } counter accept comment "Accept packets belonging to established or related connections"
+

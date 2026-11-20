@@ -1,0 +1,4 @@
+# Called by: zones/red/inet-filter-input-red-udp.chain
+
+ct state invalid counter drop comment "Drop packets classified as invalid by connection tracking"
+

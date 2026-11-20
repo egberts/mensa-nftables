@@ -1,0 +1,4 @@
+# 010-igmp-ip-in-all-accept.rule
+# Called by: zones/red/inet-filter-input-red-igmp.chain
+
+        ip protocol igmp counter accept comment "outbound IPv4 IGMP"

@@ -1,0 +1,8 @@
+#
+# File: 500-NFS-udp-sports-in-reply-accept.rule
+# Policy: Allow remote DNS client reply to local NFS server
+# Called by: zones/red/ip6-filter-input-red-udp.chain
+
+udp dport 111 counter accept comment "remote-to-local NFSportmapper/UDP/111 reply"
+udp dport 2049 counter accept comment "remote-to-local NFS/UDP/2049 reply"
+udp dport 20048 counter accept comment "remote-to-local NFSmountd/UDP/20048 reply"

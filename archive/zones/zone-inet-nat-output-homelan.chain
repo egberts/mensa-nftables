@@ -1,0 +1,35 @@
+# File:     zone-inet-nat-output-homelan.chain
+# Path:     *
+# Title:    Regular chain?
+# Family:   inet
+# Table:    *
+# Chain:    inet_nat_output_homelan
+# Type:     nat
+# Hook:     output
+# Priority: srcdst
+# Policy:   *
+# Zone:     homelan
+# Called by: hooks/hook-output/base-inet-nat-output.chain
+# Description: Stateful inbound host firewall
+#
+
+    # Register a DeviceInterface-to-firewall dispatch registry
+    map map_dispatch_inet_nat_output_interface {
+        typeof oif : verdict
+        elements = {
+            # use goto, this is the final descendance
+            $HOMELAN_INTF_DEV : goto inet_nat_output_homelan,
+        }
+    }
+
+    # no layer-7 protocol-specific dispatcher needed in ARP family
+    chain inet_nat_output_homelan {
+
+        counter comment "inet/nat/output/homelan"
+    }
+
+    include "./zones/homelan/inet-nat-output-homelan*.chain"  # no wildcard
+
+    chain inet_nat_output_homelan {
+        counter log prefix "DROP inet/nat/output/homelan unknown in homelan zone: " drop
+    }

@@ -1,0 +1,7 @@
+#
+# File: 100-Wireguard-udp-sport51820-in-reply-accept.rule
+# Title: Allow remote Wireguard server reply to local Wireguard client
+# Called by: zones/red/inet-filter-input-red-udp.chain
+
+udp sport 51820 counter accept comment "remote-to-local Wireguard/UDP/51820 reply"
+

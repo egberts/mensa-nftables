@@ -1,0 +1,26 @@
+# File:     zone-netdev-filter-ingress-loopback.chain
+# Path:     zones/loopback/
+# Title:    ingress base chain for netdev-fdamily and filter chain-type
+# Family:   netdev
+# Table:    *
+# Chain:    netdev_filter_ingress_loopback
+# Type:     filter
+# Hook:     ingress
+# Priority: -310 (filter(0)-300)
+# Policy:   *
+# Zone:     loopback
+# Called by: zones/zone-netdev-filter-ingress-loopback.chain
+# Description:
+#
+
+    chain netdev_filter_ingress_loopback {
+        type filter hook ingress device $loopback_INTF_DEV priority -310; policy accept
+
+        counter comment "netdev-filter-ingress BEGIN"
+
+        include "zones/rules/netdev-filter-ingress/*.rule"
+
+        counter comment "netdev-filter-ingress END"
+        return
+    }
+

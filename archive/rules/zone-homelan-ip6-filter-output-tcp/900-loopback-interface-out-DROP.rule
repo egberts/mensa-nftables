@@ -1,0 +1,7 @@
+#
+# File: 900-loopback-interface-out-DROP.rule
+# Title: DENY local loopback traffic to remote interfaces
+# Called by: none
+
+        ip daddr 127.0.0.0/8 counter drop comment "Drop outbound IPv4 packets addressed to the loopback network (127.0.0.0/8)"
+        ip6 daddr ::1 counter drop comment "Drop outbound IPv6 packets addressed to the loopback address (::1)"

@@ -1,0 +1,6 @@
+#
+# File: 030-http-tcp-sport80-out-req-accept.rule
+# Title: Allow local HTTP client request to remote HTTP server
+# Called by: zones/red/inet-filter-output-red-tcp.chain
+
+tcp dport 80 counter accept comment "local-to-remote HTTP/TCP/80 request"
