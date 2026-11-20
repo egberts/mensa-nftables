@@ -1,0 +1,27 @@
+# File:     base-netdev-filter-egress.table_block
+# Path:     hooks/hook-egress/
+# Title:    Scan all devices for netdev-filter-egress hooks
+# Family:   netdev
+# Type:     filter
+# Hook:     egress
+# Table:    netdev_filter
+# Chain:    *
+# Device:   *
+# Priority: *
+# Policy:   *
+# Called by: types/filter-egress.table
+# Description:
+#
+
+    # no declarative base chain here, chain devices are used in 'egress' and done later
+
+    # zone-in-device is done via 'devices/DEVICE/' subdirectories under this 3-bindings/zones/ZONE/
+    include "bindings/devices/*/binding-device-netdev-filter-egress.base_chain"  # wildcard is in device name
+
+    # zones-in-zone are done via 'zones/ZONE/' subdirectories again under this 3-bindings/zones/ZONE/
+    # include "bindings/zones/*/binding-zone-netdev-filter-egress.chain"  # wildcard is in zone name
+
+    # elsewhere,
+    # devices-in-zone are done via 'zones/ZONE/' subdirectories under 3-bindings/devices/DEVICE/
+
+
