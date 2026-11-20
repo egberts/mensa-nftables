@@ -1,5 +1,5 @@
-# File:     base-ip6-nat-input.chain
-# Path:     2-hooks/hook-input/
+# File:     base-ip6-nat-input.base_chain
+# Path:     hooks/hook-input/
 # Title:    Base chain for the input hook (ip6 family, nat type)
 # Family:   ip6
 # Table:    *
@@ -8,7 +8,7 @@
 # Hook:     input
 # Priority: -5 (filter(0) - 5, after inet-input(-10), same as ip-input(-5))
 # Policy:   accept
-# Called by: 1-types/nat-ip6.table
+# Called by: types/nat-ip6.table
 # Description:
 #
 

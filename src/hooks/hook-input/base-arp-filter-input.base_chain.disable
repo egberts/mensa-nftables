@@ -1,5 +1,5 @@
-# File:     base-arp-filter-input.chain
-# Path:     2-hooks/hook-input/
+# File:     base-arp-filter-input.base_chain
+# Path:     hooks/hook-input/
 # Title:    Base chain for the input hook (arp family, filter type)
 # Family:   arp
 # Table:    *
@@ -8,7 +8,7 @@
 # Hook:     input
 # Priority: -10 (over Libvirt/Docker filter(0) and ip/ip6 filter-1)
 # Policy:   DROP
-# Called by: 1-types/filter-arp.table
+# Called by: types/filter-arp.table
 # Description:
 #
 # Single-indented for base-chain and regular-chain

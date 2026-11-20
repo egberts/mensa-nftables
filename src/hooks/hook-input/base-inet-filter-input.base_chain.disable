@@ -1,5 +1,5 @@
-# File:     base-inet-filter-input.chain
-# Path:     2-hooks/hook-input/
+# File:     base-inet-filter-input.base_chain
+# Path:     hooks/hook-input/
 # Title:    Scan all zones for inet-filter-input chains
 # Family:   inet
 # Table:    *
@@ -8,7 +8,7 @@
 # Hook:     input
 # Priority: -10 (filter(0) - 10, before ip-input(-5) and ip6-input(-5))
 # Policy:   DROP
-# Called by: 1-types/filter-inet.table
+# Called by: types/filter-inet.table
 # Description:
 #
 

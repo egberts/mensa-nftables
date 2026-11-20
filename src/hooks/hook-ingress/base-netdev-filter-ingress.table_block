@@ -1,14 +1,14 @@
 # File:     base-netdev-filter-ingress.table_block
-# Path:     2-hooks/hook-ingress/
+# Path:     hooks/hook-ingress/
 # Title:    ALL ingress hooks for netdev family and filter chain-type
 # Family:   netdev
 # Table:    filter_netdev
-# Chain:    filter_netdev_ingress
+# Chain:    *
 # Type:     filter
 # Hook:     ingress
 # Priority: *
 # Policy:   *
-# Called by: 1-types/filter-ingress.table
+# Called by: types/filter-ingress.table
 # Description:
 #     Scanning across all zones, picking up ingress/egress chain candidates
 #
@@ -23,10 +23,10 @@
     # no declarative base chain here, chain devices are used in 'ingress' and done later
 
     # zone-in-device is done via 'devices/DEVICE/' subdirectories under this 3-bindings/zones/ZONE/
-    include "3-bindings/devices/*/binding-device-netdev-filter-ingress.table_block"  # wildcard is in device name
+    include "3-bindings/devices/*/binding-device-netdev-filter-ingress.base_chain"  # wildcard is in device name
 
     # zones-in-zone are done via 'zones/ZONE/' subdirectories again under this 3-bindings/zones/ZONE/
-    # include "3-bindings/zones/*/binding-zone-netdev-filter-ingress.table_block"  # wildcard is in zone name
+    # include "3-bindings/zones/*/binding-zone-netdev-filter-ingress.chain"  # wildcard is in zone name
 
     # elsewhere,
     # devices-in-zone are done via 'zones/ZONE/' subdirectories under 3-bindings/devices/DEVICE/

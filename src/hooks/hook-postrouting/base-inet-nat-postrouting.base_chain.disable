@@ -1,5 +1,5 @@
 # File:     base-inet-nat-postrouting.chain
-# Path:     2-hooks/hook-postrouting/
+# Path:     hooks/hook-postrouting/
 # Title:    Base chain for the postrouting hook (inet family, nat type)
 # Family:   inet
 # Table:    *
@@ -8,7 +8,7 @@
 # Hook:     postrouting
 # Priority: various
 # Policy: accept
-# Called by: 1-types/nat-inet.table
+# Called by: types/nat-inet.table
 # Description:
 #
 # VERSION: Stateful NAT available in Linux 5.2+

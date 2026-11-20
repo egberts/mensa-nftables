@@ -1,5 +1,5 @@
 # File:     base-inet-filter-postrouting-srcnat.chain
-# Path:     2-hooks/hook-postrouting/
+# Path:     hooks/hook-postrouting/
 # Title:    Base chain for the postrouting hook (inet family, filter type) for source NAT priority
 # Family:   inet
 # Table:    *
@@ -8,7 +8,7 @@
 # Hook:     postrouting
 # Priority: srcnat(100)+10 (after Libvirt/Docker srcnat(100))
 # Policy:   accept
-# Called by: 1-types/filter-inet.table
+# Called by: types/filter-inet.table
 # Description:
 #
 #

@@ -1,5 +1,5 @@
 # File:     base-ip6-filter-postrouting-security.chain
-# Path:     2-hooks/hook-postrouting/
+# Path:     hooks/hook-postrouting/
 # Title:    Base chain for the postrouting hook (ip6 family, filter type)
 # Family:   ip6
 # Table:    *
@@ -8,7 +8,7 @@
 # Hook:     postrouting
 # Priority: 225
 # Policy:   accept
-# Called by: 1-types/filter-ip6.table
+# Called by: types/filter-ip6.table
 # Description:
 #
 

@@ -1,5 +1,5 @@
-# File:     base-inet-route-input.chain
-# Path:     2-hooks/hook-input/
+# File:     base-inet-route-input.base_chain
+# Path:     hooks/hook-input/
 # Title:    Base chain for the input hook (inet family, route type)
 # Family:   inet
 # Table:    *
@@ -8,7 +8,7 @@
 # Hook:     input
 # Priority: -10 (filter(0) - 10, before ip-input(-5) and ip6-input(-5))
 # Policy:   accept
-# Called by: 1-types/route-inet.table
+# Called by: types/route-inet.table
 # Description:
 #
 

@@ -1,5 +1,5 @@
-# File:     base-inet-nat-input.chain
-# Path:     2-hooks/hook-input/
+# File:     base-inet-nat-input.base_chain
+# Path:     hooks/hook-input/
 # Title:    Base chain for the input hook (inet family, nat type)
 # Family:   inet
 # Table:    *
@@ -8,7 +8,7 @@
 # Hook:     input
 # Priority: -10 (filter(0) - 10, before ip-input(-5) and ip6-input(-5))
 # Policy:   accept
-# Called by: 1-types/nat-inet.table
+# Called by: types/nat-inet.table
 # Description:
 #
 # NOTE: Using inet for NAT is not useful, better to relegate to ip or ip6 family.

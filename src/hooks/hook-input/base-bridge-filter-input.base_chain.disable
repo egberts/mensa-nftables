@@ -1,5 +1,5 @@
-# File:     base-bridge-filter-input.chain
-# Path:     2-hooks/hook-input/
+# File:     base-bridge-filter-input.base_chain
+# Path:     hooks/hook-input/
 # Title:    input hook and base chain declaration for bridge family, chain-filter type
 # Family:   bridge
 # Table:    *
@@ -8,7 +8,7 @@
 # Hook:     input
 # Priority: -5 (filter(0) - 5)
 # Policy:   DROP
-# Called by: 1-types/filter-bridge.table
+# Called by: types/filter-bridge.table
 # Description:
 #
 
