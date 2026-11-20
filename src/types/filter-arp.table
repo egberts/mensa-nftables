@@ -1,7 +1,6 @@
-#!/usr/sbin/nft -f
 #
 # File:     filter-arp.table
-# Path:     1-types/
+# Path:     types/
 # Title:    Valid hooks for ARP family and filter chain-type
 # Family:   arp
 # Table:    arp_filter
@@ -19,8 +18,8 @@
 
 table arp arp_filter {
 
-    include "./2-hooks/hook-input/base-arp-filter-input*.chain";
+    include "hooks/hook-input/base-arp-filter-input*.chain";
 
-    include "./2-hooks/hook-output/base-arp-filter-output*.chain";
+    include "hooks/hook-output/base-arp-filter-output*.chain";
 
 }

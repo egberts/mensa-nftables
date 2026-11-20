@@ -1,8 +1,7 @@
-#!/usr/sbin/nft -f
 #
 # File:     filter-inet.table
-# Path:     1-types/
-# Title:    Valid hook for inet family and filter chain-type
+# Path:     types/
+# Title:    Valid hooks for inet family and filter chain-type
 # Family:   inet
 # Table:    inet_filter
 # Chain:    *

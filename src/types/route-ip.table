@@ -1,8 +1,7 @@
-#!/usr/sbin/nft -f
 #
-# File:     route-ip.nft
-# Path:     1-types/
-# Title:    Valid hooks for IPv4 family and route chain-type
+# File:     route-ip.table
+# Path:     types/
+# Title:    Valid hook for IPv4 family and route chain-type
 # Family:   ip
 # Table:    ip_route
 # Chain:    *

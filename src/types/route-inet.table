@@ -1,7 +1,6 @@
-#!/usr/sbin/nft -f
 #
-# File:     route-inet.nft
-# Path:     1-types/
+# File:     route-inet.table
+# Path:     types/
 # Title:    Valid hooks for inet family and route chain-type
 # Family:   inet
 # Table:    inet_route

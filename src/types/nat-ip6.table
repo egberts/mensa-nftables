@@ -1,7 +1,6 @@
-#!/usr/sbin/nft -f
 #
-# File:     nat-ip6.nft
-# Path:     1-types/
+# File:     nat-ip6.table
+# Path:     types/
 # Title:    Valid hooks for IPv6 family and NAT chain-type
 # Family:   ip6
 # Table:    ip6_nat

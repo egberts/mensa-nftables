@@ -1,7 +1,6 @@
-#!/usr/sbin/nft -f
 #
 # File:     filter-ip6.table
-# Path:     1-types/
+# Path:     types/
 # Title:    Valid hooks for IPv6 family and filter chain-type
 # Family:   ip6
 # Table:    ip6_filter

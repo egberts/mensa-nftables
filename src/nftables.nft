@@ -40,18 +40,18 @@ flush table inet inet_route
 flush table ip ip_route
 flush table ip6 ip6_route
 
-include "1-types/filter-netdev.table"
-# include "1-types/filter-arp.table"
-# nclude "1-types/filter-inet.table"
-# include "1-types/filter-ip.table"
-# include "1-types/filter-ip6.table"
-# include "1-types/filter-bridge.table"
+include "types/filter-netdev.table"
+# include "types/filter-arp.table"
+# nclude "types/filter-inet.table"
+# include "types/filter-ip.table"
+# include "types/filter-ip6.table"
+# include "types/filter-bridge.table"
 
-# include "1-types/nat-inet.table"
-# include "1-types/nat-ip.table"
-# include "1-types/nat-ip6.table"
+# include "types/nat-inet.table"
+# include "types/nat-ip.table"
+# include "types/nat-ip6.table"
 
-# include "1-types/route-inet.table"
-# include "1-types/route-ip.table"
-# include "1-types/route-ip6.table"
+# include "types/route-inet.table"
+# include "types/route-ip.table"
+# include "types/route-ip6.table"
 
