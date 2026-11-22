@@ -1,0 +1,33 @@
+#
+# File:     devices-bridge-filter-postrouting.table_block
+# Path:     bindings/devices/
+# Title:    Register all devices having bridge/filter/postrouting
+# Family:   bridge
+# Table:    bridge_filter
+# Chain:    bridge_filter_postrouting
+# Type:     filter
+# Hook:     postrouting
+# Priority: +310 (srcnat(+300) + 10)
+# Policy:   DROP
+# Called by: hooks/hook-postrouting/base-bridge-filter-postrouting.base_chain
+# Description:
+#
+# Single-indented for base-chain and regular-chain
+# Double-indented for rules-only
+#
+
+    # Pre-declare an interface-to-chain dispatcher for postrouting hook, bridge family, filter chain-type.
+    map map_dispatch_bridge_filter_postrouting_devices {
+        typeof iif : verdict
+    }
+
+    # Insert the jump lookup
+    chain bridge_filter_postrouting {
+        counter comment "device inbound bridge/filter/postrouting"
+        iif vmap @map_dispatch_bridge_filter_postrouting_devices
+        counter comment "device inbound bridge/filter/postrouting, post dispatch"
+    }
+
+    # Register all bridge_filter_postrouting devices
+    include "bindings/devices/*/binding-device-bridge-filter-postrouting.table_block"
+

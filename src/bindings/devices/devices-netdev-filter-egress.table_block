@@ -1,0 +1,33 @@
+#
+# File:     devices-netdev-filter-egress.table_block
+# Path:     bindings/devices/
+# Title:    Register all devices having netdev/filter/egress
+# Family:   netdev
+# Table:    netdev_filter
+# Chain:    netdev_filter_egress
+# Type:     filter
+# Hook:     egress
+# Priority: +10 (over Libvirt/Docker filter(0) and ip/ip6 filter-1)
+# Policy:   DROP
+# Called by: hooks/hook-egress/base-netdev-filter-egress.base_chain
+# Description:
+#
+# Single-indented for base-chain and regular-chain
+# Double-indented for rules-only
+#
+
+    # Pre-declare an interface-to-chain dispatcher for egress hook, netdev family, filter chain-type.
+    map map_dispatch_netdev_filter_egress_devices {
+        typeof iif : verdict
+    }
+
+    # Insert the jump lookup
+    chain netdev_filter_egress {
+        counter comment "device inbound netdev/filter/egress"
+        iif vmap @map_dispatch_netdev_filter_egress_devices
+        counter comment "device inbound netdev/filter/egress, post dispatch"
+    }
+
+    # Register all netdev_filter_egress devices
+    include "bindings/devices/*/binding-device-netdev-filter-egress.table_block"
+

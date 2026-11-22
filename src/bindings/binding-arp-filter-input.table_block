@@ -17,6 +17,8 @@
 # filter_arp table
 #    arp_filter_input base chain
 
+    error "I got here for ARP retest"
+
     include "bindings/devices/devices-arp-filter-input*.table_block"
 
     # Declare an interface-to-chain dispatcher for input hook, arp family, filter chain-type.

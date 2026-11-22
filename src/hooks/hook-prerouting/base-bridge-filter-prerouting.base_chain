@@ -1,0 +1,35 @@
+# File:     base-bridge-filter-prerouting.base_chain
+# Path:     hooks/hook-prerouting/
+# Title:    Base chain for the prerouting hook (bridge family, filter type)
+# Family:   bridge
+# Type:     filter
+# Hook:     prerouting
+# Priority: -310 (dstnat(-300) - 10)
+# Policy:   DROP
+# Table:    *
+# Chain:    bridge_filter_prerouting
+# Called by: types/filter-bridge.table
+# Description:
+#
+# Single-indented for base-chain and regular-chain
+# Double-indented for rules-only
+#
+
+    # Pre-declare table before map/vmap
+    chain bridge_filter_prerouting {
+        type filter hook prerouting priority -310; policy drop;
+        counter comment "inbound bridge/filter/prerouting"
+    }
+
+    # creates a registry for zone-based dispatcher (will touch bridge_filter_prerouting)
+    #include "bindings/zones/zones-bridge-filter-prerouting*.table_block"
+
+    # Declare an interface-to-chain dispatcher for prerouting hook, bridge family, filter chain-type. (will touch bridge_filter_prerouting)
+    include "bindings/devices/devices-bridge-filter-prerouting*.table_block"
+
+
+    chain bridge_filter_prerouting {
+        counter comment "inbound bridge/filter/prerouting"
+        # TODO Add 'limit 5/s' here
+        log prefix "DROP bridge/filter/prerouting unknown ZONE: " drop
+    }

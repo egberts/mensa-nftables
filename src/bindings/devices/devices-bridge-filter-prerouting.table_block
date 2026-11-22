@@ -1,0 +1,33 @@
+#
+# File:     devices-bridge-filter-prerouting.table_block
+# Path:     bindings/devices/
+# Title:    Register all devices having bridge/filter/prerouting
+# Family:   bridge
+# Table:    bridge_filter
+# Chain:    bridge_filter_prerouting
+# Type:     filter
+# Hook:     prerouting
+# Priority: -310 (dstnat(-300) - 10)
+# Policy:   DROP
+# Called by: hooks/hook-prerouting/base-bridge-filter-prerouting.base_chain
+# Description:
+#
+# Single-indented for base-chain and regular-chain
+# Double-indented for rules-only
+#
+
+    # Pre-declare an interface-to-chain dispatcher for prerouting hook, bridge family, filter chain-type.
+    map map_dispatch_bridge_filter_prerouting_devices {
+        typeof iif : verdict
+    }
+
+    # Insert the jump lookup
+    chain bridge_filter_prerouting {
+        counter comment "device inbound bridge/filter/prerouting"
+        iif vmap @map_dispatch_bridge_filter_prerouting_devices
+        counter comment "device inbound bridge/filter/prerouting, post dispatch"
+    }
+
+    # Register all bridge_filter_prerouting devices
+    include "bindings/devices/*/binding-device-bridge-filter-prerouting.table_block"
+

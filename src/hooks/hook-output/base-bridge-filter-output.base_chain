@@ -1,31 +1,35 @@
 # File:     base-bridge-filter-output.base_chain
-# Path:     2-hooks/hook-output/
+# Path:     hooks/hook-output/
 # Title:    Base chain for the output hook (bridge family, filter type)
 # Family:   bridge
 # Table:    *
 # Chain:    bridge_filter_output
 # Type:     filter
 # Hook:     output
-# Priority: 110 (out(100) + 10)
+# Priority: 110 (output(100)+10)
 # Policy:   DROP
-# Called by: 1-types/filter-bridge.table
+# Called by: types/filter-bridge.table
 # Description:
 #
+# Single-indented for base-chain and regular-chain
+# Double-indented for rules-only
+#
 
-    # Declare an interface-to-chain dispatcher for output hook
-    map map_dispatch_bridge_filter_output_interface {
-        typeof oif : verdict
-    }
+    # Pre-declare table before map/vmap
     chain bridge_filter_output {
         type filter hook output priority 110; policy drop;
-
-        # dispatch map built by including/excluding chain-bridge-filter-*.nft files
-        oif vmap @map_dispatch_bridge_filter_output_interface
+        counter comment "inbound bridge/filter/output"
     }
 
-    include "./zones/zone-bridge-filter-output-*.chain";
+    # creates a registry for zone-based dispatcher (will touch bridge_filter_output)
+    #include "bindings/zones/zones-bridge-filter-output*.table_block"
 
-    # Post-interface output process
+    # Declare an interface-to-chain dispatcher for output hook, bridge family, filter chain-type. (will touch bridge_filter_output)
+    include "bindings/devices/devices-bridge-filter-output*.table_block"
+
+
     chain bridge_filter_output {
-        counter log prefix "DROP bridge/filter/output: " drop comment "unidentified interface filter output"
+        counter comment "inbound bridge/filter/output"
+        # TODO Add 'limit 5/s' here
+        log prefix "DROP bridge/filter/output unknown ZONE: " drop
     }

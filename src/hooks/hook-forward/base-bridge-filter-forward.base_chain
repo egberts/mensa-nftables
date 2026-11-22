@@ -1,0 +1,35 @@
+# File:     base-bridge-filter-forward.base_chain
+# Path:     hooks/hook-forward/
+# Title:    Base chain for the forward hook (bridge family, filter type)
+# Family:   bridge
+# Table:    *
+# Chain:    bridge_filter_forward
+# Type:     filter
+# Hook:     forward
+# Priority: -10 (brnf(0) - 10)
+# Policy:   DROP
+# Called by: types/filter-bridge.table
+# Description:
+#
+# Single-indented for base-chain and regular-chain
+# Double-indented for rules-only
+#
+
+    # Pre-declare table before map/vmap
+    chain bridge_filter_forward {
+        type filter hook forward priority -10; policy drop;
+        counter comment "inbound bridge/filter/forward"
+    }
+
+    # creates a registry for zone-based dispatcher (will touch bridge_filter_forward)
+    #include "bindings/zones/zones-bridge-filter-forward*.table_block"
+
+    # Declare an interface-to-chain dispatcher for forward hook, bridge family, filter chain-type. (will touch bridge_filter_forward)
+    include "bindings/devices/devices-bridge-filter-forward*.table_block"
+
+
+    chain bridge_filter_forward {
+        counter comment "inbound bridge/filter/forward"
+        # TODO Add 'limit 5/s' here
+        log prefix "DROP bridge/filter/forward unknown ZONE: " drop
+    }
