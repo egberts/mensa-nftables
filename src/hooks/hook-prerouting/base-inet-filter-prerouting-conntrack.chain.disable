@@ -1,5 +1,5 @@
 # File:     base-inet-filter-prerouting-conntrack.chain
-# Path:     2-hooks/hook-prerouting/
+# Path:     hooks/hook-prerouting/
 # Title:    Base chain for the prerouting hook (inet family, filter type) at ConnTrack priority
 # Family:   inet
 # Table:    *
@@ -8,7 +8,7 @@
 # Hook:     prerouting
 # Priority: -210 (conntrack (-200) - 10)
 # Policy:   accept
-# Called by: 1-types/filter-inet.table
+# Called by: types/filter-inet.table
 # Description:
 #
 

@@ -1,5 +1,5 @@
 # File:     base-ip6-filter-prerouting-raw.chain
-# Path:     2-hook/hook-prerouting/
+# Path:     hook/hook-prerouting/
 # Title:    Base chain for the prerouting hook (ip6 family, filter type) at RAW priority
 # Family:   ip6
 # Table:    *
@@ -8,7 +8,7 @@
 # Hook:     prerouting
 # Priority: various
 # Policy:   accept
-# Called by: 1-types/filter-ip6.table
+# Called by: types/filter-ip6.table
 # Description:
 #
 

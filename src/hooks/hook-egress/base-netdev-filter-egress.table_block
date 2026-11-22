@@ -1,16 +1,23 @@
 # File:     base-netdev-filter-egress.table_block
 # Path:     hooks/hook-egress/
-# Title:    Scan all devices for netdev-filter-egress hooks
+# Title:    ALL egress hooks for netdev family and filter chain-type
 # Family:   netdev
+# Table:    filter_netdev
+# Chain:    *
 # Type:     filter
 # Hook:     egress
-# Table:    netdev_filter
-# Chain:    *
-# Device:   *
 # Priority: *
 # Policy:   *
 # Called by: types/filter-egress.table
 # Description:
+#     Scanning across all zones, picking up egress/egress chain candidates
+#
+# The device name must identify an existing network interface.
+#
+# Requires Linux kernel 5.16 or later for netdev egress.
+#
+# No table here yet, (still have 'egress' and 'egress' to go)
+# No base chain here yet, that's zone-specific (by chain 'device' interface)
 #
 
     # no declarative base chain here, chain devices are used in 'egress' and done later
@@ -23,5 +30,3 @@
 
     # elsewhere,
     # devices-in-zone are done via 'zones/ZONE/' subdirectories under bindings/devices/DEVICE/
-
-

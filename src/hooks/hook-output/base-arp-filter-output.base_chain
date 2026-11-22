@@ -1,0 +1,38 @@
+# File:     base-arp-filter-output.base_chain
+# Path:     hooks/hook-output/
+# Title:    Base chain for the output hook (arp family, filter type)
+# Family:   arp
+# Table:    *
+# Chain:    arp_filter_output
+# Type:     filter
+# Hook:     output
+# Priority: +10 (over Libvirt/Docker filter(0) and ip/ip6 filter-1)
+# Policy:   DROP
+# Called by: types/filter-arp.table
+# Description:
+#
+# Since 'device' attribute isn't available in base_chain
+# arp family, we declare the base chain here.
+#
+# Single-indented for base-chain and regular-chain
+# Double-indented for rules-only
+#
+
+    # Pre-declare table before map/vmap
+    chain arp_filter_output {
+        type filter hook output priority -10; policy drop;
+        counter comment "outbound arp/filter/output"
+    }
+
+    # creates a registry for zone-based dispatcher (will touch arp_filter_output)
+    #include "bindings/zones/zones-arp-filter-output*.table_block"
+
+    # Declare an interface-to-chain dispatcher for output hook, arp family, filter chain-type. (will touch arp_filter_output)
+    include "bindings/devices/devices-arp-filter-output*.table_block"
+
+
+    chain arp_filter_output {
+        counter comment "outbound arp/filter/output"
+        # TODO Add 'limit 5/s' here
+        log prefix "DROP arp/filter/output unknown ZONE: " drop
+    }

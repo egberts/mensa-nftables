@@ -1,0 +1,24 @@
+# File:     arp-filter-input.chain
+# Path:     bindings/zones/ZONE/
+# Title:    Regular chain for ZONE zone arp-family TCP packets in input hook
+# Family:   arp
+# Table:    *
+# Chain:    arp_filter_input
+# Type:     filter
+# Hook:     input
+# Priority: filter(0)
+# Policy:   DROP
+# Zone:     ZONE
+# Called by: bindings/devices/DEVICE/zones/zone-arp-filter-input.table_block
+# Description:
+#
+
+# no L7 protocol in ARP, not even L4-protocol, straight mapping
+
+    chain arp_filter_input_ZONE {
+
+        include "bindings/zones/ZONE/rules/arp-filter-input/*.rule"
+
+    }
+
+

@@ -1,0 +1,32 @@
+#
+# File:     binding-arp-filter-input.table_block
+# Path:     bindings/
+# Title:    Binding of input hook of arp family, filter chain-type, to both by-zone and by-device
+# Family:   arp
+# Table:    filter_arp
+# Chain:    arp_filter_ingress
+# Type:     filter
+# Hook:     input
+# Priority: *
+# Policy:   *
+# Zone:     *
+# Called by: hooks/hook-input/base-arp-filter-input.base_chain
+# Description:
+#
+
+# filter_arp table
+#    arp_filter_input base chain
+
+    include "bindings/devices/devices-arp-filter-input*.table_block"
+
+    # Declare an interface-to-chain dispatcher for input hook, arp family, filter chain-type.
+    map map_dispatch_arp_filter_input_interface {
+        typeof iif : verdict
+    }
+
+    chain arp_filter_input {
+
+   #     include "bindings/zones/*/zone-arp-filter-input.chain_block"
+        include "bindings/devices/*/device-arp-filter-input.chain_block"
+    }
+

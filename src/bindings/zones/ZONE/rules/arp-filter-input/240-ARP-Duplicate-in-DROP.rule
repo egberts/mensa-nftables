@@ -1,0 +1,10 @@
+#
+# File: 240-ARP-Duplicate-address-claim-in-drop.rule
+# Policy: Drop incoming ARP claims for the local IPv4 address from a different hardware address
+# Description:
+#     Runs after ARP hook and zone interface map/vmap dispatch; no interface matching here.
+#     This is a local-address spoofing guard, not general duplicate-address detection.
+#     HA/VRRP and shared-address configurations may require exceptions.
+#     Direction: remote-to-local; intended for arp input hook.
+#
+arp saddr ip $ZONE_INTF_IPADDR arp saddr ether != $ZONE_INTF_MACADDR counter drop comment "remote-to-local Local IP MAC mismatch"

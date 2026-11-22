@@ -1,0 +1,47 @@
+# File:     bindings-device-arp-filter-output.table_block
+# Path:     bindings/devices/DEVICE/
+# Title:    Create regular chain and register with dispatcher of devices for arp/filter/output base chain
+# Family:   arp
+# Table:    filter_arp
+# Chain:    filter_arp_output
+# Type:     filter
+# Hook:     output
+# Device:   DEVICE
+# Priority: *
+# Policy:   *
+# Called by: binding/devices/DEVICE/device-arp-filter-output.chain_block
+# Description:
+#
+
+    # Add/register a Device Interface-to-firewall dispatch registry
+    map map_dispatch_arp_filter_output_devices {
+        typeof iif : verdict
+        elements = {
+            # use goto, this is the final descendance
+            $DEVICE_INTF_DEV : goto arp_filter_output_DEVICE,
+        }
+    }
+
+    chain arp_filter_output_DEVICE {
+        counter comment "BEGIN inbound DEVICE arp/filter/output"
+
+        # DEVICE: Include rules strictly for all sub-zones/sub-devices having arp/filter/output regular chain
+        include "bindings/devices/DEVICE/rules/arp-filter-output/*.rule"
+    }
+    # Split the chain so that other chains can be created (ie., dispatcher regular chain)
+
+
+    # DEVICE/ZONE: Include all zones having this device arp/filter/output regular chain
+    include "bindings/devices/DEVICE/zones/subzones-arp-filter-output.table_block"
+
+    # ZONE: Include all zones having this device arp/filter/output regular chain
+    # include "bindings/zones/zones-arp-filter-output.table_block"
+
+    # (TODO: can we symbolically link to the parent zones/ZONE here, instead of include a duplicate ZONE?)
+
+    # No need for DEVICE/DEVICE/ZONE; simply do a subdevice as DEVICE/ZONE
+
+    chain arp_filter_output_DEVICE {
+        counter comment "End inbound DEVICE arp/filter/output"
+    }
+

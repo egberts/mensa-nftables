@@ -2,4 +2,4 @@
 # File: 100-ARP-operation-reply-in-accept.rule
 # Policy: Allow remote ARP operation server reply to local ARP client
 
-arp operation 2 arp ptype 0x0800 arp saddr ip { $WAN_INTF_ADDR, $GATEWAY_ROUTE_DEFAULT } counter accept comment "remote-to-local ARP opcode reply"
+arp operation 2 arp ptype 0x0800 arp saddr ip { $ZONE_INTF_ADDR, $GATEWAY_ROUTE_DEFAULT } counter accept comment "remote-to-local ARP opcode reply"

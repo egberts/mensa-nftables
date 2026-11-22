@@ -1,5 +1,5 @@
 # File:     base-ip6-filter-prerouting-conntrack.chain
-# Path:     2-hooks/hook-prerouting/
+# Path:     hooks/hook-prerouting/
 # Title:    Base chain for the prerouting hook (ip6 family, filter type) at ConnTrack priority
 # Family:   ip6
 # Table:    *
@@ -8,7 +8,7 @@
 # Hook:     prerouting
 # Priority: -205 (conntrack (-200) - 5) (after inet(-210), same as ip(-205))
 # Policy:   accept
-# Called by: 1-types/filter-ip6.table
+# Called by: types/filter-ip6.table
 # Description:
 #
 

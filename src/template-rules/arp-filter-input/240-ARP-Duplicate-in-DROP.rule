@@ -7,4 +7,4 @@
 #     HA/VRRP and shared-address configurations may require exceptions.
 #     Direction: remote-to-local; intended for arp input hook.
 #
-arp saddr ip $ZONE_INTF_IPADDR arp saddr ether != $ZONE_INTF_MACADDR counter drop comment "remote-to-local Local IP MAC mismatch"
+arp saddr ip $ZONE_INTF_ADDR arp saddr ether != $ZONE_INTF_MACADDR counter drop comment "remote-to-local Local IP MAC mismatch"

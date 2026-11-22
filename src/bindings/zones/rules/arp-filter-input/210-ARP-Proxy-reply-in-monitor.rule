@@ -1,0 +1,9 @@
+#
+# File: 210-ARP-Proxy-reply-in-monitor.rule
+# Policy: Monitor ARP replies claiming addresses in the zone subnet
+# Description:
+#     Runs after ARP hook and zone interface map/vmap dispatch; no interface matching here.
+#     A reply advertising a subnet address is not proof of proxy ARP; ownership requires external IP/MAC bindings.
+#     Direction: remote-to-local; intended for arp input hook.
+#
+arp operation reply arp saddr ip $DEVICE_INTF_LOCALNET counter comment "remote-to-local Proxy reply monitor"

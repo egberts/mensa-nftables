@@ -1,0 +1,19 @@
+
+#
+#
+#
+
+    # creates a registry for a zone-specific dispatcher only for arp/filter/input
+    # empty map-less dispatcher table, crude first-come, first-serve vector list by registrants
+
+    include "bindings/zones/*/arp-filter-input.table_block"
+
+    chain arp_filter_input_DEVICE {
+        # ALL-ZONE rules
+        # ruleset for ALL devices related to arp/filter/input
+        include "bindings/zones/rules/arp-filter-input/*.rule"
+        jump arp_filter_input_DEVICE_ZONE
+    }
+
+
+    # no need to create a separate regular chain, fold it into the arp_filter_input base chain

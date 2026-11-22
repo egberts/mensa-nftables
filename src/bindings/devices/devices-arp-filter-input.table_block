@@ -1,0 +1,33 @@
+#
+# File:     devices-arp-filter-input.table_block
+# Path:     bindings/devices/
+# Title:    Register all devices having arp/filter/input
+# Family:   arp
+# Table:    arp_filter
+# Chain:    arp_filter_input
+# Type:     filter
+# Hook:     input
+# Priority: -10 (over Libvirt/Docker filter(0) and ip/ip6 filter-1)
+# Policy:   DROP
+# Called by: hooks/hook-input/base-arp-filter-input.base_chain
+# Description:
+#
+# Single-indented for base-chain and regular-chain
+# Double-indented for rules-only
+#
+
+    # Pre-declare an interface-to-chain dispatcher for input hook, arp family, filter chain-type.
+    map map_dispatch_arp_filter_input_devices {
+        typeof iif : verdict
+    }
+
+    # Insert the jump lookup
+    chain arp_filter_input {
+        counter comment "device inbound arp/filter/input"
+        iif vmap @map_dispatch_arp_filter_input_devices
+        counter comment "device inbound arp/filter/input, post dispatch"
+    }
+
+    # Register all arp_filter_input devices
+    include "bindings/devices/*/binding-device-arp-filter-input.table_block"
+

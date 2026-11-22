@@ -1,0 +1,32 @@
+#
+# File:     binding-arp-filter-output.table_block
+# Path:     bindings/
+# Title:    Binding of output hook of arp family, filter chain-type, to both by-zone and by-device
+# Family:   arp
+# Table:    filter_arp
+# Chain:    arp_filter_ingress
+# Type:     filter
+# Hook:     output
+# Priority: *
+# Policy:   *
+# Zone:     *
+# Called by: hooks/hook-output/base-arp-filter-output.base_chain
+# Description:
+#
+
+# filter_arp table
+#    arp_filter_output base chain
+
+    include "bindings/devices/devices-arp-filter-output*.table_block"
+
+    # Declare an interface-to-chain dispatcher for output hook, arp family, filter chain-type.
+    map map_dispatch_arp_filter_output_interface {
+        typeof iif : verdict
+    }
+
+    chain arp_filter_output {
+
+   #     include "bindings/zones/*/zone-arp-filter-output.chain_block"
+        include "bindings/devices/*/device-arp-filter-output.chain_block"
+    }
+

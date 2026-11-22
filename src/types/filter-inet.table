@@ -17,7 +17,7 @@
 #
 
 table inet inet_filter {
-    include "./hooks/hook-ingress/base-inet-filter-ingress*.chain";
+    include "./hooks/hook-ingress/base-inet-filter-ingress*.table_block";
     include "./hooks/hook-prerouting/base-inet-filter-prerouting*.chain";
     include "./hooks/hook-input/base-inet-filter-input*.chain";
     include "./hooks/hook-forward/base-inet-filter-forward*.chain";

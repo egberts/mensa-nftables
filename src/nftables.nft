@@ -40,8 +40,8 @@ flush table inet inet_route
 flush table ip ip_route
 flush table ip6 ip6_route
 
-include "types/filter-netdev.table"
-# include "types/filter-arp.table"
+include "types/filter-netdev.table"  # tested
+include "types/filter-arp.table"  # tested
 # nclude "types/filter-inet.table"
 # include "types/filter-ip.table"
 # include "types/filter-ip6.table"

@@ -6,10 +6,37 @@
 # Called by: nftables.nft
 define GATEWAY_ROUTE_DEFAULT = { 192.168.1.254 }
 
+# There is a list of devices
+define DEVICE_INTF_DEV = wlo1
+define DEVICE_INTF_LOCALNET = 192.168.1.0/24
+define DEVICE_INTF_BCAST = 192.168.1.255
+define DEVICE_INTF_ADDR = { 192.168.1.237, 192.168.1.172 }
+define DEVICE_INTF_MACADDR = 90:78:41:d0:38:dd
+
+# Then there is a list of zones per each device
+define DEVICE_ZONE_INTF_DEV = wlo1    # kinda can put in a logical device notation on this one, like 'wlo1.3'
+define DEVICE_ZONE_INTF_LOCALNET = 192.168.1.0/24
+define DEVICE_ZONE_INTF_BCAST = 192.168.1.255
+define DEVICE_ZONE_INTF_ADDR = { 192.168.1.237, 192.168.1.172 }
+define DEVICE_ZONE_INTF_MACADDR = 90:78:41:d0:38:dd
+
+# Also there is a list of devices per zone
 define ZONE_INTF_DEV = wlo1
 define ZONE_INTF_LOCALNET = 192.168.1.0/24
 define ZONE_INTF_BCAST = 192.168.1.255
 define ZONE_INTF_ADDR = { 192.168.1.237, 192.168.1.172 }
+define ZONE_INTF_MACADDR = 90:78:41:d0:38:dd
+
+# Also there is a list of devices per zone
+define ZONE_DEVICE_INTF_DEV = wlo1
+define ZONE_DEVICE_INTF_LOCALNET = 192.168.1.0/24
+define ZONE_DEVICE_INTF_BCAST = 192.168.1.255
+define ZONE_DEVICE_INTF_ADDR = { 192.168.1.237, 192.168.1.172 }
+
+define CLOSEDNET_INTF_DEV = virbr0
+define CLOSEDNET_INTF_LOCALNET = 192.168.100.0/24
+define CLOSEDNET_INTF_BCAST = 192.168.100.255
+define CLOSEDNET_INTF_ADDR = { 192.168.100.1 }
 
 define LOOPBACK_INTF_DEV = lo
 define LOOPBACK_INTF_LOCALNET = 127.0.0.0/8

@@ -6,4 +6,4 @@
 #     For true ARP-flux control, configure per-interface ownership and kernel ARP settings.
 #     Direction: local-to-remote; intended for arp output hook.
 #
-arp operation reply arp saddr ip $ZONE_INTF_IPADDR arp saddr ether $ZONE_INTF_MACADDR counter comment "local-to-remote Local address reply monitor"
+arp operation reply arp saddr ip $ZONE_INTF_ADDR arp saddr ether $ZONE_INTF_MACADDR counter comment "local-to-remote Local address reply monitor"
