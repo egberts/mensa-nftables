@@ -3,8 +3,11 @@ Uses a three-level composition model. The file extension defines the syntactic c
 
 | Extension | Content scope | Intended execution |
 |---|---|---|
-| `.rule` | Inside a chain {} block | Included by a chain |
+| `.rule` | Inside a chain {} block | Included by a .chain\_block |
+| `.chain_block` | Inside a chain {} block | Included by a chain |
 | `.chain` | Inside a table {} block | Included by a table |
+| `.table_block` | Inside a table {} block | Included by a table |
+| `.table` | top-level statement | Included by the nftables.conf |
 | `.nft` |Standalone nftables script | Directly executable |
 
 There are three important consequences:

@@ -25,9 +25,11 @@ And top-level directory name represent the binding between zone, family, chain t
 
 In short,
 
-* kernel-defined architecture,
-* filesystem-defined composition,
-* native nftables execution.
+* kernel-defined architecture, defines capability
+* filesystem-defined composition, defines intent and composition
+* native nftables execution, defines enforcement.
+
+
 
 Downside is the rules are infuriatingly oppressive by the virtue of these multipliers:
 

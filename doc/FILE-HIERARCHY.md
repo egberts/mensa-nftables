@@ -13,9 +13,9 @@ nftables/
 ├── opencode.json
 ├── src/
 │   ├── nftables.nft  # our maintainable but template NFT script file
-│   ├── 1-types/   # contains \*.table files
-│   ├── 2-hooks/   # contains \*.table_block files
-│   ├── 3-bindings/
+│   ├── types/   # contains \*.table files
+│   ├── hooks/   # contains \*.table_block files
+│   ├── bindings/
 │   │   ├── devices/
 │   │   │   └── DEVICE/  # contains base \*.chain files
 │   │   │       ├── rules/

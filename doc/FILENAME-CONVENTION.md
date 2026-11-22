@@ -40,3 +40,13 @@ I would use this comment grammar:
 <direction> <application>/<transport>/<port> <request-or-reply>
 
 One deliberate choice: omit "Allow" or "Accept" from the comment. The nftables verdict already communicates that. Likewise, input and output are available from the chain hierarchy, but the explicit endpoint direction
+
+File type convention
+===
+
+* `.nft` - the standalone `nft` script
+* `.table` - table declaration
+* `.table_block` - statements for use within a table block (surrounded by curly brace delimiters)
+* `.chain` - declaration of a regular chain
+* `.base_chain` - declaration of a base chain
+* `.rule` - rule statements for use within a chain block
