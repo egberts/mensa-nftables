@@ -1,0 +1,34 @@
+#
+# File:     binding-bridge-filter-postrouting.table_block
+# Path:     bindings/
+# Title:    Binding of postrouting hook of bridge family, filter chain-type, to both by-zone and by-device
+# Family:   bridge
+# Table:    filter_bridge
+# Chain:    bridge_filter_postrouting
+# Type:     filter
+# Hook:     postrouting
+# Priority: *
+# Policy:   *
+# Zone:     *
+# Called by: hooks/hook-postrouting/base-bridge-filter-postrouting.base_chain
+# Description:
+#
+
+# filter_bridge table
+#    bridge_filter_postrouting base chain
+
+    error "I got here for ARP retest"
+
+    include "bindings/devices/devices-bridge-filter-postrouting*.table_block"
+
+    # Declare an interface-to-chain dispatcher for postrouting hook, bridge family, filter chain-type.
+    map map_dispatch_bridge_filter_postrouting_interface {
+        typeof iif : verdict
+    }
+
+    chain bridge_filter_postrouting {
+
+   #     include "bindings/zones/*/zone-bridge-filter-postrouting.chain_block"
+        include "bindings/devices/*/device-bridge-filter-postrouting.chain_block"
+    }
+

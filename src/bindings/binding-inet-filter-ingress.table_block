@@ -1,0 +1,34 @@
+#
+# File:     binding-inet-filter-ingress.table_block
+# Path:     bindings/
+# Title:    Binding of ingress hook of inet family, filter chain-type, to both by-zone and by-device
+# Family:   inet
+# Type:     filter
+# Hook:     ingress
+# Priority: -10 (filter(0)-10)
+# Policy:   DROP
+# Zone:     *
+# Table:    filter_inet
+# Chain:    inet_filter_ingress
+# Called by: hooks/hook-ingress/base-inet-filter-ingress.base_chain
+# Description:
+#
+
+# filter_inet table
+#    inet_filter_ingress base chain
+
+    error "I got here for ARP retest"
+
+    include "bindings/devices/devices-inet-filter-ingress*.table_block"
+
+    # Declare an interface-to-chain dispatcher for ingress hook, inet family, filter chain-type.
+    map map_dispatch_inet_filter_ingress_interface {
+        typeof iif : verdict
+    }
+
+    chain inet_filter_ingress {
+
+   #     include "bindings/zones/*/zone-inet-filter-ingress.chain_block"
+        include "bindings/devices/*/device-inet-filter-ingress.chain_block"
+    }
+

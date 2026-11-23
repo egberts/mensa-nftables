@@ -1,3 +1,0 @@
-
-
-        iifname != $CLOSEDNET_INTF_DEV ip saddr $CLOSEDNET_INTF_LOCALNET drop

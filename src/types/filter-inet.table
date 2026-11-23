@@ -18,10 +18,10 @@
 
 table inet inet_filter {
     include "./hooks/hook-ingress/base-inet-filter-ingress*.table_block";
-    include "./hooks/hook-prerouting/base-inet-filter-prerouting*.chain";
-    include "./hooks/hook-input/base-inet-filter-input*.chain";
-    include "./hooks/hook-forward/base-inet-filter-forward*.chain";
-    include "./hooks/hook-output/base-inet-filter-output*.chain";
-    include "./hooks/hook-postrouting/base-inet-filter-postrouting*.chain";
+    include "./hooks/hook-prerouting/base-inet-filter-prerouting*.base_chain";
+    include "./hooks/hook-input/base-inet-filter-input*.base_chain";
+    include "./hooks/hook-forward/base-inet-filter-forward*.base_chain";
+    include "./hooks/hook-output/base-inet-filter-output*.base_chain";
+    include "./hooks/hook-postrouting/base-inet-filter-postrouting*.base_chain";
 }
 

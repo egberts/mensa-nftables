@@ -3,13 +3,13 @@
 # Path:     bindings/
 # Title:    Binding of input hook of arp family, filter chain-type, to both by-zone and by-device
 # Family:   arp
-# Table:    filter_arp
-# Chain:    arp_filter_ingress
 # Type:     filter
 # Hook:     input
-# Priority: *
-# Policy:   *
+# Priority: -10 (filter(0)-10)
+# Policy:   DROP
 # Zone:     *
+# Table:    filter_arp
+# Chain:    arp_filter_input
 # Called by: hooks/hook-input/base-arp-filter-input.base_chain
 # Description:
 #

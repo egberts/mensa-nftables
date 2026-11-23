@@ -6,4 +6,4 @@
 #     ARP probes use 0.0.0.0 as sender IPv4 address.
 #     Direction: remote-to-local; intended for arp input hook.
 #
-arp operation request arp saddr ip 0.0.0.0 arp daddr ip $DEVICE_INTF_LOCALNET counter accept comment "remote-to-local Probe req accept"
+arp operation request arp saddr ip 0.0.0.0 arp daddr ip $ZONE_INTF_LOCALNET counter accept comment "remote-to-local Probe req accept"

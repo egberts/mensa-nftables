@@ -3,13 +3,13 @@
 # Path:     bindings/
 # Title:    Binding of output hook of arp family, filter chain-type, to both by-zone and by-device
 # Family:   arp
-# Table:    filter_arp
-# Chain:    arp_filter_ingress
 # Type:     filter
 # Hook:     output
 # Priority: *
 # Policy:   *
 # Zone:     *
+# Table:    filter_arp
+# Chain:    arp_filter_output
 # Called by: hooks/hook-output/base-arp-filter-output.base_chain
 # Description:
 #

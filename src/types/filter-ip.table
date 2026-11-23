@@ -20,10 +20,11 @@ table ip ip_filter {
 
     # was half-expecting ingress here, but no (only in inet)
 
-    include "./hooks/hook-prerouting/base-ip-filter-prerouting*.chain";
-    include "./hooks/hook-input/base-ip-filter-input*.chain";
-    include "./hooks/hook-forward/base-ip-filter-forward*.chain";
-    include "./hooks/hook-output/base-ip-filter-output*.chain";
-    include "./hooks/hook-postrouting/base-ip-filter-postrouting*.chain";
+    include "./hooks/hook-prerouting/base-ip-filter-prerouting*.base_chain";
+    include "./hooks/hook-input/base-ip-filter-input*.base_chain";
+    include "./hooks/hook-forward/base-ip-filter-forward*.base_chain";
+    include "./hooks/hook-output/base-ip-filter-output*.base_chain";
+    include "./hooks/hook-postrouting/base-ip-filter-postrouting*.base_chain";
+    include "./hooks/hook-output/base-ip-route-output*.base_chain";
 
 }

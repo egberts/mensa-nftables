@@ -7,4 +7,4 @@
 #     Mismatched MAC claims are handled by the duplicate-address guard.
 #     Direction: remote-to-local; intended for arp input hook.
 #
-arp operation reply arp saddr ip $DEVICE_INTF_ADDR arp saddr ether $DEVICE_INTF_MACADDR counter comment "remote-to-local Local address reply monitor"
+arp operation reply arp saddr ip $ZONE_INTF_ADDR arp saddr ether $ZONE_INTF_MACADDR counter comment "remote-to-local Local address reply monitor"

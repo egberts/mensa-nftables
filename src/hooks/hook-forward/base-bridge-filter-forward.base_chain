@@ -6,7 +6,7 @@
 # Chain:    bridge_filter_forward
 # Type:     filter
 # Hook:     forward
-# Priority: -10 (brnf(0) - 10)
+# Priority: -210 (filter(-200) - 10)
 # Policy:   DROP
 # Called by: types/filter-bridge.table
 # Description:
@@ -17,7 +17,7 @@
 
     # Pre-declare table before map/vmap
     chain bridge_filter_forward {
-        type filter hook forward priority -10; policy drop;
+        type filter hook forward priority -210; policy drop;
         counter comment "inbound bridge/filter/forward"
     }
 

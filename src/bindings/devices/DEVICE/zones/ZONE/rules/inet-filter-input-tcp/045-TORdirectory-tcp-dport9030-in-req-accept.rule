@@ -1,0 +1,6 @@
+
+# File: 045-TORdirectory-tcp-dport9030-in-req-accept.rule
+# Title: Allow remote TORdirectory client request to local TORdirectory server
+
+tcp dport 9030 counter accept comment "remote-to-local TORdirectory/TCP/9030 request"
+

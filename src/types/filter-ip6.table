@@ -20,10 +20,10 @@ table ip6 ip6_filter {
 
     # was half-expecting ingress, but only in 'inet'
 
-    include "./hooks/hook-prerouting/base-ip6-filter-prerouting*.chain";
-    include "./hooks/hook-input/base-ip6-filter-input*.chain";
-    include "./hooks/hook-forward/base-ip6-filter-forward*.chain";
-    include "./hooks/hook-output/base-ip6-filter-output*.chain";
-    include "./hooks/hook-postrouting/base-ip6-filter-postrouting*.chain";
+    include "./hooks/hook-prerouting/base-ip6-filter-prerouting*.base_chain";
+    include "./hooks/hook-input/base-ip6-filter-input*.base_chain";
+    include "./hooks/hook-forward/base-ip6-filter-forward*.base_chain";
+    include "./hooks/hook-output/base-ip6-filter-output*.base_chain";
+    include "./hooks/hook-postrouting/base-ip6-filter-postrouting*.base_chain";
 }
 

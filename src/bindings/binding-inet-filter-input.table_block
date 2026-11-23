@@ -1,0 +1,34 @@
+#
+# File:     binding-inet-filter-input.table_block
+# Path:     bindings/
+# Title:    Binding of input hook of inet family, filter chain-type, to both by-zone and by-device
+# Family:   inet
+# Table:    filter_inet
+# Chain:    inet_filter_input
+# Type:     filter
+# Hook:     input
+# Priority: *
+# Policy:   *
+# Zone:     *
+# Called by: hooks/hook-input/base-inet-filter-input.base_chain
+# Description:
+#
+
+# filter_inet table
+#    inet_filter_input base chain
+
+    error "I got here for ARP retest"
+
+    include "bindings/devices/devices-inet-filter-input*.table_block"
+
+    # Declare an interface-to-chain dispatcher for input hook, inet family, filter chain-type.
+    map map_dispatch_inet_filter_input_interface {
+        typeof iif : verdict
+    }
+
+    chain inet_filter_input {
+
+   #     include "bindings/zones/*/zone-inet-filter-input.chain_block"
+        include "bindings/devices/*/device-inet-filter-input.chain_block"
+    }
+

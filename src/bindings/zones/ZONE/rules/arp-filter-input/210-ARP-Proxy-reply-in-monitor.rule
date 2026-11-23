@@ -6,4 +6,4 @@
 #     A reply advertising a subnet address is not proof of proxy ARP; ownership requires external IP/MAC bindings.
 #     Direction: remote-to-local; intended for arp input hook.
 #
-arp operation reply arp saddr ip $ZONE_INTF_NETADDR_W_PREFIX counter comment "remote-to-local Proxy reply monitor"
+arp operation reply arp saddr ip $ZONE_INTF_LOCALNET counter comment "remote-to-local Proxy reply monitor"

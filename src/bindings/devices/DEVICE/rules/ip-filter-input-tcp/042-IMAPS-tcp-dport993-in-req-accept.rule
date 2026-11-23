@@ -1,0 +1,4 @@
+# File: IMAPS-tcp-dport993-in-req-accept.rule
+# Title: Allow remote IMAPS client request to local IMAPS server
+
+tcp dport 993 counter accept comment "remote-to-local IMAPS/TCP/993 request"
