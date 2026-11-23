@@ -60,7 +60,7 @@
         typeof iif : verdict
         elements = {
             # use goto, this is the final descendance
-            $WAN_INTF_DEV : goto ip_filter_output_red,
+            $ZONE_INTF_DEV : goto ip_filter_output_red,
         }
     }
 

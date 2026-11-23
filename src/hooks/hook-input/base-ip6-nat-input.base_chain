@@ -7,7 +7,7 @@
 # Type:     nat
 # Hook:     input
 # Priority: -10 (filter(0) - 10)
-# Policy:   DROP
+# Policy:   accept
 # Called by: types/nat-ip6.table
 # Description:
 #
@@ -17,7 +17,8 @@
 
     # Pre-declare table before map/vmap
     chain ip6_nat_input {
-        type nat hook input priority -210; policy drop;
+        type nat hook input priority -210; policy accept;
+
         counter comment "inbound ip6/nat/input"
     }
 
@@ -27,9 +28,8 @@
     # Declare an interface-to-chain dispatcher for input hook, ip6 family, nat chain-type. (will touch ip6_nat_input)
     include "bindings/devices/devices-ip6-nat-input*.table_block"
 
-
     chain ip6_nat_input {
+
         counter comment "inbound ip6/nat/input"
-        # TODO Add 'limit 5/s' here
-        log prefix "DROP ip6/nat/input unknown ZONE: " drop
     }
+

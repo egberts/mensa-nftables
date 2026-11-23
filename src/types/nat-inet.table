@@ -19,8 +19,8 @@
 table inet inet_nat {
 
     include "./hooks/hook-prerouting/base-inet-nat-prerouting*.base_chain";
-#    include "./hooks/hook-input/base-inet-nat-input*.base_chain";  # tested
-#    include "./hooks/hook-output/base-inet-nat-output*.base_chain";  # tested
-#    include "./hooks/hook-postrouting/base-inet-nat-postrouting*.base_chain";
+    include "./hooks/hook-input/base-inet-nat-input*.base_chain";  # tested
+    include "./hooks/hook-output/base-inet-nat-output*.base_chain";  # tested
+    include "./hooks/hook-postrouting/base-inet-nat-postrouting*.base_chain";
 }
 

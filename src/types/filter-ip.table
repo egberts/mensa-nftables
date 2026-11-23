@@ -26,5 +26,5 @@ table ip ip_filter {
     include "./hooks/hook-output/base-ip-filter-output*.base_chain";
     include "./hooks/hook-postrouting/base-ip-filter-postrouting*.base_chain";
     include "./hooks/hook-output/base-ip-route-output*.base_chain";
-
 }
+

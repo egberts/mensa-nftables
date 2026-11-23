@@ -7,7 +7,7 @@
 # Type:     nat
 # Hook:     input
 # Priority: -10 (filter(0) - 10)
-# Policy:   DROP
+# Policy:   accept
 # Called by: types/nat-inet.table
 # Description:
 #
@@ -17,7 +17,8 @@
 
     # Pre-declare table before map/vmap
     chain inet_nat_input {
-        type nat hook input priority -10; policy drop;
+        type nat hook input priority -10; policy accept;
+
         counter comment "inbound inet/nat/input"
     }
 
@@ -27,9 +28,7 @@
     # Declare an interface-to-chain dispatcher for input hook, inet family, nat chain-type. (will touch inet_nat_input)
     include "bindings/devices/devices-inet-nat-input*.table_block"
 
-
     chain inet_nat_input {
+
         counter comment "inbound inet/nat/input"
-        # TODO Add 'limit 5/s' here
-        log prefix "DROP inet/nat/input unknown ZONE: " drop
     }
