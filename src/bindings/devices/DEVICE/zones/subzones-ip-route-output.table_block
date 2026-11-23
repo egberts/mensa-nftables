@@ -1,0 +1,27 @@
+#
+# File: subzones-ip-route-output.table_block
+# Path: bindings/devices/DEVICE/zones/
+# Title: Include all subzones associated with this device for ip/route/output
+# Family: ip
+# Type: route
+# Hook: output
+# Device: DEVICE
+# Priority: +10 (filter(0)+10)
+# Policy: accept
+# Table: route_ip
+# Chain: ip_route_output_DEVICE
+# Called by: bindings/devices/DEVICE/binding-device-ip-route-output.table_block
+#
+
+    # going to need a registry table just for DEVICE-ZONE
+    chain dispatcher_ip_route_output_DEVICE_ZONE {
+
+         # try for parent ZONE (instead of subdir ZONE)
+         include "bindings/devices/DEVICE/zones/*/zone-ip-route-output.chain_block"
+
+    }
+
+    # poor-mans dispatcher, sequential hooking
+    chain ip_route_output_DEVICE {
+        jump dispatcher_ip_route_output_DEVICE_ZONE
+    }

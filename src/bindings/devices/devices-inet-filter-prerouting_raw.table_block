@@ -1,0 +1,33 @@
+#
+# File:     devices-inet-filter-prerouting_raw.table_block
+# Path:     bindings/devices/
+# Title:    Register all devices having inet/filter/prerouting
+# Family:   inet
+# Type:     filter
+# Hook:     prerouting
+# Priority: -310 (raw(-300) - 10)
+# Policy:   accept
+# Table:    inet_filter
+# Chain:    inet_filter_prerouting_raw
+# Called by: hooks/hook-prerouting/base-inet-filter-prerouting_raw.base_chain
+# Description:
+#
+# Single-indented for base-chain and regular-chain
+# Double-indented for rules-only
+#
+
+    # Pre-declare an interface-to-chain dispatcher for prerouting hook, inet family, filter chain-type.
+    map map_dispatch_inet_filter_prerouting_raw_devices {
+        typeof iif : verdict
+    }
+
+    # Insert the jump lookup
+    chain inet_filter_prerouting_raw {
+        counter comment "device inbound inet/filter/prerouting_raw"
+        iif vmap @map_dispatch_inet_filter_prerouting_raw_devices
+        counter comment "device inbound inet/filter/prerouting_raw, post dispatch"
+    }
+
+    # Register all inet_filter_prerouting_raw devices
+    include "bindings/devices/*/binding-device-inet-filter-prerouting_raw.table_block"
+

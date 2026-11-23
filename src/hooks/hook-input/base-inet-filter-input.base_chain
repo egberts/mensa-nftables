@@ -1,0 +1,35 @@
+# File:     base-inet-filter-input.base_chain
+# Path:     hooks/hook-input/
+# Title:    Base chain for the input hook (inet family, filter type)
+# Family:   inet
+# Table:    inet_filter
+# Chain:    inet_filter_input
+# Type:     filter
+# Hook:     input
+# Priority: -10 (filter(0) - 10)
+# Policy:   DROP
+# Called by: types/filter-inet.table
+# Description:
+#
+# Single-indented for base-chain and regular-chain
+# Double-indented for rules-only
+#
+
+    # Pre-declare table before map/vmap
+    chain inet_filter_input {
+        type filter hook input priority -210; policy drop;
+        counter comment "inbound inet/filter/input"
+    }
+
+    # creates a registry for zone-based dispatcher (will touch inet_filter_input)
+    #include "bindings/zones/zones-inet-filter-input*.table_block"
+
+    # Declare an interface-to-chain dispatcher for input hook, inet family, filter chain-type. (will touch inet_filter_input)
+    include "bindings/devices/devices-inet-filter-input*.table_block"
+
+
+    chain inet_filter_input {
+        counter comment "inbound inet/filter/input"
+        # TODO Add 'limit 5/s' here
+        log prefix "DROP inet/filter/input unknown ZONE: " drop
+    }

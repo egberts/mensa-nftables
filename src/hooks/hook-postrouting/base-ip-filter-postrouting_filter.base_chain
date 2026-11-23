@@ -1,0 +1,42 @@
+# File:     base-ip-filter-postrouting_filter.base_chain
+# Path:     hooks/hook-postrouting/
+# Title:    Base chain for the postrouting hook (ip family, filter type) of filter(0) priority
+# Family:   ip
+# Type:     filter
+# Hook:     postrouting
+# Priority: +10 (filter(0) + 10)
+# Policy:   accept
+# Table:    *
+# Chain:    ip_filter_postrouting_filter
+# Called by: types/filter-ip.table
+# Description:
+#
+#    Ordinary early filtering / marking rules that run
+#    after conntrack (or at filter priority).
+#
+#    TCP-specific early filtering / marking / logging.
+#      - tcp dport, tcp sport, tcp flags, tcp option 
+#      - ct state, meta mark set, log, drop/accept, rate-limiting, etc.
+#
+# Single-indented for base-chain and regular-chain
+# Double-indented for rules-only
+#
+
+    # Pre-declare table before map/vmap
+    chain ip_filter_postrouting_filter {
+        type filter hook postrouting priority -10; policy accept;
+
+        counter comment "inbound ip/filter/postrouting_filter"
+    }
+
+    # creates a registry for zone-based dispatcher (will touch ip_filter_postrouting_filter)
+    #include "bindings/zones/zones-ip-filter-postrouting_filter*.table_block"
+
+    # Declare an interface-to-chain dispatcher for postrouting hook, ip family, filter chain-type. (will touch ip_filter_postrouting_filter)
+    include "bindings/devices/devices-ip-filter-postrouting_filter*.table_block"
+
+    chain ip_filter_postrouting_filter {
+
+        counter comment "inbound ip/filter/postrouting_filter"
+    }
+

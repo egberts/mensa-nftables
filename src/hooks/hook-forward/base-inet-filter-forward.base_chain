@@ -1,0 +1,35 @@
+# File:     base-inet-filter-forward.base_chain
+# Path:     hooks/hook-forward/
+# Title:    Base chain for the forward hook (inet family, filter type)
+# Family:   inet
+# Table:    inet_filter
+# Chain:    inet_filter_forward
+# Type:     filter
+# Hook:     forward
+# Priority: -10 (filter(0) - 10)
+# Policy:   DROP
+# Called by: types/filter-inet.table
+# Description:
+#
+# Single-indented for base-chain and regular-chain
+# Double-indented for rules-only
+#
+
+    # Pre-declare table before map/vmap
+    chain inet_filter_forward {
+        type filter hook forward priority -10; policy drop;
+        counter comment "inbound inet/filter/forward"
+    }
+
+    # creates a registry for zone-based dispatcher (will touch inet_filter_forward)
+    #include "bindings/zones/zones-inet-filter-forward*.table_block"
+
+    # Declare an interface-to-chain dispatcher for forward hook, inet family, filter chain-type. (will touch inet_filter_forward)
+    include "bindings/devices/devices-inet-filter-forward*.table_block"
+
+
+    chain inet_filter_forward {
+        counter comment "inbound inet/filter/forward"
+        # TODO Add 'limit 5/s' here
+        log prefix "DROP inet/filter/forward unknown ZONE: " drop
+    }

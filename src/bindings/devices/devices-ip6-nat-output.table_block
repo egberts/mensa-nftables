@@ -1,0 +1,32 @@
+#
+# File:     devices-ip6-nat-output.table_block
+# Path:     bindings/devices/
+# Title:    Register all devices having ip6/nat/output
+# Family:   ip6
+# Type:     nat
+# Hook:     output
+# Priority: +10 (filter(0) + 10)
+# Policy:   accept
+# Table:    ip6_nat
+# Chain:    ip6_nat_output
+# Called by: hooks/hook-output/base-ip6-nat-output.base_chain
+# Description:
+#
+# Single-indented for base-chain and regular-chain
+# Double-indented for rules-only
+#
+    # Pre-declare an interface-to-chain dispatcher for output hook, ip6 family, nat chain-type.
+    map map_dispatch_ip6_nat_output_devices {
+        typeof iif : verdict
+    }
+
+    # Insert the jump lookup
+    chain ip6_nat_output {
+        counter comment "device inbound ip6/nat/output"
+        iif vmap @map_dispatch_ip6_nat_output_devices
+        counter comment "device inbound ip6/nat/output, post dispatch"
+    }
+
+    # Register all ip6_nat_output devices
+    include "bindings/devices/*/binding-device-ip6-nat-output.table_block"
+

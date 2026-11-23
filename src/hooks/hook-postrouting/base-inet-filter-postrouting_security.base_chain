@@ -1,0 +1,42 @@
+# File:     base-inet-filter-postrouting_security.base_chain
+# Path:     hooks/hook-postrouting/
+# Title:    Base chain for the postrouting hook (inet family, filter type) of security(50) priority
+# Family:   inet
+# Type:     filter
+# Hook:     postrouting
+# Priority: +50 (security(50) + 10)
+# Policy:   accept
+# Table:    *
+# Chain:    inet_filter_postrouting_security
+# Called by: types/filter-inet.table
+# Description:
+#
+#    Ordinary early filtering / marking rules that run
+#    after conntrack (or at security priority).
+#
+#    TCP-specific early filtering / marking / logging.
+#      - tcp dport, tcp sport, tcp flags, tcp option 
+#      - ct state, meta mark set, log, drop/accept, rate-limiting, etc.
+#
+# Single-indented for base-chain and regular-chain
+# Double-indented for rules-only
+#
+
+    # Pre-declare table before map/vmap
+    chain inet_filter_postrouting_security {
+        type filter hook postrouting priority -160; policy accept;
+
+        counter comment "inbound inet/filter/postrouting_security"
+    }
+
+    # creates a registry for zone-based dispatcher (will touch inet_filter_postrouting_security)
+    #include "bindings/zones/zones-inet-filter-postrouting_security*.table_block"
+
+    # Declare an interface-to-chain dispatcher for postrouting hook, inet family, filter chain-type. (will touch inet_filter_postrouting_security)
+    include "bindings/devices/devices-inet-filter-postrouting_security*.table_block"
+
+    chain inet_filter_postrouting_security {
+
+        counter comment "inbound inet/filter/postrouting_security"
+    }
+

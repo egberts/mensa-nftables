@@ -1,0 +1,35 @@
+# File:     base-ip-filter-output.base_chain
+# Path:     hooks/hook-output/
+# Title:    Base chain for the output hook (ip family, filter type)
+# Family:   ip
+# Table:    ip_filter
+# Chain:    ip_filter_output
+# Type:     filter
+# Hook:     output
+# Priority: 10 (filter(0)+10)
+# Policy:   DROP
+# Called by: types/filter-ip.table
+# Description:
+#
+# Single-indented for base-chain and regular-chain
+# Double-indented for rules-only
+#
+
+    # Pre-declare table before map/vmap
+    chain ip_filter_output {
+        type filter hook output priority 10; policy drop;
+        counter comment "inbound ip/filter/output"
+    }
+
+    # creates a registry for zone-based dispatcher (will touch ip_filter_output)
+    #include "bindings/zones/zones-ip-filter-output*.table_block"
+
+    # Declare an interface-to-chain dispatcher for output hook, ip family, filter chain-type. (will touch ip_filter_output)
+    include "bindings/devices/devices-ip-filter-output*.table_block"
+
+
+    chain ip_filter_output {
+        counter comment "inbound ip/filter/output"
+        # TODO Add 'limit 5/s' here
+        log prefix "DROP ip/filter/output unknown ZONE: " drop
+    }

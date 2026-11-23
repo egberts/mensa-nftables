@@ -1,0 +1,29 @@
+#
+# File: subzones-ip-filter-ingress.table_block
+# Path: bindings/devices/DEVICE/zones/
+# Title: Include all subzones associated with this device for ip/filter/ingress
+# Family: ip
+# Type: filter
+# Hook: ingress
+# Device: DEVICE
+# Priority: -10
+# Policy: accept
+# Table: filter_ip
+# Chain: ip_filter_ingress_DEVICE
+# Called by: bindings/devices/DEVICE/binding-device-bridge-filter-ingress.table_block
+#
+
+    # going to need a registry table just for DEVICE-ZONE
+    chain dispatcher_ip_filter_ingress_DEVICE_ZONE {
+
+         # try for parent ZONE (instead of subdir ZONE)
+         include "bindings/devices/DEVICE/zones/*/zone-ip-filter-ingress.chain_block"
+
+    }
+
+    # poor-mans dispatcher, sequential hooking
+    chain ip_filter_ingress_DEVICE {
+
+        jump dispatcher_ip_filter_ingress_DEVICE_ZONE
+    }
+

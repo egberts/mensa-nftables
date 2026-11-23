@@ -1,0 +1,38 @@
+# File:     base-ip6-route-output.base_chain
+# Path:     hooks/hook-output/
+# Title:    Base chain for the output hook (ip6 family, route type)
+# Family:   ip6
+# Type:     route
+# Hook:     output
+# Priority: +10 (over Libvirt/Docker filter(0) and ip/ip6 filter-1)
+# Policy:   accept
+# Table:    *
+# Chain:    ip6_route_output
+# Called by: types/filter-ip6.table
+# Description:
+#
+# Since 'device' attribute isn't available in base_chain
+# ip6 family, we declare the base chain here.
+#
+# Single-indented for base-chain and regular-chain
+# Double-indented for rules-only
+#
+
+    # Pre-declare table before map/vmap
+    chain ip6_route_output {
+        type route hook output priority -10; policy accept;
+        counter comment "outbound ip6/route/output"
+    }
+
+    # creates a registry for zone-based dispatcher (will touch ip6_route_output)
+    #include "bindings/zones/zones-ip6-route-output*.table_block"
+
+    # Declare an interface-to-chain dispatcher for output hook, ip6 family, route chain-type. (will touch ip6_route_output)
+    include "bindings/devices/devices-ip6-route-output*.table_block"
+
+
+    chain ip6_route_output {
+        counter comment "outbound ip6/route/output"
+        # TODO Add 'limit 5/s' here
+        log prefix "DROP ip6/route/output unknown ZONE: " drop
+    }

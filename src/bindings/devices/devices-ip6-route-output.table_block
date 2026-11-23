@@ -1,0 +1,32 @@
+#
+# File:     devices-ip6-route-output.table_block
+# Path:     bindings/devices/
+# Title:    Register all devices having ip6/route/output
+# Family:   ip6
+# Type:     route
+# Hook:     output
+# Priority: +10 (filter(0) + 10)
+# Policy:   accept
+# Table:    ip6_route
+# Chain:    ip6_route_output
+# Called by: hooks/hook-output/base-ip6-route-output.base_chain
+# Description:
+#
+# Single-indented for base-chain and regular-chain
+# Double-indented for rules-only
+#
+    # Pre-declare an interface-to-chain dispatcher for output hook, ip6 family, route chain-type.
+    map map_dispatch_ip6_route_output_devices {
+        typeof iif : verdict
+    }
+
+    # Insert the jump lookup
+    chain ip6_route_output {
+        counter comment "device inbound ip6/route/output"
+        iif vmap @map_dispatch_ip6_route_output_devices
+        counter comment "device inbound ip6/route/output, post dispatch"
+    }
+
+    # Register all ip6_route_output devices
+    include "bindings/devices/*/binding-device-ip6-route-output.table_block"
+

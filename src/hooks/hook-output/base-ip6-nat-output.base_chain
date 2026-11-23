@@ -1,0 +1,35 @@
+# File:     base-ip6-nat-output.base_chain
+# Path:     hooks/hook-output/
+# Title:    Base chain for the output hook (ip6 family, nat type)
+# Family:   ip6
+# Table:    ip6_nat
+# Chain:    ip6_nat_output
+# Type:     nat
+# Hook:     output
+# Priority: 10 (filter(0)+10)
+# Policy:   DROP
+# Called by: types/nat-ip6.table
+# Description:
+#
+# Single-indented for base-chain and regular-chain
+# Double-indented for rules-only
+#
+
+    # Pre-declare table before map/vmap
+    chain ip6_nat_output {
+        type nat hook output priority 10; policy drop;
+        counter comment "inbound ip6/nat/output"
+    }
+
+    # creates a registry for zone-based dispatcher (will touch ip6_nat_output)
+    #include "bindings/zones/zones-ip6-nat-output*.table_block"
+
+    # Declare an interface-to-chain dispatcher for output hook, ip6 family, nat chain-type. (will touch ip6_nat_output)
+    include "bindings/devices/devices-ip6-nat-output*.table_block"
+
+
+    chain ip6_nat_output {
+        counter comment "inbound ip6/nat/output"
+        # TODO Add 'limit 5/s' here
+        log prefix "DROP ip6/nat/output unknown ZONE: " drop
+    }

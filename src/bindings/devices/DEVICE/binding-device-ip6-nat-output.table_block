@@ -1,0 +1,47 @@
+# File:     bindings-device-ip6t-nat-output.table_block
+# Path:     bindings/devices/DEVICE/
+# Title:    Create regular chain and register with dispatcher of devices for ip6t/nat/output base chain
+# Family:   ip6t
+# Type:     nat
+# Hook:     output
+# Device:   DEVICE
+# Priority: +10 (nat(0)+10)
+# Policy:   DROP
+# Table:    nat_ip6t
+# Chain:    nat_ip6t_output
+# Called by: binding/devices/DEVICE/device-ip6t-nat-output.chain_block
+# Description:
+#
+
+    # Add/register a Device Interface-to-firewall dispatch registry
+    map map_dispatch_ip6t_nat_output_devices {
+        typeof iif : verdict
+        elements = {
+            # use goto, this is the final descendance
+            $DEVICE_INTF_DEV : goto ip6t_nat_output_DEVICE,
+        }
+    }
+
+    chain ip6t_nat_output_DEVICE {
+        counter comment "BEGIN inbound DEVICE ip6t/nat/output"
+
+        # DEVICE: Include rules strictly for all sub-zones/sub-devices having ip6t/nat/output regular chain
+        include "bindings/devices/DEVICE/rules/ip6t-nat-output/*.rule"
+    }
+    # Split the chain so that other chains can be created (ie., dispatcher regular chain)
+
+
+    # DEVICE/ZONE: Include all zones having this device ip6t/nat/output regular chain
+    include "bindings/devices/DEVICE/zones/subzones-ip6t-nat-output.table_block"
+
+    # ZONE: Include all zones having this device ip6t/nat/output regular chain
+    # include "bindings/zones/zones-ip6t-nat-output.table_block"
+
+    # (TODO: can we symbolically link to the parent zones/ZONE here, instead of include a duplicate ZONE?)
+
+    # No need for DEVICE/DEVICE/ZONE; simply do a subdevice as DEVICE/ZONE
+
+    chain ip6t_nat_output_DEVICE {
+        counter comment "End inbound DEVICE ip6t/nat/output"
+    }
+

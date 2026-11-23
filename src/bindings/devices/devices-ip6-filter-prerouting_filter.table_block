@@ -1,0 +1,33 @@
+#
+# File:     devices-ip6-filter-prerouting_filter.table_block
+# Path:     bindings/devices/
+# Title:    Register all devices having ip6/filter/prerouting
+# Family:   ip6
+# Type:     filter
+# Hook:     prerouting
+# Priority: -10 (filter(0) - 10)
+# Policy:   accept
+# Table:    ip6_filter
+# Chain:    ip6_filter_prerouting_filter
+# Called by: hooks/hook-prerouting/base-ip6-filter-prerouting_filter.base_chain
+# Description:
+#
+# Single-indented for base-chain and regular-chain
+# Double-indented for rules-only
+#
+
+    # Pre-declare an interface-to-chain dispatcher for prerouting hook, ip6 family, filter chain-type.
+    map map_dispatch_ip6_filter_prerouting_filter_devices {
+        typeof iif : verdict
+    }
+
+    # Insert the jump lookup
+    chain ip6_filter_prerouting_filter {
+        counter comment "device inbound ip6/filter/prerouting_filter"
+        iif vmap @map_dispatch_ip6_filter_prerouting_filter_devices
+        counter comment "device inbound ip6/filter/prerouting_filter, post dispatch"
+    }
+
+    # Register all ip6_filter_prerouting_filter devices
+    include "bindings/devices/*/binding-device-ip6-filter-prerouting_filter.table_block"
+

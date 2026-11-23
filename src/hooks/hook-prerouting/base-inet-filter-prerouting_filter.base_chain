@@ -1,4 +1,4 @@
-# File:     base-inet-filter-prerouting-filter.base_chain
+# File:     base-inet-filter-prerouting_filter.base_chain
 # Path:     hooks/hook-prerouting/
 # Title:    Base chain for the prerouting hook (inet family, filter type) of filter(0) priority
 # Family:   inet
@@ -30,10 +30,10 @@
     }
 
     # creates a registry for zone-based dispatcher (will touch inet_filter_prerouting_filter)
-    #include "bindings/zones/zones-inet-filter-prerouting-filter*.table_block"
+    #include "bindings/zones/zones-inet-filter-prerouting_filter*.table_block"
 
     # Declare an interface-to-chain dispatcher for prerouting hook, inet family, filter chain-type. (will touch inet_filter_prerouting_filter)
-    include "bindings/devices/devices-inet-filter-prerouting-filter*.table_block"
+    include "bindings/devices/devices-inet-filter-prerouting_filter*.table_block"
 
     chain inet_filter_prerouting_filter {
 
