@@ -1,0 +1,35 @@
+# File:     base-ip6-filter-prerouting-conntrack.base_chain
+# Path:     hooks/hook-prerouting/
+# Title:    Base chain for the prerouting hook (ip6 family, filter type)
+# Family:   ip6
+# Type:     filter
+# Hook:     prerouting
+# Priority: -210 ((-200) - 10)
+# Policy:   accept
+# Table:    *
+# Chain:    ip6_filter_prerouting
+# Called by: types/filter-ip6.table
+# Description:
+#
+# Single-indented for base-chain and regular-chain
+# Double-indented for rules-only
+#
+
+    # Pre-declare table before map/vmap
+    chain ip6_filter_prerouting_conntrack {
+        type filter hook prerouting priority -210; policy accept;
+
+        counter comment "inbound ip6/filter/prerouting_conntrack"
+    }
+
+    # creates a registry for zone-based dispatcher (will touch ip6_filter_prerouting)
+    #include "bindings/zones/zones-ip6-filter-prerouting*.table_block"
+
+    # Declare an interface-to-chain dispatcher for prerouting hook, ip6 family, filter chain-type. (will touch ip6_filter_prerouting)
+    include "bindings/devices/devices-ip6-filter-prerouting-conntrack*.table_block"
+
+    chain ip6_filter_prerouting_conntrack {
+
+        counter comment "inbound ip6/filter/prerouting_conntrack"
+    }
+

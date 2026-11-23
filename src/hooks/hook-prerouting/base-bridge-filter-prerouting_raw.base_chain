@@ -1,0 +1,39 @@
+# File:     base-bridge-filter-prerouting-raw.base_chain
+# Path:     hooks/hook-prerouting/
+# Title:    Base chain for the prerouting hook (bridge family, filter type)
+# Family:   bridge
+# Type:     filter
+# Hook:     prerouting
+# Priority: -310 (dstnat(-300) - 10)
+# Policy:   accept
+# Table:    *
+# Chain:    bridge_filter_prerouting
+# Called by: types/filter-bridge.table
+# Description:
+#
+#    Layer-2 filtering before the FDB (forwarding database) decision.                                                               #      - ether type, ether saddr/daddr, vlan tags, meta iif/iifname,                                                                #            meta ibrname                                                                                                           #      - meta broute set 1 (to force the packet up to the IP stack;                                                                 #            the modern replacement for ebtables BROUTING)                                                                          #      - Limited L3/L4 matching is possible (ip/ip6/tcp/udp after ether
+#            type), but the primary purpose is L2
+#
+#
+# Single-indented for base-chain and regular-chain
+# Double-indented for rules-only
+#
+
+    # Pre-declare table before map/vmap
+    chain bridge_filter_prerouting_raw {
+        type filter hook prerouting priority -310; policy accept;
+
+        counter comment "inbound bridge/filter/prerouting"
+    }
+
+    # creates a registry for zone-based dispatcher (will touch bridge_filter_prerouting)
+    #include "bindings/zones/zones-bridge-filter-prerouting*.table_block"
+
+    # Declare an interface-to-chain dispatcher for prerouting hook, bridge family, filter chain-type. (will touch bridge_filter_prerouting)
+    include "bindings/devices/devices-bridge-filter-prerouting-raw*.table_block"
+
+    chain bridge_filter_prerouting_raw {
+
+        counter comment "inbound bridge/filter/prerouting"
+    }
+
