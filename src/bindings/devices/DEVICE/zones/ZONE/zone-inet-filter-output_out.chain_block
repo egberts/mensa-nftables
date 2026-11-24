@@ -1,0 +1,24 @@
+#
+# File:     zone-inet-filter-output_out.chain_block
+# Path:     bindings/devices/DEVICE/zones/ZONE
+# Title:    Base chain to a specific network interface device to the family/type/hook
+# Family:   inet
+# Type:     filter
+# Hook:     output
+# Priority: +110 (out(100)+10)
+# Policy:   accept
+# Table:    filter_inet
+# Chain:    filter_inet_output_out_DEVICE
+# Called by: hooks/hook-output/base-inet-filter-output_out.table_block
+# Description:
+#
+
+# this is the part where it goes to rule-making
+
+# zone-specific redirect
+# filter_inet table
+#    filter_inet_output__outDEVICE base chain
+        # anything inet-specific here?
+        # Blackholing some private-net
+
+        include "bindings/devices/DEVICE/zones/ZONE/rules/inet-filter-output_out*/*.rule"

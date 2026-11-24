@@ -5,7 +5,7 @@
 # Family:   inet
 # Type:     filter
 # Hook:     prerouting
-# Priority: -310 ((-300) - 10)
+# Priority: -210 ((-200) - 10)
 # Policy:   accept
 # Table:    inet_filter
 # Chain:    inet_filter_prerouting_conntrack

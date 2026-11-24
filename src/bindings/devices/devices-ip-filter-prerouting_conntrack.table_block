@@ -5,7 +5,7 @@
 # Family:   ip
 # Type:     filter
 # Hook:     prerouting
-# Priority: -310 ((-300) - 10)
+# Priority: -210 ((-200) - 10)
 # Policy:   accept
 # Table:    ip_filter
 # Chain:    ip_filter_prerouting_conntrack

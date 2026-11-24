@@ -3,12 +3,12 @@
 # Path:     bindings/devices/
 # Title:    Register all devices having inet/filter/ingress
 # Family:   inet
-# Table:    inet_filter
-# Chain:    inet_filter_ingress
 # Type:     filter
 # Hook:     ingress
 # Priority: -10 (over Libvirt/Docker filter(0) and ip/ip6 filter-1)
 # Policy:   DROP
+# Table:    inet_filter
+# Chain:    inet_filter_ingress
 # Called by: hooks/hook-ingress/base-inet-filter-ingress.base_chain
 # Description:
 #

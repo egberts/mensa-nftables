@@ -21,4 +21,4 @@
         # anything inet-specific here?
         # Blackholing some private-net
 
-        include "bindings/devices/DEVICE/zones/ZONE/rules/inet-filter-prerouting_conntrack/*.rule"
+        include "bindings/devices/DEVICE/zones/ZONE/rules/inet-filter-prerouting_conntrack*/*.rule"

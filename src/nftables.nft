@@ -41,7 +41,7 @@ flush table ip ip_route
 flush table ip6 ip6_route
 
 # include "types/filter-netdev.table"  # tested
-include "types/filter-arp.table"  # tested
+# include "types/filter-arp.table"  # tested
 
 include "types/filter-inet.table"
 # include "types/filter-ip.table"

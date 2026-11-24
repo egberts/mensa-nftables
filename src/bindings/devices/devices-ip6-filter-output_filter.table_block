@@ -1,0 +1,33 @@
+#
+# File:     devices-ip6-filter-output_filter.table_block
+# Path:     bindings/devices/
+# Title:    Register all devices having ip6/filter/output for filter(0) priority
+# Family:   ip6
+# Type:     filter
+# Hook:     output
+# Priority: +10 (filter(0) + 10)
+# Policy:   DROP
+# Table:    ip6_filter
+# Chain:    ip6_filter_output_filter
+# Called by: hooks/hook-output/base-ip6-filter-output_filter.base_chain
+# Description:
+#
+# Single-indented for base-chain and regular-chain
+# Double-indented for rules-only
+#
+
+    # Pre-declare an interface-to-chain dispatcher for output hook, ip6 family, filter chain-type.
+    map map_dispatch_ip6_filter_output_filter_devices {
+        typeof iif : verdict
+    }
+
+    # Insert the jump lookup
+    chain ip6_filter_output_filter {
+        counter comment "device inbound ip6/filter/output_filter"
+        iif vmap @map_dispatch_ip6_filter_output_filter_devices
+        counter comment "device inbound ip6/filter/output_filter, post dispatch"
+    }
+
+    # Register all ip6_filter_output_filter devices
+    include "bindings/devices/*/binding-device-ip6-filter-output_filter.table_block"
+

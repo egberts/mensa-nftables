@@ -1,0 +1,33 @@
+#
+# File:     devices-inet-filter-output_raw.table_block
+# Path:     bindings/devices/
+# Title:    Register all devices having inet/filter/output
+# Family:   inet
+# Type:     filter
+# Hook:     output
+# Priority: -310 (raw(-300)-10)
+# Policy:   DROP
+# Table:    inet_filter
+# Chain:    inet_filter_output_raw
+# Called by: hooks/hook-output/base-inet-filter-output_raw.base_chain
+# Description:
+#
+# Single-indented for base-chain and regular-chain
+# Double-indented for rules-only
+#
+
+    # Pre-declare an interface-to-chain dispatcher for output hook, inet family, filter chain-type.
+    map map_dispatch_inet_filter_output_raw_devices {
+        typeof iif : verdict
+    }
+
+    # Insert the jump lookup
+    chain inet_filter_output_raw {
+        counter comment "device inbound inet/filter/output_raw"
+        iif vmap @map_dispatch_inet_filter_output_raw_devices
+        counter comment "device inbound inet/filter/output_raw, post dispatch"
+    }
+
+    # Register all inet_filter_output_raw devices
+    include "bindings/devices/*/binding-device-inet-filter-output_raw.table_block"
+

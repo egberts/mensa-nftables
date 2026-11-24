@@ -1,0 +1,35 @@
+# File:     base-inet-filter-output_raw.base_chain
+# Path:     hooks/hook-output/
+# Title:    Base chain for the output hook (inet family, filter type) for raw(-300) priority
+# Family:   inet
+# Type:     filter
+# Hook:     output
+# Priority: 310 ((+300)+10)
+# Policy:   DROP
+# Table:    inet_filter
+# Chain:    inet_filter_output_raw
+# Called by: types/filter-inet.table
+# Description:
+#
+# Single-indented for base-chain and regular-chain
+# Double-indented for rules-only
+#
+
+    # Pre-declare table before map/vmap
+    chain inet_filter_output_raw {
+        type filter hook output priority 310; policy drop;
+        counter comment "inbound inet/filter/output_raw"
+    }
+
+    # creates a registry for zone-based dispatcher (will touch inet_filter_output_raw)
+    #include "bindings/zones/zones-inet-filter-output_raw.table_block"
+
+    # Declare an interface-to-chain dispatcher for output hook, inet family, filter chain-type. (will touch inet_filter_output_raw)
+    include "bindings/devices/devices-inet-filter-output_raw.table_block"
+
+
+    chain inet_filter_output_raw {
+        counter comment "inbound inet/filter/output_raw"
+        # TODO Add 'limit 5/s' here
+        log prefix "DROP inet/filter/output_raw unknown ZONE: " drop
+    }

@@ -26,7 +26,7 @@
         counter comment "BEGIN inbound DEVICE inet/filter/input"
 
         # DEVICE: Include rules strictly for all sub-zones/sub-devices having inet/filter/input regular chain
-        include "bindings/devices/DEVICE/rules/inet-filter-input/*.rule"
+        include "bindings/devices/DEVICE/rules/inet-filter-input*/*.rule"
     }
     # Split the chain so that other chains can be created (ie., dispatcher regular chain)
 

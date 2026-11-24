@@ -5,7 +5,7 @@
 # Family:   ip
 # Type:     filter
 # Hook:     prerouting
-# Priority: -210 ((-200)-10)
+# Priority: -110 (dstnat(-100)-10)
 # Policy:   accept
 # Table:    filter_ip
 # Chain:    filter_ip_prerouting_dstnat_DEVICE
@@ -21,4 +21,4 @@
         # anything ip-specific here?
         # Blackholing some private-net
 
-        include "bindings/devices/DEVICE/zones/ZONE/rules/ip-filter-prerouting_dstnat/*.rule"
+        include "bindings/devices/DEVICE/zones/ZONE/rules/ip-filter-prerouting_dstnat*/*.rule"

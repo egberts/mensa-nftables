@@ -1,0 +1,33 @@
+#
+# File:     devices-ip-filter-output_filter.table_block
+# Path:     bindings/devices/
+# Title:    Register all devices having ip/filter/output for filter(0) priority
+# Family:   ip
+# Type:     filter
+# Hook:     output
+# Priority: +10 (filter(0) + 10)
+# Policy:   DROP
+# Table:    ip_filter
+# Chain:    ip_filter_output_filter
+# Called by: hooks/hook-output/base-ip-filter-output_filter.base_chain
+# Description:
+#
+# Single-indented for base-chain and regular-chain
+# Double-indented for rules-only
+#
+
+    # Pre-declare an interface-to-chain dispatcher for output hook, ip family, filter chain-type.
+    map map_dispatch_ip_filter_output_filter_devices {
+        typeof iif : verdict
+    }
+
+    # Insert the jump lookup
+    chain ip_filter_output_filter {
+        counter comment "device inbound ip/filter/output_filter"
+        iif vmap @map_dispatch_ip_filter_output_filter_devices
+        counter comment "device inbound ip/filter/output_filter, post dispatch"
+    }
+
+    # Register all ip_filter_output_filter devices
+    include "bindings/devices/*/binding-device-ip-filter-output_filter.table_block"
+
