@@ -63,25 +63,25 @@ Combining both the overall authoritative stance and inet vs. ip/ip6, we get this
 | +310         | postrouting              | Sysadmin           | bridge                     | `filter`                                            | srcnat (300) + 10         |
 
 
-
 ## 2. Standard priority reference
 
 ### IP, IPv6 and INET families
 
-| Priority | Name | Purpose |
-|---:|---|---|
-| -300 | raw | Raw table processing |
-| -225 | SELinux first | Security processing |
-| -200 | conntrack | Connection tracking |
-| -150 | mangle | Packet alteration |
-| -100 | dstnat | Destination NAT |
-| -50 | filter | Security processing (SELinux) |
-| 0 | filter | Packet filtering |
-| +50 | security | Security processing |
-| +100 | srcnat | Source NAT |
-| +225 | SELinux last | Security processing |
-| +300 | helper | Connection-tracking helpers |
-| INT_MAX | conntrack confirmation | Connection tracking confirmation |
+| **Priority** | **Hook**                 | **Owner**          | **Family**                 | **Chain type**                                      | **Type / reference**      |
+| ------------ | ------------------------ | ------------------ | -------------------------- | --------------------------------------------------- | ------------------------- |
+| -300         | prerouting               | Netfilter          | bridge                     | `filter`                                            | dstnat                    |
+| -225         | prerouting               | Netfilter          | ip, ip6, inet              | `filter`                                            | SELinux first             |
+| -200         | prerouting               | Netfilter          | ip, ip6, inet              | `filter`                                            | conntrack                 |
+| -150         | prerouting               | Netfilter          | ip, ip6, inet              | `filter`, `nat`                                     | mangle                    |
+| -100         | prerouting               | Docker / Libvirt   | ip, ip6                    | `filter`, `nat`                                     | dstnat (where registered) |
+| 0            | input / forward / output | Other applications | Varies                     | `filter`; `nat` (IP families, input/output); `route` (IP families, output) | filter |
+| +50          | postrouting              | Netfilter          | ip, ip6, inet              | `filter`, `nat`                                     | security                  |
+| +100         | output                   | Netfilter          | bridge                     | `filter`                                            | out                       |
+| +100         | postrouting              | Docker / Libvirt   | ip, ip6                    | `filter`, `nat`                                     | srcnat (where registered) |
+| +225         | postrouting              | Netfilter          | ip, ip6, inet              | `filter`, `nat`                                     | SELinux last              |
+| +300         | postrouting              | Netfilter          | bridge                     | `filter`                                            | srcnat                    |
+| +300         | postrouting              | Netfilter          | ip, ip6, inet              | `filter`, `nat`                                     | conntrack helper          |
+
 
 ### Bridge family
 
