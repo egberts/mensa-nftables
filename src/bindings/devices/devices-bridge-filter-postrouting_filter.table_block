@@ -18,14 +18,14 @@
 
     # Pre-declare an interface-to-chain dispatcher for postrouting hook, bridge family, filter chain-type.
     map map_dispatch_bridge_filter_postrouting_filter_devices {
-        typeof iif : verdict
+        typeof oif : verdict
     }
-
     # Insert the jump lookup
     chain bridge_filter_postrouting_filter {
-        counter comment "device inbound bridge/filter/postrouting_filter"
-        iif vmap @map_dispatch_bridge_filter_postrouting_filter_devices
-        counter comment "device inbound bridge/filter/postrouting_filter, post dispatch"
+
+        counter comment "device outbound bridge/filter/postrouting_filter"
+        oif vmap @map_dispatch_bridge_filter_postrouting_filter_devices
+        counter comment "device outbound bridge/filter/postrouting_filter, post dispatch"
     }
 
     # Register all bridge_filter_postrouting_filter devices

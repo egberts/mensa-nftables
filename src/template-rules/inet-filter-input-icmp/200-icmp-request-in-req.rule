@@ -1,0 +1,5 @@
+
+
+# INPUT: accept incoming ping requests
+icmp type echo-request accept comment "inbound ICMP/IP (ping) request"
+icmpv6 type echo-request accept comment "inbound ICMPv6/IP (ping) request"

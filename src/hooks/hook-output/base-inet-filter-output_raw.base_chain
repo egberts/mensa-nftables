@@ -4,7 +4,7 @@
 # Family:   inet
 # Type:     filter
 # Hook:     output
-# Priority: 310 ((+300)+10)
+# Priority: +289 ((+300)-11)
 # Policy:   DROP
 # Table:    inet_filter
 # Chain:    inet_filter_output_raw
@@ -17,7 +17,7 @@
 
     # Pre-declare table before map/vmap
     chain inet_filter_output_raw {
-        type filter hook output priority 310; policy drop;
+        type filter hook output priority 289; policy accept;
         counter comment "inbound inet/filter/output_raw"
     }
 
@@ -30,6 +30,4 @@
 
     chain inet_filter_output_raw {
         counter comment "inbound inet/filter/output_raw"
-        # TODO Add 'limit 5/s' here
-        log prefix "DROP inet/filter/output_raw unknown ZONE: " drop
     }

@@ -6,7 +6,7 @@
 # Chain:    ip_filter_forward
 # Type:     filter
 # Hook:     forward
-# Priority: -1 (filter(0)-1, before Libvirt/Docker forward/filter(0))
+# Priority: -10 (filter(0)-10, before Libvirt/Docker forward/filter(0))
 # Policy:   DROP
 # Called by: types/filter-ip.table
 # Description:
@@ -20,7 +20,7 @@
         typeof iif : verdict
     }
     chain ip_filter_forward {
-        type filter hook forward priority -1; policy drop;
+        type filter hook forward priority -10; policy drop;
 
         # A cool lookup to jump into a protocol-specific regular chain
         # dispatch map built by including/excluding chain-ip-filter-*.nft files

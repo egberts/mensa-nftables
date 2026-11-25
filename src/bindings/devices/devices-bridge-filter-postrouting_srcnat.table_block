@@ -6,7 +6,7 @@
 # Type:     filter
 # Hook:     postrouting
 # Priority: +310 (srcnat(+300) + 10)
-# Policy:   DROP
+# Policy:   accept
 # Table:    bridge_filter
 # Chain:    bridge_filter_postrouting_srcnat
 # Called by: hooks/hook-postrouting/base-bridge-filter-postrouting_srcnat.base_chain
@@ -18,14 +18,14 @@
 
     # Pre-declare an interface-to-chain dispatcher for postrouting hook, bridge family, filter chain-type.
     map map_dispatch_bridge_filter_postrouting_srcnat_devices {
-        typeof iif : verdict
+        typeof oif : verdict
     }
-
     # Insert the jump lookup
     chain bridge_filter_postrouting_srcnat {
-        counter comment "device inbound bridge/filter/postrouting_srcnat"
-        iif vmap @map_dispatch_bridge_filter_postrouting_srcnat_devices
-        counter comment "device inbound bridge/filter/postrouting_srcnat, post dispatch"
+
+        counter comment "device outbound bridge/filter/postrouting_srcnat"
+        oif vmap @map_dispatch_bridge_filter_postrouting_srcnat_devices
+        counter comment "device outbound bridge/filter/postrouting_srcnat, post dispatch"
     }
 
     # Register all bridge_filter_postrouting_srcnat devices

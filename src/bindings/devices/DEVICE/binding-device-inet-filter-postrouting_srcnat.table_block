@@ -16,7 +16,7 @@
 
     # Add/register a Device Interface-to-firewall dispatch registry
     map map_dispatch_inet_filter_postrouting_srcnat_devices {
-        typeof iif : verdict
+        typeof oif : verdict
         elements = {
             # use goto, this is the final descendance
             $DEVICE_INTF_DEV : goto inet_filter_postrouting_srcnat_DEVICE,
@@ -24,7 +24,7 @@
     }
 
     chain inet_filter_postrouting_srcnat_DEVICE {
-        counter comment "BEGIN inbound DEVICE inet/filter/postrouting_srcnat"
+        counter comment "BEGIN outbound DEVICE inet/filter/postrouting_srcnat"
 
         # DEVICE: Include rules strictly for all sub-zones/sub-devices having inet/filter/postrouting regular chain
         include "bindings/devices/DEVICE/rules/inet-filter-postrouting_srcnat*/*.rule"
@@ -43,6 +43,6 @@
     # No need for DEVICE/DEVICE/ZONE; simply do a subdevice as DEVICE/ZONE
 
     chain inet_filter_postrouting_srcnat_DEVICE {
-        counter comment "End inbound DEVICE inet/filter/postrouting_srcnat"
+        counter comment "End outbound DEVICE inet/filter/postrouting_srcnat"
     }
 

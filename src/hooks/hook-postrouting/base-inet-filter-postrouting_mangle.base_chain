@@ -4,7 +4,7 @@
 # Family:   inet
 # Type:     filter
 # Hook:     postrouting
-# Priority: -160 (mangle(-150) - 10)
+# Priority: -161 (mangle(-150) - 11)
 # Policy:   accept
 # Table:    *
 # Chain:    inet_filter_postrouting_mangle
@@ -24,7 +24,7 @@
 
     # Pre-declare table before map/vmap
     chain inet_filter_postrouting_mangle {
-        type filter hook postrouting priority -160; policy accept;
+        type filter hook postrouting priority -161; policy accept;
 
         counter comment "inbound inet/filter/postrouting_mangle"
     }

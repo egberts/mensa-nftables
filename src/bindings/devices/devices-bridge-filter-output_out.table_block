@@ -18,14 +18,14 @@
 
     # Pre-declare an interface-to-chain dispatcher for output hook, bridge family, filter chain-type.
     map map_dispatch_bridge_filter_output_out_devices {
-        typeof iif : verdict
+        typeof oif : verdict
     }
-
     # Insert the jump lookup
     chain bridge_filter_output_out {
-        counter comment "device inbound bridge/filter/output_out"
-        iif vmap @map_dispatch_bridge_filter_output_out_devices
-        counter comment "device inbound bridge/filter/output_out, post dispatch"
+
+        counter comment "device outbound bridge/filter/output_out"
+        oif vmap @map_dispatch_bridge_filter_output_out_devices
+        counter comment "device outbound bridge/filter/output_out, post dispatch"
     }
 
     # Register all bridge_filter_output_out devices

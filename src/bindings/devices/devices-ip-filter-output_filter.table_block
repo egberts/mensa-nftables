@@ -18,14 +18,14 @@
 
     # Pre-declare an interface-to-chain dispatcher for output hook, ip family, filter chain-type.
     map map_dispatch_ip_filter_output_filter_devices {
-        typeof iif : verdict
+        typeof oif : verdict
     }
-
     # Insert the jump lookup
     chain ip_filter_output_filter {
-        counter comment "device inbound ip/filter/output_filter"
-        iif vmap @map_dispatch_ip_filter_output_filter_devices
-        counter comment "device inbound ip/filter/output_filter, post dispatch"
+
+        counter comment "device outbound ip/filter/output_filter"
+        oif vmap @map_dispatch_ip_filter_output_filter_devices
+        counter comment "device outbound ip/filter/output_filter, post dispatch"
     }
 
     # Register all ip_filter_output_filter devices

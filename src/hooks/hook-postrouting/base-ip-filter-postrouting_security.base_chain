@@ -4,7 +4,7 @@
 # Family:   ip
 # Type:     filter
 # Hook:     postrouting
-# Priority: +50 (security(50) + 10)
+# Priority: +40 (security(50) - 10)
 # Policy:   accept
 # Table:    *
 # Chain:    ip_filter_postrouting_security
@@ -24,7 +24,7 @@
 
     # Pre-declare table before map/vmap
     chain ip_filter_postrouting_security {
-        type filter hook postrouting priority -160; policy accept;
+        type filter hook postrouting priority 40; policy accept;
 
         counter comment "inbound ip/filter/postrouting_security"
     }

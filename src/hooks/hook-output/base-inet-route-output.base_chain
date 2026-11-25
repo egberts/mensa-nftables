@@ -4,9 +4,9 @@
 # Family:   inet
 # Type:     route
 # Hook:     output
-# Priority: +10 (over Libvirt/Docker filter(0) and ip/ip6 filter-1)
+# Priority: -11 (over Libvirt/Docker filter(0) and ip/ip6 filter-1)
 # Policy:   accept
-# Table:    *
+# Table:    inet_route
 # Chain:    inet_route_output
 # Called by: types/filter-inet.table
 # Description:
@@ -19,7 +19,7 @@
 #
     # Pre-declare table before map/vmap
     chain inet_route_output {
-        type route hook output priority 10; policy accept;
+        type route hook output priority -11; policy accept;
         counter comment "outbound inet/route/output"
     }
 
@@ -32,6 +32,4 @@
 
     chain inet_route_output {
         counter comment "outbound inet/route/output"
-        # TODO Add 'limit 5/s' here
-        log prefix "DROP inet/route/output unknown ZONE: " drop
     }

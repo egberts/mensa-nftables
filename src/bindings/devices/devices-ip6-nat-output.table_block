@@ -17,14 +17,14 @@
 #
     # Pre-declare an interface-to-chain dispatcher for output hook, ip6 family, nat chain-type.
     map map_dispatch_ip6_nat_output_devices {
-        typeof iif : verdict
+        typeof oif : verdict
     }
-
     # Insert the jump lookup
     chain ip6_nat_output {
-        counter comment "device inbound ip6/nat/output"
-        iif vmap @map_dispatch_ip6_nat_output_devices
-        counter comment "device inbound ip6/nat/output, post dispatch"
+
+        counter comment "device outbound ip6/nat/output"
+        oif vmap @map_dispatch_ip6_nat_output_devices
+        counter comment "device outbound ip6/nat/output, post dispatch"
     }
 
     # Register all ip6_nat_output devices

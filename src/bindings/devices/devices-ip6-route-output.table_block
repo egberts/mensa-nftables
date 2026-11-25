@@ -17,14 +17,14 @@
 #
     # Pre-declare an interface-to-chain dispatcher for output hook, ip6 family, route chain-type.
     map map_dispatch_ip6_route_output_devices {
-        typeof iif : verdict
+        typeof oif : verdict
     }
-
     # Insert the jump lookup
     chain ip6_route_output {
-        counter comment "device inbound ip6/route/output"
-        iif vmap @map_dispatch_ip6_route_output_devices
-        counter comment "device inbound ip6/route/output, post dispatch"
+
+        counter comment "device outbound ip6/route/output"
+        oif vmap @map_dispatch_ip6_route_output_devices
+        counter comment "device outbound ip6/route/output, post dispatch"
     }
 
     # Register all ip6_route_output devices

@@ -16,7 +16,7 @@
 
     # Add/register a Device Interface-to-firewall dispatch registry
     map map_dispatch_ip6_filter_postrouting_filter_devices {
-        typeof iif : verdict
+        typeof oif : verdict
         elements = {
             # use goto, this is the final descendance
             $DEVICE_INTF_DEV : goto ip6_filter_postrouting_filter_DEVICE,
@@ -24,7 +24,7 @@
     }
 
     chain ip6_filter_postrouting_filter_DEVICE {
-        counter comment "BEGIN inbound DEVICE ip6/filter/postrouting_filter"
+        counter comment "BEGIN outbound DEVICE ip6/filter/postrouting_filter"
 
         # DEVICE: Include rules strictly for all sub-zones/sub-devices having ip6/filter/postrouting regular chain
         include "bindings/devices/DEVICE/rules/ip6-filter-postrouting_filter*/*.rule"
@@ -43,6 +43,6 @@
     # No need for DEVICE/DEVICE/ZONE; simply do a subdevice as DEVICE/ZONE
 
     chain ip6_filter_postrouting_filter_DEVICE {
-        counter comment "End inbound DEVICE ip6/filter/postrouting_filter"
+        counter comment "End outbound DEVICE ip6/filter/postrouting_filter"
     }
 

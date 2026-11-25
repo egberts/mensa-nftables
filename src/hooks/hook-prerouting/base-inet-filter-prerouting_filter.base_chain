@@ -4,7 +4,7 @@
 # Family:   inet
 # Type:     filter
 # Hook:     prerouting
-# Priority: -10 (filter(0) - 10)
+# Priority: -11 (filter(0) - 11)
 # Policy:   accept
 # Table:    *
 # Chain:    inet_filter_prerouting_filter
@@ -24,7 +24,7 @@
 
     # Pre-declare table before map/vmap
     chain inet_filter_prerouting_filter {
-        type filter hook prerouting priority -10; policy accept;
+        type filter hook prerouting priority -11; policy accept;
 
         counter comment "inbound inet/filter/prerouting_filter"
     }

@@ -18,14 +18,14 @@
 
     # Pre-declare an interface-to-chain dispatcher for postrouting hook, inet family, filter chain-type.
     map map_dispatch_inet_filter_postrouting_security_devices {
-        typeof iif : verdict
+        typeof oif : verdict
     }
-
     # Insert the jump lookup
     chain inet_filter_postrouting_security {
-        counter comment "device inbound inet/filter/postrouting_security"
-        iif vmap @map_dispatch_inet_filter_postrouting_security_devices
-        counter comment "device inbound inet/filter/postrouting_security, post dispatch"
+
+        counter comment "device outbound inet/filter/postrouting_security"
+        oif vmap @map_dispatch_inet_filter_postrouting_security_devices
+        counter comment "device outbound inet/filter/postrouting_security, post dispatch"
     }
 
     # Register all inet_filter_postrouting_security devices

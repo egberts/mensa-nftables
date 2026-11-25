@@ -15,7 +15,7 @@
 
     # Add/register a Device Interface-to-firewall dispatch registry
     map map_dispatch_inet_filter_output_raw_devices {
-        typeof iif : verdict
+        typeof oif : verdict
         elements = {
             # use goto, this is the final descendance
             $DEVICE_INTF_DEV : goto inet_filter_output_raw_DEVICE,

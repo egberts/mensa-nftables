@@ -2,12 +2,12 @@
 # Path:     hooks/hook-output/
 # Title:    Base chain for the output hook (ip6 family, nat type)
 # Family:   ip6
-# Table:    ip6_nat
-# Chain:    ip6_nat_output
 # Type:     nat
 # Hook:     output
-# Priority: 10 (filter(0)+10)
-# Policy:   DROP
+# Priority: -11 (filter(0)-11)
+# Policy:   accept
+# Table:    ip6_nat
+# Chain:    ip6_nat_output
 # Called by: types/nat-ip6.table
 # Description:
 #
@@ -17,7 +17,7 @@
 
     # Pre-declare table before map/vmap
     chain ip6_nat_output {
-        type nat hook output priority 10; policy drop;
+        type nat hook output priority -11; policy accept;
         counter comment "inbound ip6/nat/output"
     }
 
@@ -30,6 +30,4 @@
 
     chain ip6_nat_output {
         counter comment "inbound ip6/nat/output"
-        # TODO Add 'limit 5/s' here
-        log prefix "DROP ip6/nat/output unknown ZONE: " drop
     }

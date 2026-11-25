@@ -4,7 +4,7 @@
 # Family:   ip
 # Type:     filter
 # Hook:     postrouting
-# Priority: +110 (srcnat(100) + 10)
+# Priority: +90 (srcnat(100) - 10)
 # Policy:   accept
 # Table:    *
 # Chain:    ip_filter_postrouting_srcnat
@@ -24,7 +24,7 @@
 
     # Pre-declare table before map/vmap
     chain ip_filter_postrouting_srcnat {
-        type filter hook postrouting priority -160; policy accept;
+        type filter hook postrouting priority 90; policy accept;
 
         counter comment "inbound ip/filter/postrouting_srcnat"
     }

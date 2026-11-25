@@ -18,14 +18,14 @@
 
     # Pre-declare an interface-to-chain dispatcher for postrouting hook, ip6 family, filter chain-type.
     map map_dispatch_ip6_filter_postrouting_mangle_devices {
-        typeof iif : verdict
+        typeof oif : verdict
     }
-
     # Insert the jump lookup
     chain ip6_filter_postrouting_mangle {
-        counter comment "device inbound ip6/filter/postrouting_mangle"
-        iif vmap @map_dispatch_ip6_filter_postrouting_mangle_devices
-        counter comment "device inbound ip6/filter/postrouting_mangle, post dispatch"
+
+        counter comment "device outbound ip6/filter/postrouting_mangle"
+        oif vmap @map_dispatch_ip6_filter_postrouting_mangle_devices
+        counter comment "device outbound ip6/filter/postrouting_mangle, post dispatch"
     }
 
     # Register all ip6_filter_postrouting_mangle devices

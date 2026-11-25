@@ -24,7 +24,7 @@
     # Insert the jump lookup
     chain netdev_filter_egress {
         counter comment "device inbound netdev/filter/egress"
-        iif vmap @map_dispatch_netdev_filter_egress_devices
+        oif vmap @map_dispatch_netdev_filter_egress_devices
         counter comment "device inbound netdev/filter/egress, post dispatch"
     }
 

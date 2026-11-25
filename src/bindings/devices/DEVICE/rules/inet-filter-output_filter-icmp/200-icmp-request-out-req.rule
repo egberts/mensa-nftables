@@ -1,5 +1,5 @@
 #
-# File: 100-icmp-all-out-accept.rule
+# File: 200-icmp-request-out-req-accept.rule
 # Policy: Allow any outbound ICMP
 # Description:
 #
@@ -40,4 +40,6 @@
 # 18	0	Address Mask Reply (Deprecated)
 #
 
-        meta l4proto icmp counter accept comment "local-to-remote ICMP/IP (ping)"
+# OUTPUT: allow locally initiated ping requests
+icmp type echo-request counter log prefix "test" accept comment "local-to-remote ICMP/IP (ping) request"
+icmpv6 type echo-request counter log prefix "test" accept comment "local-to-remote ICMPv6/IP (ping) request"

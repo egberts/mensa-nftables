@@ -17,7 +17,7 @@
 
     # Pre-declare table before map/vmap
     chain ip6_nat_input {
-        type nat hook input priority -210; policy accept;
+        type nat hook input priority -10; policy accept;
 
         counter comment "inbound ip6/nat/input"
     }

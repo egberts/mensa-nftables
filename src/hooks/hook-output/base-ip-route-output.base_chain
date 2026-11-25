@@ -4,9 +4,9 @@
 # Family:   ip
 # Type:     route
 # Hook:     output
-# Priority: +10 (over Libvirt/Docker filter(0) and ip/ip6 filter-1)
+# Priority: -10 (over Libvirt/Docker filter(0) and ip/ip6 filter-1)
 # Policy:   accept
-# Table:    *
+# Table:    ip_route
 # Chain:    ip_route_output
 # Called by: types/filter-ip.table
 # Description:
@@ -33,6 +33,4 @@
 
     chain ip_route_output {
         counter comment "outbound ip/route/output"
-        # TODO Add 'limit 5/s' here
-        log prefix "DROP ip/route/output unknown ZONE: " drop
     }

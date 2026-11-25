@@ -4,7 +4,7 @@
 # Family:   bridge
 # Type:     filter
 # Hook:     output
-# Priority: +110 (out(+100)+10)
+# Priority: +90 (out(+100)-10)
 # Policy:   DROP
 # Table:    *
 # Chain:    bridge_filter_output_out
@@ -17,7 +17,7 @@
 
     # Pre-declare table before map/vmap
     chain bridge_filter_output_out {
-        type filter hook output priority 110; policy drop;
+        type filter hook output priority 90; policy drop;
         counter comment "inbound bridge/filter/output_out"
     }
 

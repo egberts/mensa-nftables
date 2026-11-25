@@ -4,7 +4,7 @@
 # Family:   ip
 # Type:     filter
 # Hook:     postrouting
-# Priority: +10 (filter(0) + 10)
+# Priority: -10 (filter(0) - 10)
 # Policy:   accept
 # Table:    *
 # Chain:    ip_filter_postrouting_filter

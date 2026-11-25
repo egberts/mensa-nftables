@@ -4,7 +4,7 @@
 # Family:   inet
 # Type:     filter
 # Hook:     prerouting
-# Priority: -110 (dstnat (-100) - 10, before ip-dstnat(-105) and ip6-dstnat(-105))
+# Priority: -111 (dstnat (-100) - 11, before ip-dstnat(-105) and ip6-dstnat(-105))
 # Policy:   accept
 # Table:    *
 # Chain:    inet_filter_prerouting
@@ -24,7 +24,7 @@
 
     # Pre-declare table before map/vmap
     chain inet_filter_prerouting_dstnat {
-        type filter hook prerouting priority -110; policy accept;
+        type filter hook prerouting priority -111; policy accept;
 
         counter comment "inbound inet/filter/prerouting_dstnat"
     }

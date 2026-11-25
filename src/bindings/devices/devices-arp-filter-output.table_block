@@ -18,14 +18,14 @@
 
     # Pre-declare an interface-to-chain dispatcher for output hook, arp family, filter chain-type.
     map map_dispatch_arp_filter_output_devices {
-        typeof iif : verdict
+        typeof oif : verdict
     }
-
     # Insert the jump lookup
     chain arp_filter_output {
-        counter comment "device inbound arp/filter/output"
-        iif vmap @map_dispatch_arp_filter_output_devices
-        counter comment "device inbound arp/filter/output, post dispatch"
+
+        counter comment "device outbound arp/filter/output"
+        oif vmap @map_dispatch_arp_filter_output_devices
+        counter comment "device outbound arp/filter/output, post dispatch"
     }
 
     # Register all arp_filter_output devices

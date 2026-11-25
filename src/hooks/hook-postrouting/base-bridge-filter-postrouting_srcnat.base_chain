@@ -4,7 +4,7 @@
 # Family:   bridge
 # Type:     filter
 # Hook:     postrouting
-# Priority: 310 (srcnat(-300) + 10)
+# Priority: 290 (srcnat(-300) - 10)
 # Policy:   accept
 # Table:    *
 # Chain:    bridge_filter_postrouting_srcnat

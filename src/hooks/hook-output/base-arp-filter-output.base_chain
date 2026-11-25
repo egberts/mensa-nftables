@@ -6,7 +6,7 @@
 # Chain:    arp_filter_output
 # Type:     filter
 # Hook:     output
-# Priority: +10 (over Libvirt/Docker filter(0) and ip/ip6 filter-1)
+# Priority: -10 (over Libvirt/Docker filter(0))
 # Policy:   DROP
 # Called by: types/filter-arp.table
 # Description:
