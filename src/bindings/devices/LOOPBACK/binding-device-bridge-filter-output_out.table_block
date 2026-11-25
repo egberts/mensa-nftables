@@ -1,0 +1,47 @@
+# File:     bindings-device-bridge-filter-output_out.table_block
+# Path:     bindings/devices/DEVICE/
+# Title:    Create regular chain and register with dispatcher of devices for bridge/filter/output base chain
+# Family:   bridge
+# Type:     filter
+# Hook:     output
+# Device:   DEVICE
+# Priority: 110 (out(100)+10)
+# Policy:   *
+# Table:    filter_bridge
+# Chain:    filter_bridge_output_out
+# Called by: binding/devices/DEVICE/device-bridge-filter-output_out.chain_block
+# Description:
+#
+
+    # Add/register a Device Interface-to-firewall dispatch registry
+    map map_dispatch_bridge_filter_output_out_LOOPBACKs {
+        typeof oif : verdict
+        elements = {
+            # use goto, this is the final descendance
+            $LOOPBACK_INTF_DEV : goto bridge_filter_output_out_LOOPBACK,
+        }
+    }
+
+    chain bridge_filter_output_out_LOOPBACK {
+        counter comment "BEGIN inbound DEVICE bridge/filter/output_out"
+
+        # DEVICE: Include rules strictly for all sub-zones/sub-devices having bridge/filter/output regular chain
+        include "bindings/devices/DEVICE/rules/bridge-filter-output_out*/*.rule"
+    }
+    # Split the chain so that other chains can be created (ie., dispatcher regular chain)
+
+
+    # DEVICE/ZONE: Include all zones having this device bridge/filter/output regular chain
+    include "bindings/devices/DEVICE/zones/subzones-bridge-filter-output_out.table_block"
+
+    # ZONE: Include all zones having this device bridge/filter/output regular chain
+    # include "bindings/zones/zones-bridge-filter-output_out.table_block"
+
+    # (TODO: can we symbolically link to the parent zones/ZONE here, instead of include a duplicate ZONE?)
+
+    # No need for DEVICE/DEVICE/ZONE; simply do a subdevice as DEVICE/ZONE
+
+    chain bridge_filter_output_out_LOOPBACK {
+        counter comment "End inbound DEVICE bridge/filter/output_out"
+    }
+

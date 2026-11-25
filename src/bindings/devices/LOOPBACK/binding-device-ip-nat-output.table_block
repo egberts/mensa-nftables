@@ -1,0 +1,47 @@
+# File:     bindings-device-ip-nat-output.table_block
+# Path:     bindings/devices/DEVICE/
+# Title:    Create regular chain and register with dispatcher of devices for ip/nat/output base chain
+# Family:   ip
+# Type:     nat
+# Hook:     output
+# Device:   DEVICE
+# Priority: +10 (nat(0)+10)
+# Policy:   DROP
+# Table:    nat_ip
+# Chain:    nat_ip_output
+# Called by: binding/devices/DEVICE/device-ip-nat-output.chain_block
+# Description:
+#
+
+    # Add/register a Device Interface-to-firewall dispatch registry
+    map map_dispatch_ip_nat_output_LOOPBACKs {
+        typeof oif : verdict
+        elements = {
+            # use goto, this is the final descendance
+            $LOOPBACK_INTF_DEV : goto ip_nat_output_LOOPBACK,
+        }
+    }
+
+    chain ip_nat_output_LOOPBACK {
+        counter comment "BEGIN inbound DEVICE ip/nat/output"
+
+        # DEVICE: Include rules strictly for all sub-zones/sub-devices having ip/nat/output regular chain
+        include "bindings/devices/DEVICE/rules/ip-nat-output/*.rule"
+    }
+    # Split the chain so that other chains can be created (ie., dispatcher regular chain)
+
+
+    # DEVICE/ZONE: Include all zones having this device ip/nat/output regular chain
+    include "bindings/devices/DEVICE/zones/subzones-ip-nat-output.table_block"
+
+    # ZONE: Include all zones having this device ip/nat/output regular chain
+    # include "bindings/zones/zones-ip-nat-output.table_block"
+
+    # (TODO: can we symbolically link to the parent zones/ZONE here, instead of include a duplicate ZONE?)
+
+    # No need for DEVICE/DEVICE/ZONE; simply do a subdevice as DEVICE/ZONE
+
+    chain ip_nat_output_LOOPBACK {
+        counter comment "End inbound DEVICE ip/nat/output"
+    }
+

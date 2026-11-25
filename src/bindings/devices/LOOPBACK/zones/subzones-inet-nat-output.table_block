@@ -1,0 +1,27 @@
+#
+# File: subzones-inet-nat-output.table_block
+# Path: bindings/devices/DEVICE/zones/
+# Title: Include all subzones associated with this device for inet/nat/output
+# Family: inet
+# Type: nat
+# Hook: output
+# Device: DEVICE
+# Priority: +10 (filter(0)+10)
+# Policy: accept
+# Table: nat_inet
+# Chain: inet_nat_output_LOOPBACK
+# Called by: bindings/devices/DEVICE/binding-device-inet-nat-output.table_block
+#
+
+    # going to need a registry table just for DEVICE-ZONE
+    chain dispatcher_inet_nat_output_lo_ZONE {
+
+         # try for parent ZONE (instead of subdir ZONE)
+         include "bindings/devices/DEVICE/zones/*/zone-inet-nat-output.chain_block"
+
+    }
+
+    # poor-mans dispatcher, sequential hooking
+    chain inet_nat_output_LOOPBACK {
+        jump dispatcher_inet_nat_output_lo_ZONE
+    }

@@ -1,0 +1,47 @@
+# File:     bindings-device-ip-filter-output_raw.table_block
+# Path:     bindings/devices/DEVICE/
+# Title:    Regular chain with dispatcher for ip/filter/output with raw(300) priority
+# Family:   ip
+# Type:     filter
+# Hook:     output
+# Device:   DEVICE
+# Priority: +310 ((300)+10)
+# Policy:   DROP
+# Table:    filter_ip
+# Chain:    filter_ip_output_raw
+# Called by: binding/devices/DEVICE/device-ip-filter-output_raw.chain_block
+# Description:
+#
+
+    # Add/register a Device Interface-to-firewall dispatch registry
+    map map_dispatch_ip_filter_output_raw_LOOPBACKs {
+        typeof oif : verdict
+        elements = {
+            # use goto, this is the final descendance
+            $LOOPBACK_INTF_DEV : goto ip_filter_output_raw_LOOPBACK,
+        }
+    }
+
+    chain ip_filter_output_raw_LOOPBACK {
+        counter comment "BEGIN inbound DEVICE ip/filter/output_raw"
+
+        # DEVICE: Include rules strictly for all sub-zones/sub-devices having ip/filter/output regular chain
+        include "bindings/devices/DEVICE/rules/ip-filter-output_raw*/*.rule"
+    }
+    # Split the chain so that other chains can be created (ie., dispatcher regular chain)
+
+
+    # DEVICE/ZONE: Include all zones having this device ip/filter/output regular chain
+    include "bindings/devices/DEVICE/zones/subzones-ip-filter-output_raw.table_block"
+
+    # ZONE: Include all zones having this device ip/filter/output regular chain
+    # include "bindings/zones/zones-ip-filter-output_raw.table_block"
+
+    # (TODO: can we symbolically link to the parent zones/ZONE here, instead of include a duplicate ZONE?)
+
+    # No need for DEVICE/DEVICE/ZONE; simply do a subdevice as DEVICE/ZONE
+
+    chain ip_filter_output_raw_LOOPBACK {
+        counter comment "End inbound DEVICE ip/filter/output_raw"
+    }
+

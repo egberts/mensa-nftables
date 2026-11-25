@@ -1,0 +1,47 @@
+# File:     bindings-device-inet-filter-prerouting_conntrack.table_block
+# Path:     bindings/devices/DEVICE/
+# Title:    Create regular chain and register with dispatcher of devices for inet/filter/prerouting base chain
+# Family:   inet
+# Type:     filter
+# Hook:     prerouting
+# Device:   DEVICE
+# Priority: -210 ((-200) - 10)
+# Policy:   *
+# Table:    filter_inet
+# Chain:    filter_inet_prerouting_conntrack
+# Called by: binding/devices/DEVICE/device-inet-filter-prerouting_conntrack.chain_block
+# Description:
+#
+
+    # Add/register a Device Interface-to-firewall dispatch registry
+    map map_dispatch_inet_filter_prerouting_conntrack_LOOPBACKs {
+        typeof iif : verdict
+        elements = {
+            # use goto, this is the final descendance
+            $LOOPBACK_INTF_DEV : goto inet_filter_prerouting_conntrack_LOOPBACK,
+        }
+    }
+
+    chain inet_filter_prerouting_conntrack_LOOPBACK {
+        counter comment "BEGIN inbound DEVICE inet/filter/prerouting_conntrack"
+
+        # DEVICE: Include rules strictly for all sub-zones/sub-devices having inet/filter/prerouting regular chain
+        include "bindings/devices/DEVICE/rules/inet-filter-prerouting_conntrack/*.rule"
+    }
+    # Split the chain so that other chains can be created (ie., dispatcher regular chain)
+
+
+    # DEVICE/ZONE: Include all zones having this device inet/filter/prerouting regular chain
+    include "bindings/devices/DEVICE/zones/subzones-inet-filter-prerouting_conntrack.table_block"
+
+    # ZONE: Include all zones having this device inet/filter/prerouting regular chain
+    # include "bindings/zones/zones-inet-filter-prerouting_conntrack.table_block"
+
+    # (TODO: can we symbolically link to the parent zones/ZONE here, instead of include a duplicate ZONE?)
+
+    # No need for DEVICE/DEVICE/ZONE; simply do a subdevice as DEVICE/ZONE
+
+    chain inet_filter_prerouting_conntrack_LOOPBACK {
+        counter comment "End inbound DEVICE inet/filter/prerouting_conntrack"
+    }
+

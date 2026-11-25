@@ -1,0 +1,47 @@
+# File:     bindings-device-ip-route-output.table_block
+# Path:     bindings/devices/DEVICE/
+# Title:    Create regular chain and register with dispatcher of devices for ip/route/output base chain
+# Family:   ip
+# Type:     route
+# Hook:     output
+# Device:   DEVICE
+# Priority: +10 (filter(0)+10)
+# Policy:   accept
+# Table:    route_ip
+# Chain:    route_ip_output
+# Called by: binding/devices/DEVICE/device-ip-route-output.table_block
+# Description:
+#
+
+    # Add/register a Device Interface-to-firewall dispatch registry
+    map map_dispatch_ip_route_output_LOOPBACKs {
+        typeof oif : verdict
+        elements = {
+            # use goto, this is the final descendance
+            $LOOPBACK_INTF_DEV : goto ip_route_output_LOOPBACK,
+        }
+    }
+
+    chain ip_route_output_LOOPBACK {
+        counter comment "BEGIN outbound DEVICE ip/route/output"
+
+        # DEVICE: Include rules strictly for all sub-zones/sub-devices having ip/route/output regular chain
+        include "bindings/devices/DEVICE/rules/ip-route-output/*.rule"
+    }
+    # Split the chain so that other chains can be created (ie., dispatcher regular chain)
+
+
+    # DEVICE/ZONE: Include all zones having this device ip/route/output regular chain
+    include "bindings/devices/DEVICE/zones/subzones-ip-route-output.table_block"
+
+    # ZONE: Include all zones having this device ip/route/output regular chain
+    # include "bindings/zones/zones-ip-route-output.table_block"
+
+    # (TODO: can we symbolically link to the parent zones/ZONE here, instead of include a duplicate ZONE?)
+
+    # No need for DEVICE/DEVICE/ZONE; simply do a subdevice as DEVICE/ZONE
+
+    chain ip_route_output_LOOPBACK {
+        counter comment "End outbound DEVICE ip/route/output"
+    }
+
