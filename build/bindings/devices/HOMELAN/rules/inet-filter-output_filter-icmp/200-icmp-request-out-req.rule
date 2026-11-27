@@ -41,5 +41,5 @@
 #
 
 # OUTPUT: allow locally initiated ping requests
-icmp type echo-request counter log prefix "test" accept comment "local-to-remote ICMP/IP (ping) request"
-icmpv6 type echo-request counter log prefix "test" accept comment "local-to-remote ICMPv6/IP (ping) request"
+icmp type echo-request accept comment "local-to-remote ICMP/IP (ping) request"
+icmpv6 type echo-request accept comment "local-to-remote ICMPv6/IP (ping) request"

@@ -17,7 +17,7 @@
 
     # Pre-declare table before map/vmap
     chain inet_filter_forward {
-        # ip family_spec gets the last word to drop
+        # ip family gets the last 'drop' word at priority -10
         type filter hook forward priority -11; policy accept;
         counter comment "inbound inet/filter/forward"
     }
@@ -32,5 +32,5 @@
     chain inet_filter_forward {
         counter comment "inbound inet/filter/forward"
         # TODO Add 'limit 5/s' here
-        #log prefix "DROP inet/filter/forward unknown ZONE: " drop
+        log prefix "DROP inet/filter/forward unknown ZONE: " drop
     }

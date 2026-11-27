@@ -44,8 +44,8 @@ include "types/filter-netdev.table"  # tested
 include "types/filter-arp.table"  # tested
 
 include "types/filter-inet.table"
-include "types/filter-ip6.table"
-include "types/filter-ip.table"
+# include "types/filter-ip.table"
+# include "types/filter-ip6.table"
 # include "types/filter-bridge.table"
 
 include "types/nat-inet.table"  # remaining

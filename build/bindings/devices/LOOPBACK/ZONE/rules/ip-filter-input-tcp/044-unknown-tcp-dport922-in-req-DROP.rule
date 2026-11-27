@@ -1,5 +1,0 @@
-#
-# File: 044-unknown-tcp-dport922-in-req-DROP.rule
-# Title: Deny remote port 922/tcp client request to local port 922/tcp server
-#
-tcp dport 922 counter drop comment "remote-to-local ???/TCP/922 request"

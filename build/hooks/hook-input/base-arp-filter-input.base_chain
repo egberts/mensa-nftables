@@ -20,7 +20,7 @@
 
     # Pre-declare table before map/vmap
     chain arp_filter_input {
-        type filter hook input priority -10; policy accept;
+        type filter hook input priority -10; policy drop;
         counter comment "inbound arp/filter/input"
     }
 
@@ -33,4 +33,6 @@
 
     chain arp_filter_input {
         counter comment "inbound arp/filter/input"
+        # TODO Add 'limit 5/s' here
+        log prefix "DROP arp/filter/input unknown ZONE: " drop
     }

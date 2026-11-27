@@ -7,6 +7,6 @@
         ether saddr 00:00:00:00:00:00 drop
 
         # Drop IPv6 if this interface should be IPv4-only
-        ether type ip6 counter drop
+        ether type ip6 drop
 
         # Allow everything else

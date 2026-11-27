@@ -17,7 +17,7 @@
 
     # Pre-declare table before map/vmap
     chain ip6_filter_input {
-        type filter hook input priority -10; policy accept;
+        type filter hook input priority -10; policy drop;
         counter comment "inbound ip6/filter/input"
     }
 

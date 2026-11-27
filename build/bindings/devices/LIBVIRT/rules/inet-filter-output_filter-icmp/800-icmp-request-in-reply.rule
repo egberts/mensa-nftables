@@ -42,5 +42,5 @@
 
 
 # OUTPUT: allow replies to incoming ping requests
-icmp type echo-reply counter log prefix "test reply" accept comment "local-to-remote ICMP/IP (ping) reply"
-icmpv6 type echo-reply counter log prefix "test reply" accept comment "local-to-remote ICMPv6/IP (ping) reply"
+icmp type echo-reply accept comment "local-to-remote ICMP/IP (ping) reply"
+icmpv6 type echo-reply accept comment "local-to-remote ICMPv6/IP (ping) reply"

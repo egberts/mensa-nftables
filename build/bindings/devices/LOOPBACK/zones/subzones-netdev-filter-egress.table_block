@@ -14,7 +14,7 @@
 #
 
     # going to need a registry table just for LOOPBACK-ZONE
-    chain dispatcher_netdev_filter_egress_lo_ZONE {
+    chain dispatcher_netdev_filter_egress_LOOPBACK_ZONE {
 
          # try for parent ZONE (instead of subdir ZONE)
          include "bindings/devices/LOOPBACK/zones/*/zone-netdev-filter-egress.chain_block"
@@ -23,5 +23,5 @@
 
     # poor-mans dispatcher, sequential hooking
     chain netdev_filter_egress_LOOPBACK {
-        jump dispatcher_netdev_filter_egress_lo_ZONE
+        jump dispatcher_netdev_filter_egress_LOOPBACK_ZONE
     }

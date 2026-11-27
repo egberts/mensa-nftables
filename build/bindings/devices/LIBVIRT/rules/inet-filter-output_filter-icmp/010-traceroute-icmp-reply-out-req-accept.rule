@@ -4,7 +4,7 @@
 
 
 # Outbound ICMP Time Exceeded response to inbound traceroute
-icmp type time-exceeded counter accept comment "local-to-remote inbound traceroute iCMP exceeded response"
+icmp type time-exceeded accept comment "local-to-remote inbound traceroute iCMP exceeded response"
 
 # Outbound ICMP Destination Unreachable response to inbound traceroute
-icmp type destination-unreachable counter accept comment "local-to-remote inbound traceroute ICMP unreachable"
+icmp type destination-unreachable accept comment "local-to-remote inbound traceroute ICMP unreachable"

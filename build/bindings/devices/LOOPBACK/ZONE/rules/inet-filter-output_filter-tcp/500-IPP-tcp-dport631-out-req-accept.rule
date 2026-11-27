@@ -1,5 +1,0 @@
-#
-# File: 500-IPP-tcp-dport631-out-req-accept.rule
-# Title: Allow local Internet Printer Protocol client request to remote IPP server
-
-tcp dport 631 accept comment "local-to-remote IPP/TCP/631 request"

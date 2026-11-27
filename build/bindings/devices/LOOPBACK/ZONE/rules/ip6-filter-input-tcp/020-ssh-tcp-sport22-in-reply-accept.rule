@@ -1,5 +1,0 @@
-# File: 020-ssh-tcp-sport22-in-reply-accept.rule
-# Title: Allow remote SSH server reply to local SSH client
-
-tcp sport 22 counter accept comment "remote-to-local SSH/TCP/22 reply"
-

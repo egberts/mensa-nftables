@@ -1,5 +1,0 @@
-#
-# File: 800-NetBIOS-tcp-dport631-out-req-DROP.rule
-# Title: DENY local NetBIOS client request to remote NetBIOS server
-
-tcp dport { 139, 445 } counter drop comment "local-to-remote NetBIOS/TCP/631 request"

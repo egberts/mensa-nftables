@@ -1,9 +1,0 @@
-#
-# File: 260-ARP-NonEthernet-htype-out-monitor.rule
-# Policy: Monitor ARP packets advertising Frame Relay hardware type
-# Description:
-#     Runs after ARP hook and zone interface map/vmap dispatch; no interface matching here.
-#     HTYPE 15 denotes Frame Relay; such frames may not traverse Linux nftables arp hooks.
-#     Direction: local-to-remote; intended for arp output hook.
-#
-arp htype 15 counter comment "local-to-remote NonEthernet htype monitor"

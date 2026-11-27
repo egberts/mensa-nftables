@@ -5,7 +5,7 @@
 #
 
     # going to need a registry table just for LOOPBACK-ZONE
-    chain dispatcher_arp_filter_output_lo_ZONE {
+    chain dispatcher_arp_filter_output_LOOPBACK_ZONE {
 
          # try for parent ZONE (instead of subdir ZONE)
          include "bindings/devices/LOOPBACK/zones/*/zone-arp-filter-output.chain_block"
@@ -14,5 +14,5 @@
 
     # poor-mans dispatcher, sequential hooking
     chain arp_filter_output_LOOPBACK {
-        jump dispatcher_arp_filter_output_lo_ZONE
+        jump dispatcher_arp_filter_output_LOOPBACK_ZONE
     }

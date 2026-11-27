@@ -40,4 +40,3 @@
 # 18	0	Address Mask Reply (Deprecated)
 #
 
-        meta l4proto icmp counter accept comment "local-to-remote ICMP/IP (ping)"

@@ -20,7 +20,7 @@
         typeof iif : verdict
     }
     chain ip_filter_forward {
-        type filter hook forward priority -10; policy accept;
+        type filter hook forward priority -10; policy drop;
 
         # A cool lookup to jump into a protocol-specific regular chain
         # dispatch map built by including/excluding chain-ip-filter-*.nft files
@@ -33,5 +33,5 @@
 
     chain ip_filter_forward {
 
-        # counter log prefix "DROP ip/filter/forward: " drop comment "unidentified interface filter forward"
+        counter log prefix "DROP ip/filter/forward: " drop comment "unidentified interface filter forward"
     }

@@ -1,5 +1,0 @@
-#
-# File: 060-SMTP-tcp-sport25-out-reply-accept.rule
-# Title: Allow local SMTP server reply to remote SMTP client
-
-tcp sport 25 counter accept comment "local-to-remote SMTP/TCP/25 reply"

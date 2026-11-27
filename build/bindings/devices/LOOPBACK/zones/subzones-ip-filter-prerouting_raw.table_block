@@ -13,7 +13,7 @@
 #
 
     # going to need a registry table just for LOOPBACK-ZONE
-    chain dispatcher_ip_filter_prerouting_raw_lo_ZONE {
+    chain dispatcher_ip_filter_prerouting_raw_LOOPBACK_ZONE {
 
          # try for parent ZONE (instead of subdir ZONE)
          include "bindings/devices/LOOPBACK/zones/*/zone-ip-filter-prerouting_raw.chain_block"
@@ -22,6 +22,6 @@
     # poor-mans dispatcher, sequential hooking
     chain ip_filter_prerouting_raw_LOOPBACK {
 
-        jump dispatcher_ip_filter_prerouting_raw_lo_ZONE
+        jump dispatcher_ip_filter_prerouting_raw_LOOPBACK_ZONE
     }
 

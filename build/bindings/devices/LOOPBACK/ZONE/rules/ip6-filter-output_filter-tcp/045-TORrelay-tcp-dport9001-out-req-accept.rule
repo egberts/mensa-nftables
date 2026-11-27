@@ -1,6 +1,0 @@
-#
-# File: 045-TORrelay-tcp-dport9001-out-req-accept.rule
-# Title: Allow local TORrelay client request to remote TORrelay server
-
-tcp dport 9001 counter accept comment "local-to-remote TORrelay/TCP/9001 request"
-

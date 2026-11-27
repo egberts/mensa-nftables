@@ -14,7 +14,7 @@
 #
 
     # going to need a registry table just for LOOPBACK-ZONE
-    chain dispatcher_ip6_filter_ingress_lo_ZONE {
+    chain dispatcher_ip6_filter_ingress_LOOPBACK_ZONE {
 
          # try for parent ZONE (instead of subdir ZONE)
          include "bindings/devices/LOOPBACK/zones/*/zone-ip6-filter-ingress.chain_block"
@@ -24,6 +24,6 @@
     # poor-mans dispatcher, sequential hooking
     chain ip6_filter_ingress_LOOPBACK {
 
-        jump dispatcher_ip6_filter_ingress_lo_ZONE
+        jump dispatcher_ip6_filter_ingress_LOOPBACK_ZONE
     }
 

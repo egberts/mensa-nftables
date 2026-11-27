@@ -14,7 +14,7 @@
 #
 
     # going to need a registry table just for LOOPBACK-ZONE
-    chain dispatcher_inet_route_output_lo_ZONE {
+    chain dispatcher_inet_route_output_LOOPBACK_ZONE {
 
          # try for parent ZONE (instead of subdir ZONE)
          include "bindings/devices/LOOPBACK/zones/*/zone-inet-route-output.chain_block"
@@ -23,5 +23,5 @@
 
     # poor-mans dispatcher, sequential hooking
     chain inet_route_output_LOOPBACK {
-        jump dispatcher_inet_route_output_lo_ZONE
+        jump dispatcher_inet_route_output_LOOPBACK_ZONE
     }
