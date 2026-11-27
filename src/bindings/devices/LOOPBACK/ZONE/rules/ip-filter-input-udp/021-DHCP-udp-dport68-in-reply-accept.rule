@@ -1,8 +1,0 @@
-
-# File: 021-DHCP-udp-dport68-in-reply-accept.rule
-# Policy: Allow remote DHCPv4 server response to local DHCPv4 client
-
-meta nfproto ipv4 udp sport 67 udp dport 68 counter accept \
-    comment "remote-to-local DHCP/UDP/68 response"
-
-udp sport 67 udp dport 68 notrack counter accept comment "remote-to-local DHCP/UDP/68 response"

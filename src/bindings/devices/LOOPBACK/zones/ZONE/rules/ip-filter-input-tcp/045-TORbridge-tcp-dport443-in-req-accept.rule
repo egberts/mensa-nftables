@@ -1,5 +1,0 @@
-
-# File: 045-TORbridge-tcp-dport433-in-req-accept.rule
-# Title: Allow remote TORbridge client request to local TORbridge server
-
-tcp dport 443 counter accept comment "remote-to-local TORbridge/TCP?443 request "

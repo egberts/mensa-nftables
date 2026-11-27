@@ -1,7 +1,0 @@
-#
-# File: 200-ARP-Probe-req-in-accept.rule
-# Policy: Allow remote ARP Probe server request to local ARP Probe client
-# Description:
-#     ARP probe (RFC 5227)
-
-arp operation request arp saddr ip 0.0.0.0 counter comment "remote-to-local ARP Probe (RFC5227) request"

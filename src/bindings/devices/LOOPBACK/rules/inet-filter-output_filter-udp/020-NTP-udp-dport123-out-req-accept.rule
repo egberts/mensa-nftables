@@ -1,5 +1,0 @@
-#
-# File: 020-NTP-udp-dport123-out-req-accept.rule
-# Title: Allow local NTP client request to remote NTP server
-
-udp dport 123 notrack counter accept comment "local-to-remote NTP/UDP/123 request"

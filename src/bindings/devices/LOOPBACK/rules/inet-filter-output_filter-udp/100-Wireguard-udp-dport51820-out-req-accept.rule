@@ -1,5 +1,0 @@
-#
-# File: 100-Wireguard-udp-dport51820-out-req-accept.rule
-# Title: Allow local Wireguard client request to remote Wireguard server
-
-udp dport 51820 counter accept comment "local-to-remote Wireguard/UDP/51820 request"

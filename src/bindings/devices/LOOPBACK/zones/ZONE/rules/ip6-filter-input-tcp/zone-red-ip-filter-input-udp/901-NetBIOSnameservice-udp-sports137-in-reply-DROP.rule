@@ -1,6 +1,0 @@
-#
-# File: 901-NetBIOS-udp-sport137-in-reply-DROP.rule
-# Policy: DENY remote NetBIOS name service server reply to local NetBIOS name service client
-
-udp sport { 137, 138, 139, 445 } counter drop comment "remote-to-local NetBIOSnameservice/UDP/137 reply"
-

@@ -1,5 +1,0 @@
-# File: 020-ssh-tcp-dport22-in-request-accept.rule
-# Title: Allow remote SSH client request to local SSH server
-
-tcp dport 22 counter accept comment "remote-to-local SSH/TCP/22 request"
-

@@ -1,3 +1,0 @@
-# File: 032-dns-tcp-sport53-in-reply-accept.rule
-
-tcp sport 53 counter accept comment "remote-to-local DNS/TCP/53 reply"

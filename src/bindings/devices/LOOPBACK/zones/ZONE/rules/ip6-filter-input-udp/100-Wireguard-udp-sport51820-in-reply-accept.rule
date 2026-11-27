@@ -1,6 +1,0 @@
-#
-# File: 100-Wireguard-udp-sport51820-in-reply-accept.rule
-# Title: Allow remote Wireguard server reply to local Wireguard client
-
-udp sport 51820 counter accept comment "remote-to-local Wireguard/UDP/51820 reply"
-

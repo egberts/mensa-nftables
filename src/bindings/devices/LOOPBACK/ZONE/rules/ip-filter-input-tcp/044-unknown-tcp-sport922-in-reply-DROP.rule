@@ -1,5 +1,0 @@
-#
-# File: 044-unknown-tcp-sport922-in-reply-DROP.rule
-# Title: Deny remote port 922/tcp server reply to local port 922/tcp client
-#
-tcp sport 922 counter drop comment "remote-to-local ???/TCP/922 reply"

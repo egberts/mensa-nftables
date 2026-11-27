@@ -1,5 +1,0 @@
-#
-# File: 041-SMTPsubmission-tcp-sport587-out-reply-accept.rule
-# Title: Allow local SMTP/Submission server reply to remote SMTP/Submission client
-
-tcp sport 587 counter accept comment "local-to-remote Submission/TCP/587 reply"

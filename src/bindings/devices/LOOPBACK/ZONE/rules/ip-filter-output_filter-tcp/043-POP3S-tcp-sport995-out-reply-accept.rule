@@ -1,5 +1,0 @@
-#
-# File: 044-unknown-tcp-sport993-out-reply-accept.rule
-# Title: Allow local POP3S server reply to remote POP3S client
-
-tcp sport 995 counter accept comment "local-to-remote POP3S/TCP/955 reply"

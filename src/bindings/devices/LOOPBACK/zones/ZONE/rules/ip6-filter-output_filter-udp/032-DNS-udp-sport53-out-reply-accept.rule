@@ -1,5 +1,0 @@
-#
-# File: 032-DNS-udp-sport53-out-reply-accept.rule
-# Policy: Allow local DNS server reply to remote DNS client
-
-udp sport 53 counter accept comment "local-to-remote DNS/UDP/53 reply"

@@ -1,5 +1,0 @@
-#
-# File: 800-NetBIOS-tcp-sport631-out-reply-DROP.rule
-# Title: DENY local NetBIOS server reply to remote NetBIOS client
-
-tcp sport { 139, 445 } counter drop comment "local-to-remote NetBIOS/TCP/631 reply"

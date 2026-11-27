@@ -7,6 +7,26 @@
 define GATEWAY_ROUTE_DEFAULT = { 192.168.1.254 }
 
 # There is a list of devices
+define LOOPBACK_INTF_DEV = lo
+define LOOPBACK_INTF_LOCALNET = 127.0.0.0/8
+define LOOPBACK_INTF_BCAST = 127.255.255.255
+define LOOPBACK_INTF_ADDR = { 127.0.0.1 }
+define LOOPBACK_INTF_MACADDR = 00:00:00:00:00:00
+
+# homelan: adjust to the real interface you want the home LAN device to bind to
+define HOMELAN_INTF_DEV = eno2
+define HOMELAN_INTF_LOCALNET =  172.28.132.0/23
+define HOMELAN_INTF_BCAST = 172.28.133.255
+define HOMELAN_INTF_ADDR = { 172.28.132.1 }
+define HOMELAN_INTF_MACADDR = e4:54:e8:60:b7:13
+
+# libvirt: adjust to the real interface you want the LIBVIRT device to bind to
+define LIBVIRT_INTF_DEV = virbr0
+define LIBVIRT_INTF_LOCALNET = 192.168.122.0/8
+define LIBVIRT_INTF_BCAST = 192.168.122.255
+define LIBVIRT_INTF_ADDR = { 192.168.122.1 }
+define LIBVIRT_INTF_MACADDR = 52:54:00:39:3d:39
+
 define DEVICE_INTF_DEV = wlo1
 define DEVICE_INTF_LOCALNET = 192.168.1.0/24
 define DEVICE_INTF_BCAST = 192.168.1.255
@@ -38,10 +58,7 @@ define CLOSEDNET_INTF_LOCALNET = 192.168.100.0/24
 define CLOSEDNET_INTF_BCAST = 192.168.100.255
 define CLOSEDNET_INTF_ADDR = { 192.168.100.1 }
 
-define LOOPBACK_INTF_DEV = lo
-define LOOPBACK_INTF_LOCALNET = 127.0.0.0/8
-define LOOPBACK_INTF_BCAST = 127.255.255.255
-define LOOPBACK_INTF_ADDR = 127.0.0.1
+
 
 define TRACKER_TORRENT_PORT_WAN = 4949
 define TORRENT_PORT_WAN = 55414

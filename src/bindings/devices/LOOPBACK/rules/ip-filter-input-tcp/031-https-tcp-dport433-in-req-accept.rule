@@ -1,4 +1,0 @@
-# File: 031-https-tcp-dport443-in-req-accept.rule
-# Title: Allow remote HTTPS client request to local HTTPS server
-
-tcp dport 443 counter accept comment "remote-to-local HTTPS/TCP/443 request"
