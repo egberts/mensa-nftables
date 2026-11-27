@@ -1,13 +1,9 @@
 #!/bin/bash
 
+echo "WARNING: nft arguments are defined in .gdbinit 'set args'"
 
 # Add our own library path to LD_LIBRARY_PATH
-LD_LIBRARY_PATH="/home/wolfe/work/nft/netfilter.org/nftables/src/.libs:$LD_LIBRARY_PATH"
-
-# Some systems cannot cope with colon-terminated LD_LIBRARY_PATH
-# The second colon is a workaround for a bug in BeOS R4 sed
-#LD_LIBRARY_PATH=`$ECHO "$LD_LIBRARY_PATH" | /usr/bin/sed 's/::*$//'`
-
+LD_LIBRARY_PATH="/home/wolfe/work/nft/netfilter.org/nftables/src/.libs:/home/wolfe/work/nft/netfilter.org/libnftnl/src/.libs:$LD_LIBRARY_PATH"
 
 export LD_LIBRARY_PATH
 
