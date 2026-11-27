@@ -1,0 +1,47 @@
+# File:     bindings-device-arp-filter-input.table_block
+# Path:     bindings/devices/LOOPBACK/
+# Title:    Create regular chain and register with dispatcher of devices for arp/filter/input base chain
+# Family:   arp
+# Table:    filter_arp
+# Chain:    filter_arp_input
+# Type:     filter
+# Hook:     input
+# Device:   LOOPBACK
+# Priority: *
+# Policy:   *
+# Called by: binding/devices/LOOPBACK/device-arp-filter-input.chain_block
+# Description:
+#
+
+    # Add/register a Device Interface-to-firewall dispatch registry
+    map map_dispatch_arp_filter_input_devices {
+        typeof iif : verdict
+        elements = {
+            # use goto, this is the final descendance
+            $LOOPBACK_INTF_DEV : goto arp_filter_input_LOOPBACK,
+        }
+    }
+
+    chain arp_filter_input_LOOPBACK {
+        counter comment "BEGIN inbound LOOPBACK arp/filter/input"
+
+        # LOOPBACK: Include rules strictly for all sub-zones/sub-devices having arp/filter/input regular chain
+        include "bindings/devices/LOOPBACK/rules/arp-filter-input/*.rule"
+    }
+    # Split the chain so that other chains can be created (ie., dispatcher regular chain)
+
+
+    # LOOPBACK/ZONE: Include all zones having this device arp/filter/input regular chain
+    include "bindings/devices/LOOPBACK/zones/subzones-arp-filter-input.table_block"
+
+    # ZONE: Include all zones having this device arp/filter/input regular chain
+    # include "bindings/zones/zones-arp-filter-input.table_block"
+
+    # (TODO: can we symbolically link to the parent zones/ZONE here, instead of include a duplicate ZONE?)
+
+    # No need for LOOPBACK/LOOPBACK/ZONE; simply do a subdevice as LOOPBACK/ZONE
+
+    chain arp_filter_input_LOOPBACK {
+        counter comment "End inbound LOOPBACK arp/filter/input"
+    }
+

@@ -1,0 +1,5 @@
+#
+# File: 911-uPnP-udp-dport1900-in-reply-DROP.rule
+# Title: Allow remote uPnP client reply to local uPnP server multicast
+
+udp sport 1900 counter drop comment "remote-to-local uPnP/UDP/1900 client reply"

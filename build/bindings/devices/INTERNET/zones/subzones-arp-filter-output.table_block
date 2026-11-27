@@ -1,0 +1,18 @@
+#
+# File: subzones-arp-filter-output.table_block
+# Path: bindings/devices/INTERNET/zones/
+# Title: Include all subzones associated with this device for arp/filter/output
+#
+
+    # going to need a registry table just for INTERNET-ZONE
+    chain dispatcher_arp_filter_output_INTERNET_ZONE {
+
+         # try for parent ZONE (instead of subdir ZONE)
+         include "bindings/devices/INTERNET/zones/*/zone-arp-filter-output.chain_block"
+
+    }
+
+    # poor-mans dispatcher, sequential hooking
+    chain arp_filter_output_INTERNET {
+        jump dispatcher_arp_filter_output_INTERNET_ZONE
+    }

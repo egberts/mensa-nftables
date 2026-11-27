@@ -1,0 +1,47 @@
+# File:     bindings-device-inet-filter-output_filter.table_block
+# Path:     bindings/devices/LIBVIRT/
+# Title:    regular dispatcher for inet/filter/output base with for filter(0) priority
+# Family:   inet
+# Type:     filter
+# Hook:     output
+# Device:   LIBVIRT
+# Priority: +10 (filter(0)+10)
+# Policy:   DROP
+# Table:    filter_inet
+# Chain:    filter_inet_output_filter
+# Called by: binding/devices/LIBVIRT/device-inet-filter-output_filter.chain_block
+# Description:
+#
+
+    # Add/register a Device Interface-to-firewall dispatch registry
+    map map_dispatch_inet_filter_output_filter_devices {
+        typeof oif : verdict
+        elements = {
+            # use goto, this is the final descendance
+            $LIBVIRT_INTF_DEV : goto inet_filter_output_filter_LIBVIRT,
+        }
+    }
+
+    chain inet_filter_output_filter_LIBVIRT {
+        counter comment "BEGIN inbound LIBVIRT inet/filter/output_filter"
+
+        # LIBVIRT: Include rules strictly for all sub-zones/sub-devices having inet/filter/output regular chain
+        include "bindings/devices/LIBVIRT/rules/inet-filter-output_filter*/*.rule"
+    }
+    # Split the chain so that other chains can be created (ie., dispatcher regular chain)
+
+
+    # LIBVIRT/ZONE: Include all zones having this device inet/filter/output regular chain
+    include "bindings/devices/LIBVIRT/zones/subzones-inet-filter-output_filter.table_block"
+
+    # ZONE: Include all zones having this device inet/filter/output regular chain
+    # include "bindings/zones/zones-inet-filter-output_filter.table_block"
+
+    # (TODO: can we symbolically link to the parent zones/ZONE here, instead of include a duplicate ZONE?)
+
+    # No need for LIBVIRT/LIBVIRT/ZONE; simply do a subdevice as LIBVIRT/ZONE
+
+    chain inet_filter_output_filter_LIBVIRT {
+        counter comment "End inbound LIBVIRT inet/filter/output_filter"
+    }
+

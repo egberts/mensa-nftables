@@ -1,0 +1,35 @@
+# File:     base-ip-nat-input.base_chain
+# Path:     hooks/hook-input/
+# Title:    Base chain for the input hook (ip family, nat type)
+# Family:   ip
+# Table:    ip_nat
+# Chain:    ip_nat_input
+# Type:     nat
+# Hook:     input
+# Priority: -10 (filter(0) - 10)
+# Policy:   accept
+# Called by: types/nat-ip.table
+# Description:
+#
+# Single-indented for base-chain and regular-chain
+# Double-indented for rules-only
+#
+
+    # Pre-declare table before map/vmap
+    chain ip_nat_input {
+        type nat hook input priority -10; policy accept;
+
+        counter comment "inbound ip/nat/input"
+    }
+
+    # creates a registry for zone-based dispatcher (will touch ip_nat_input)
+    #include "bindings/zones/zones-ip-nat-input*.table_block"
+
+    # Declare an interface-to-chain dispatcher for input hook, ip family, nat chain-type. (will touch ip_nat_input)
+    include "bindings/devices/devices-ip-nat-input*.table_block"
+
+    chain ip_nat_input {
+
+        counter comment "inbound ip/nat/input"
+    }
+

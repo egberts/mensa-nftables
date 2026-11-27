@@ -1,0 +1,47 @@
+# File:     bindings-device-bridge-filter-output_out.table_block
+# Path:     bindings/devices/INTERNET/
+# Title:    Create regular chain and register with dispatcher of devices for bridge/filter/output base chain
+# Family:   bridge
+# Type:     filter
+# Hook:     output
+# Device:   INTERNET
+# Priority: 110 (out(100)+10)
+# Policy:   *
+# Table:    filter_bridge
+# Chain:    filter_bridge_output_out
+# Called by: binding/devices/INTERNET/device-bridge-filter-output_out.chain_block
+# Description:
+#
+
+    # Add/register a Device Interface-to-firewall dispatch registry
+    map map_dispatch_bridge_filter_output_out_devices {
+        typeof oif : verdict
+        elements = {
+            # use goto, this is the final descendance
+            $INTERNET_INTF_DEV : goto bridge_filter_output_out_INTERNET,
+        }
+    }
+
+    chain bridge_filter_output_out_INTERNET {
+        counter comment "BEGIN inbound INTERNET bridge/filter/output_out"
+
+        # INTERNET: Include rules strictly for all sub-zones/sub-devices having bridge/filter/output regular chain
+        include "bindings/devices/INTERNET/rules/bridge-filter-output_out*/*.rule"
+    }
+    # Split the chain so that other chains can be created (ie., dispatcher regular chain)
+
+
+    # INTERNET/ZONE: Include all zones having this device bridge/filter/output regular chain
+    include "bindings/devices/INTERNET/zones/subzones-bridge-filter-output_out.table_block"
+
+    # ZONE: Include all zones having this device bridge/filter/output regular chain
+    # include "bindings/zones/zones-bridge-filter-output_out.table_block"
+
+    # (TODO: can we symbolically link to the parent zones/ZONE here, instead of include a duplicate ZONE?)
+
+    # No need for INTERNET/INTERNET/ZONE; simply do a subdevice as INTERNET/ZONE
+
+    chain bridge_filter_output_out_INTERNET {
+        counter comment "End inbound INTERNET bridge/filter/output_out"
+    }
+

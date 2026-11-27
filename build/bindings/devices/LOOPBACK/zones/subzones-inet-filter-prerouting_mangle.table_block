@@ -1,0 +1,26 @@
+#
+# File: subzones-inet-filter-prerouting_mangle.table_block
+# Path: bindings/devices/LOOPBACK/zones/
+# Title: Include all subzones associated with this device for inet/filter/prerouting
+# Family: inet
+# Type: filter
+# Hook: prerouting
+# Device: LOOPBACK
+# Priority: -160 (mangle(-150)-10)
+# Table: filter_inet
+# Chain: inet_filter_prerouting_mangle_LOOPBACK
+# Called by: bindings/devices/LOOPBACK/binding-device-inet-filter-prerouting_mangle.table_block
+#
+
+    # going to need a registry table just for LOOPBACK-ZONE
+    chain dispatcher_inet_filter_prerouting_mangle_lo_ZONE {
+
+         # try for parent ZONE (instead of subdir ZONE)
+         include "bindings/devices/LOOPBACK/zones/*/zone-inet-filter-prerouting_mangle.chain_block"
+
+    }
+
+    # poor-mans dispatcher, sequential hooking
+    chain inet_filter_prerouting_mangle_LOOPBACK {
+        jump dispatcher_inet_filter_prerouting_mangle_lo_ZONE
+    }

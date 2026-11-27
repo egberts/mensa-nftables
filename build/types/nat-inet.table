@@ -1,0 +1,26 @@
+#
+# File:     nat-inet.table
+# Path:     types/
+# Title:    Valid hooks for inet family and NAT chain-type
+# Family:   inet
+# Table:    inet_nat
+# Chain:    *
+# Type:     nat
+# Hook:     *
+# Priority: N/A
+# Policy:   *
+# Called by: nftables.nft
+# Description:
+#
+# Single-indented for base-chain and regular-chain
+# Double-indented for rules-only
+#
+
+table inet inet_nat {
+
+    include "./hooks/hook-prerouting/base-inet-nat-prerouting*.base_chain";
+    include "./hooks/hook-input/base-inet-nat-input*.base_chain";  # tested
+    include "./hooks/hook-output/base-inet-nat-output*.base_chain";  # tested
+    include "./hooks/hook-postrouting/base-inet-nat-postrouting*.base_chain";
+}
+

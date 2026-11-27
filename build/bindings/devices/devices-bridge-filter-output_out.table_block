@@ -1,0 +1,33 @@
+#
+# File:     devices-bridge-filter-output_out.table_block
+# Path:     bindings/devices/
+# Title:    Register all devices having bridge/filter/output
+# Family:   bridge
+# Type:     filter
+# Hook:     output
+# Priority: +110 (out(100) + 10)
+# Policy:   DROP
+# Table:    bridge_filter
+# Chain:    bridge_filter_output_out
+# Called by: hooks/hook-output/base-bridge-filter-output.base_chain
+# Description:
+#
+# Single-indented for base-chain and regular-chain
+# Double-indented for rules-only
+#
+
+    # Pre-declare an interface-to-chain dispatcher for output hook, bridge family, filter chain-type.
+    map map_dispatch_bridge_filter_output_out_devices {
+        typeof oif : verdict
+    }
+    # Insert the jump lookup
+    chain bridge_filter_output_out {
+
+        counter comment "device outbound bridge/filter/output_out"
+        oif vmap @map_dispatch_bridge_filter_output_out_devices
+        counter comment "device outbound bridge/filter/output_out, post dispatch"
+    }
+
+    # Register all bridge_filter_output_out devices
+    include "bindings/devices/*/binding-device-bridge-filter-output_out.table_block"
+

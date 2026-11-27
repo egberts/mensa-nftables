@@ -1,0 +1,48 @@
+#
+# File:     bindings-device-inet-filter-postrouting_mangle.table_block
+# Path:     bindings/devices/INTERNET/
+# Title:    Regular chain with dispatcher for inet/filter/postrouting for mangle(-150) priority
+# Family:   inet
+# Type:     filter
+# Hook:     postrouting
+# Device:   INTERNET
+# Priority: -160 (mangle(-150)-10)
+# Policy:   accept
+# Table:    filter_inet
+# Chain:    filter_inet_postrouting_mangle
+# Called by: binding/devices/INTERNET/device-inet-filter-postrouting_mangle.chain_block
+# Description:
+#
+
+    # Add/register a Device Interface-to-firewall dispatch registry
+    map map_dispatch_inet_filter_postrouting_mangle_devices {
+        typeof oif : verdict
+        elements = {
+            # use goto, this is the final descendance
+            $INTERNET_INTF_DEV : goto inet_filter_postrouting_mangle_INTERNET,
+        }
+    }
+
+    chain inet_filter_postrouting_mangle_INTERNET {
+        counter comment "BEGIN outbound INTERNET inet/filter/postrouting_mangle"
+
+        # INTERNET: Include rules strictly for all sub-zones/sub-devices having inet/filter/postrouting regular chain
+        include "bindings/devices/INTERNET/rules/inet-filter-postrouting_mangle*/*.rule"
+    }
+    # Split the chain so that other chains can be created (ie., dispatcher regular chain)
+
+
+    # INTERNET/ZONE: Include all zones having this device inet/filter/postrouting regular chain
+    include "bindings/devices/INTERNET/zones/subzones-inet-filter-postrouting_mangle.table_block"
+
+    # ZONE: Include all zones having this device inet/filter/postrouting regular chain
+    # include "bindings/zones/zones-inet-filter-postrouting_mangle.table_block"
+
+    # (TODO: can we symbolically link to the parent zones/ZONE here, instead of include a duplicate ZONE?)
+
+    # No need for INTERNET/INTERNET/ZONE; simply do a subdevice as INTERNET/ZONE
+
+    chain inet_filter_postrouting_mangle_INTERNET {
+        counter comment "End outbound INTERNET inet/filter/postrouting_mangle"
+    }
+

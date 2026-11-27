@@ -1,0 +1,47 @@
+# File:     bindings-device-inet-filter-input.table_block
+# Path:     bindings/devices/INTERNET/
+# Title:    Create regular chain and register with dispatcher of devices for inet/filter/input base chain
+# Family:   inet
+# Table:    filter_inet
+# Chain:    filter_inet_input
+# Type:     filter
+# Hook:     input
+# Device:   INTERNET
+# Priority: -110 (dstnat(-100)-10)
+# Policy:   DROP
+# Called by: binding/devices/INTERNET/device-inet-filter-input.chain_block
+# Description:
+#
+
+    # Add/register a Device Interface-to-firewall dispatch registry
+    map map_dispatch_inet_filter_input_devices {
+        typeof iif : verdict
+        elements = {
+            # use goto, this is the final descendance
+            $INTERNET_INTF_DEV : goto inet_filter_input_INTERNET,
+        }
+    }
+
+    chain inet_filter_input_INTERNET {
+        counter comment "BEGIN inbound INTERNET inet/filter/input"
+
+        # INTERNET: Include rules strictly for all sub-zones/sub-devices having inet/filter/input regular chain
+        include "bindings/devices/INTERNET/rules/inet-filter-input*/*.rule"
+    }
+    # Split the chain so that other chains can be created (ie., dispatcher regular chain)
+
+
+    # INTERNET/ZONE: Include all zones having this device inet/filter/input regular chain
+    include "bindings/devices/INTERNET/zones/subzones-inet-filter-input.table_block"
+
+    # ZONE: Include all zones having this device inet/filter/input regular chain
+    # include "bindings/zones/zones-inet-filter-input.table_block"
+
+    # (TODO: can we symbolically link to the parent zones/ZONE here, instead of include a duplicate ZONE?)
+
+    # No need for INTERNET/INTERNET/ZONE; simply do a subdevice as INTERNET/ZONE
+
+    chain inet_filter_input_INTERNET {
+        counter comment "End inbound INTERNET inet/filter/input"
+    }
+

@@ -1,0 +1,34 @@
+# File:     base-inet-nat-input.base_chain
+# Path:     hooks/hook-input/
+# Title:    Base chain for the input hook (inet family, nat type)
+# Family:   inet
+# Table:    inet_nat
+# Chain:    inet_nat_input
+# Type:     nat
+# Hook:     input
+# Priority: -11 (filter(0) - 11)
+# Policy:   accept
+# Called by: types/nat-inet.table
+# Description:
+#
+# Single-indented for base-chain and regular-chain
+# Double-indented for rules-only
+#
+
+    # Pre-declare table before map/vmap
+    chain inet_nat_input {
+        type nat hook input priority -11; policy accept;
+
+        counter comment "inbound inet/nat/input"
+    }
+
+    # creates a registry for zone-based dispatcher (will touch inet_nat_input)
+    #include "bindings/zones/zones-inet-nat-input*.table_block"
+
+    # Declare an interface-to-chain dispatcher for input hook, inet family, nat chain-type. (will touch inet_nat_input)
+    include "bindings/devices/devices-inet-nat-input*.table_block"
+
+    chain inet_nat_input {
+
+        counter comment "inbound inet/nat/input"
+    }

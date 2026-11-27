@@ -1,0 +1,26 @@
+#
+# File: subzones-inet-filter-prerouting_conntrack.table_block
+# Path: bindings/devices/INTERNET/zones/
+# Title: Include all subzones associated with this device for inet/filter/prerouting
+# Family: inet
+# Type: filter
+# Hook: prerouting
+# Device: INTERNET
+# Priority: -210 ((-200)-10)
+# Table: filter_inet
+# Chain: inet_filter_prerouting_conntrack_INTERNET
+# Called by: bindings/devices/INTERNET/binding-device-inet-filter-prerouting_conntrack.table_block
+#
+
+    # going to need a registry table just for INTERNET-ZONE
+    chain dispatcher_inet_filter_prerouting_conntrack_INTERNET_ZONE {
+
+         # try for parent ZONE (instead of subdir ZONE)
+         include "bindings/devices/INTERNET/zones/*/zone-inet-filter-prerouting_conntrack.chain_block"
+
+    }
+
+    # poor-mans dispatcher, sequential hooking
+    chain inet_filter_prerouting_conntrack_INTERNET {
+        jump dispatcher_inet_filter_prerouting_conntrack_INTERNET_ZONE
+    }

@@ -1,0 +1,47 @@
+# File:     bindings-device-ip-filter-prerouting_mangle.table_block
+# Path:     bindings/devices/INTERNET/
+# Title:    Create regular chain and register with dispatcher of devices for ip/filter/prerouting base chain
+# Family:   ip
+# Type:     filter
+# Hook:     prerouting
+# Device:   INTERNET
+# Priority: -160 (mangle(-150) - 10)
+# Policy:   *
+# Table:    filter_ip
+# Chain:    filter_ip_prerouting_mangle
+# Called by: binding/devices/INTERNET/device-ip-filter-prerouting_mangle.chain_block
+# Description:
+#
+
+    # Add/register a Device Interface-to-firewall dispatch registry
+    map map_dispatch_ip_filter_prerouting_mangle_devices {
+        typeof iif : verdict
+        elements = {
+            # use goto, this is the final descendance
+            $INTERNET_INTF_DEV : goto ip_filter_prerouting_mangle_INTERNET,
+        }
+    }
+
+    chain ip_filter_prerouting_mangle_INTERNET {
+        counter comment "BEGIN inbound INTERNET ip/filter/prerouting_mangle"
+
+        # INTERNET: Include rules strictly for all sub-zones/sub-devices having ip/filter/prerouting regular chain
+        include "bindings/devices/INTERNET/rules/ip-filter-prerouting_mangle/*.rule"
+    }
+    # Split the chain so that other chains can be created (ie., dispatcher regular chain)
+
+
+    # INTERNET/ZONE: Include all zones having this device ip/filter/prerouting regular chain
+    include "bindings/devices/INTERNET/zones/subzones-ip-filter-prerouting_mangle.table_block"
+
+    # ZONE: Include all zones having this device ip/filter/prerouting regular chain
+    # include "bindings/zones/zones-ip-filter-prerouting_mangle.table_block"
+
+    # (TODO: can we symbolically link to the parent zones/ZONE here, instead of include a duplicate ZONE?)
+
+    # No need for INTERNET/INTERNET/ZONE; simply do a subdevice as INTERNET/ZONE
+
+    chain ip_filter_prerouting_mangle_INTERNET {
+        counter comment "End inbound INTERNET ip/filter/prerouting_mangle"
+    }
+

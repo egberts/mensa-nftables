@@ -1,0 +1,26 @@
+#
+# File: subzones-ip-nat-input.table_block
+# Path: bindings/devices/LIBVIRT/zones/
+# Title: Include all subzones associated with this device for ip/nat/input
+# Family: ip
+# Type: nat
+# Hook: input
+# Device: LIBVIRT
+# Priority: -10 (nat(0)-10)
+# Table: nat_ip
+# Chain: ip_nat_input_LIBVIRT
+# Called by: bindings/devices/LIBVIRT/binding-device-ip-nat-input.table_block
+#
+
+    # going to need a registry table just for LIBVIRT-ZONE
+    chain dispatcher_ip_nat_input_LIBVIRT_ZONE {
+
+         # try for parent ZONE (instead of subdir ZONE)
+         include "bindings/devices/LIBVIRT/zones/*/zone-ip-nat-input.chain_block"
+
+    }
+
+    # poor-mans dispatcher, sequential hooking
+    chain ip_nat_input_LIBVIRT {
+        jump dispatcher_ip_nat_input_LIBVIRT_ZONE
+    }

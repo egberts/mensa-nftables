@@ -1,0 +1,42 @@
+# File:     base-ip-filter-prerouting_filter.base_chain
+# Path:     hooks/hook-prerouting/
+# Title:    Base chain for the prerouting hook (ip family, filter type) of filter(0) priority
+# Family:   ip
+# Type:     filter
+# Hook:     prerouting
+# Priority: -10 (filter(0) - 10)
+# Policy:   accept
+# Table:    *
+# Chain:    ip_filter_prerouting_filter
+# Called by: types/filter-ip.table
+# Description:
+#
+#    Ordinary early filtering / marking rules that run
+#    after conntrack (or at filter priority).
+#
+#    TCP-specific early filtering / marking / logging.
+#      - tcp dport, tcp sport, tcp flags, tcp option 
+#      - ct state, meta mark set, log, drop/accept, rate-limiting, etc.
+#
+# Single-indented for base-chain and regular-chain
+# Double-indented for rules-only
+#
+
+    # Pre-declare table before map/vmap
+    chain ip_filter_prerouting_filter {
+        type filter hook prerouting priority -10; policy accept;
+
+        counter comment "inbound ip/filter/prerouting_filter"
+    }
+
+    # creates a registry for zone-based dispatcher (will touch ip_filter_prerouting_filter)
+    #include "bindings/zones/zones-ip-filter-prerouting_filter*.table_block"
+
+    # Declare an interface-to-chain dispatcher for prerouting hook, ip family, filter chain-type. (will touch ip_filter_prerouting_filter)
+    include "bindings/devices/devices-ip-filter-prerouting_filter*.table_block"
+
+    chain ip_filter_prerouting_filter {
+
+        counter comment "inbound ip/filter/prerouting_filter"
+    }
+

@@ -1,0 +1,26 @@
+#
+# File: subzones-bridge-filter-postrouting_srcnat.table_block
+# Path: bindings/devices/HOMELAN/zones/
+# Title: Include all subzones associated with this device for bridge/filter/postrouting
+# Family: bridge
+# Type: filter
+# Hook: postrouting
+# Device: HOMELAN
+# Priority: +310 (srcnat(300)+10)
+# Table: filter_bridge
+# Chain: bridge_filter_postrouting_srcnat_HOMELAN
+# Called by: bindings/devices/HOMELAN/binding-device-bridge-filter-postrouting_srcnat.table_block
+#
+
+    # going to need a registry table just for HOMELAN-ZONE
+    chain dispatcher_bridge_filter_postrouting_srcnat_HOMELAN_ZONE {
+
+         # try for parent ZONE (instead of subdir ZONE)
+         include "bindings/devices/HOMELAN/zones/*/zone-bridge-filter-postrouting_srcnat.chain_block"
+
+    }
+
+    # poor-mans dispatcher, sequential hooking
+    chain bridge_filter_postrouting_srcnat_HOMELAN {
+        jump dispatcher_bridge_filter_postrouting_srcnat_HOMELAN_ZONE
+    }

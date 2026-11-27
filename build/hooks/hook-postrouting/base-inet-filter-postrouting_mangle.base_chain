@@ -1,0 +1,42 @@
+# File:     base-inet-filter-postrouting_mangle.base_chain
+# Path:     hooks/hook-postrouting/
+# Title:    Base chain for the postrouting hook (inet family, filter type) of mangle(-150) priority
+# Family:   inet
+# Type:     filter
+# Hook:     postrouting
+# Priority: -161 (mangle(-150) - 11)
+# Policy:   accept
+# Table:    *
+# Chain:    inet_filter_postrouting_mangle
+# Called by: types/filter-inet.table
+# Description:
+#
+#    Ordinary early filtering / marking rules that run
+#    after conntrack (or at mangle priority).
+#
+#    TCP-specific early filtering / marking / logging.
+#      - tcp dport, tcp sport, tcp flags, tcp option 
+#      - ct state, meta mark set, log, drop/accept, rate-limiting, etc.
+#
+# Single-indented for base-chain and regular-chain
+# Double-indented for rules-only
+#
+
+    # Pre-declare table before map/vmap
+    chain inet_filter_postrouting_mangle {
+        type filter hook postrouting priority -161; policy accept;
+
+        counter comment "inbound inet/filter/postrouting_mangle"
+    }
+
+    # creates a registry for zone-based dispatcher (will touch inet_filter_postrouting_mangle)
+    #include "bindings/zones/zones-inet-filter-postrouting_mangle*.table_block"
+
+    # Declare an interface-to-chain dispatcher for postrouting hook, inet family, filter chain-type. (will touch inet_filter_postrouting_mangle)
+    include "bindings/devices/devices-inet-filter-postrouting_mangle*.table_block"
+
+    chain inet_filter_postrouting_mangle {
+
+        counter comment "inbound inet/filter/postrouting_mangle"
+    }
+

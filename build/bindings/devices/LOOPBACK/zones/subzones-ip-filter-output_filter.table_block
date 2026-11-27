@@ -1,0 +1,26 @@
+#
+# File: subzones-ip-filter-output_raw.table_block
+# Path: bindings/devices/LOOPBACK/zones/
+# Title: Include all subzones associated with this device for ip/filter/output
+# Family: ip
+# Type: filter
+# Hook: output
+# Device: LOOPBACK
+# Priority: +310 ((+300)+10)
+# Table: filter_ip
+# Chain: ip_filter_output_raw_LOOPBACK
+# Called by: bindings/devices/LOOPBACK/binding-device-ip-filter-output_raw.table_block
+#
+
+    # going to need a registry table just for LOOPBACK-ZONE
+    chain dispatcher_ip_filter_output_raw_lo_ZONE {
+
+         # try for parent ZONE (instead of subdir ZONE)
+         include "bindings/devices/LOOPBACK/zones/*/zone-ip-filter-output_raw.chain_block"
+
+    }
+
+    # poor-mans dispatcher, sequential hooking
+    chain ip_filter_output_raw_LOOPBACK {
+        jump dispatcher_ip_filter_output_raw_lo_ZONE
+    }

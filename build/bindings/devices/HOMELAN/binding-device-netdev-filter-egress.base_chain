@@ -1,0 +1,34 @@
+# File:     binding-device-netdev-filter-egress.base_chain
+# Path:     bindings/devices/HOMELAN/
+# Title:    Base chain to a specific network interface device to the family/type/hook
+# Family:   netdev
+# Table:    filter_netdev
+# Chain:    filter_netdev_egress_HOMELAN
+# Type:     filter
+# Hook:     egress
+# Priority: 310 (filter(0)+310)
+# Policy:   *
+# Called by: hooks/hook-egress/base-netdev-filter-egress.table_block
+# Description:
+#
+#     The device name must identify an existing network interface.
+#
+#     'netdev' is no longer automatically necessary just because
+#     early egress filtering is available in 'inet' family.
+#     'netdev' remains useful for interface-specific processing, egress
+#     processing and non-IP Ethernet traffic.
+#
+
+# table netdev_filter
+
+    chain netdev_filter_egress_HOMELAN {
+        type filter hook egress device $HOMELAN_INTF_DEV priority 310; policy accept;
+
+        # include "bindings/devices/HOMELAN/device-netdev-filter-egress-head.chain_block"
+        include "bindings/devices/HOMELAN/zones/*/zone-netdev-filter-egress.chain_block"
+        # include "bindings/devices/HOMELAN/device-netdev-filter-egress-tail.chain_block"
+
+
+        # include "bindings/devices/HOMELAN/zones/*/zone-netdev-filter-egress-tail.chain_block"  # zones-in-zone
+    }
+

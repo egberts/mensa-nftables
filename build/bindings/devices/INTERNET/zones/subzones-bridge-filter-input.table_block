@@ -1,0 +1,26 @@
+#
+# File: subzones-bridge-filter-input.table_block
+# Path: bindings/devices/INTERNET/zones/
+# Title: Include all subzones associated with this device for bridge/filter/input
+# Family: bridge
+# Table: filter_bridge
+# Chain: bridge_filter_input_INTERNET
+# Type: filter
+# Hook: input
+# Device: INTERNET
+# Priority: -210 (filter(-200)-10)
+# Called by: bindings/devices/INTERNET/binding-device-bridge-filter-input.table_block
+#
+
+    # going to need a registry table just for INTERNET-ZONE
+    chain dispatcher_bridge_filter_input_INTERNET_ZONE {
+
+         # try for parent ZONE (instead of subdir ZONE)
+         include "bindings/devices/INTERNET/zones/*/zone-bridge-filter-input.chain_block"
+
+    }
+
+    # poor-mans dispatcher, sequential hooking
+    chain bridge_filter_input_INTERNET {
+        jump dispatcher_bridge_filter_input_INTERNET_ZONE
+    }

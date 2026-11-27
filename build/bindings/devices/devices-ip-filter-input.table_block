@@ -1,0 +1,33 @@
+#
+# File:     devices-ip-filter-input.table_block
+# Path:     bindings/devices/
+# Title:    Register all devices having ip/filter/input
+# Family:   ip
+# Type:     filter
+# Hook:     input
+# Priority: -10 (filter(0) - 10)
+# Policy:   DROP
+# Table:    ip_filter
+# Chain:    ip_filter_input
+# Called by: hooks/hook-input/base-ip-filter-input.base_chain
+# Description:
+#
+# Single-indented for base-chain and regular-chain
+# Double-indented for rules-only
+#
+
+    # Pre-declare an interface-to-chain dispatcher for input hook, ip family, filter chain-type.
+    map map_dispatch_ip_filter_input_devices {
+        typeof iif : verdict
+    }
+
+    # Insert the jump lookup
+    chain ip_filter_input {
+        counter comment "device inbound ip/filter/input"
+        iif vmap @map_dispatch_ip_filter_input_devices
+        counter comment "device inbound ip/filter/input, post dispatch"
+    }
+
+    # Register all ip_filter_input devices
+    include "bindings/devices/*/binding-device-ip-filter-input.table_block"
+

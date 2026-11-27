@@ -1,0 +1,34 @@
+#
+# File:     binding-netdev-filter-egress.table_block
+# Path:     bindings/
+# Title:    Binding of egress hook of netdev family, filter chain-type, to both by-zone and by-device
+# Family:   netdev
+# Type:     filter
+# Hook:     egress
+# Priority: +10 (filter(0)+10)
+# Policy:   accept
+# Zone:     *
+# Table:    filter_netdev
+# Chain:    netdev_filter_egress
+# Called by: hooks/hook-egress/base-netdev-filter-egress.base_chain
+# Description:
+#
+
+# filter_netdev table
+#    netdev_filter_egress base chain
+
+    error "I got here for ARP retest"
+
+    include "bindings/devices/devices-netdev-filter-egress*.table_block"
+
+    # Declare an interface-to-chain dispatcher for egress hook, netdev family, filter chain-type.
+    map map_dispatch_netdev_filter_egress_interface {
+        typeof iif : verdict
+    }
+
+    chain netdev_filter_egress {
+
+   #     include "bindings/zones/*/zone-netdev-filter-egress.chain_block"
+        include "bindings/devices/*/device-netdev-filter-egress.chain_block"
+    }
+

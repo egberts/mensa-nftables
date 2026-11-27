@@ -1,0 +1,27 @@
+#
+# File: subzones-inet-filter-ingress.table_block
+# Path: bindings/devices/LIBVIRT/zones/
+# Title: Include all subzones associated with this device for inet/filter/ingress
+# Family: inet
+# Type: filter
+# Hook: ingress
+# Device: LIBVIRT
+# Priority: -10
+# Policy: accept
+# Table: filter_inet
+# Chain: inet_filter_ingress_LIBVIRT
+# Called by: bindings/devices/LIBVIRT/binding-device-bridge-filter-ingress.table_block
+#
+
+    # going to need a registry table just for LIBVIRT-ZONE
+    chain dispatcher_inet_filter_ingress_LIBVIRT_ZONE {
+
+         # try for parent ZONE (instead of subdir ZONE)
+         include "bindings/devices/LIBVIRT/zones/*/zone-inet-filter-ingress.chain_block"
+
+    }
+
+    # poor-mans dispatcher, sequential hooking
+    chain inet_filter_ingress_LIBVIRT {
+        jump dispatcher_inet_filter_ingress_LIBVIRT_ZONE
+    }

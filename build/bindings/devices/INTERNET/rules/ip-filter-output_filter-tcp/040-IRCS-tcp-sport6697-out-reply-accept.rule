@@ -1,0 +1,5 @@
+#
+# File: 040-IRCS-tcp-sport6697-out-reply-accept.rule
+# Title: Allow local secured IRC server reply to remote IRC client
+
+tcp sport 6697 counter accept comment "local-to-remote IRCS/TCP/6697 reply"

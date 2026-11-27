@@ -1,0 +1,34 @@
+#
+# File:     binding-netdev-filter-ingress.table_block
+# Path:     bindings/
+# Title:    Binding of ingress hook of netdev family, filter chain-type, to both by-zone and by-device
+# Family:   netdev
+# Type:     filter
+# Hook:     ingress
+# Priority: -10 (filter(0)-10)
+# Policy:   accept
+# Zone:     *
+# Table:    filter_netdev
+# Chain:    netdev_filter_ingress
+# Called by: hooks/hook-ingress/base-netdev-filter-ingress.base_chain
+# Description:
+#
+
+# filter_netdev table
+#    netdev_filter_ingress base chain
+
+    error "I got here for ARP retest"
+
+    include "bindings/devices/devices-netdev-filter-ingress*.table_block"
+
+    # Declare an interface-to-chain dispatcher for ingress hook, netdev family, filter chain-type.
+    map map_dispatch_netdev_filter_ingress_interface {
+        typeof iif : verdict
+    }
+
+    chain netdev_filter_ingress {
+
+   #     include "bindings/zones/*/zone-netdev-filter-ingress.chain_block"
+        include "bindings/devices/*/device-netdev-filter-ingress.chain_block"
+    }
+

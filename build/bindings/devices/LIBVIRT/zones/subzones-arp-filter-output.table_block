@@ -1,0 +1,18 @@
+#
+# File: subzones-arp-filter-output.table_block
+# Path: bindings/devices/LIBVIRT/zones/
+# Title: Include all subzones associated with this device for arp/filter/output
+#
+
+    # going to need a registry table just for LIBVIRT-ZONE
+    chain dispatcher_arp_filter_output_LIBVIRT_ZONE {
+
+         # try for parent ZONE (instead of subdir ZONE)
+         include "bindings/devices/LIBVIRT/zones/*/zone-arp-filter-output.chain_block"
+
+    }
+
+    # poor-mans dispatcher, sequential hooking
+    chain arp_filter_output_LIBVIRT {
+        jump dispatcher_arp_filter_output_LIBVIRT_ZONE
+    }

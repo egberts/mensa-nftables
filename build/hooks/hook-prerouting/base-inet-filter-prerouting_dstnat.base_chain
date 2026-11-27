@@ -1,0 +1,42 @@
+# File:     base-inet-filter-prerouting_dstnat.base_chain
+# Path:     hooks/hook-prerouting/
+# Title:    Base chain for the prerouting hook (inet family, filter type)
+# Family:   inet
+# Type:     filter
+# Hook:     prerouting
+# Priority: -111 (dstnat (-100) - 11, before ip-dstnat(-105) and ip6-dstnat(-105))
+# Policy:   accept
+# Table:    *
+# Chain:    inet_filter_prerouting
+# Called by: types/filter-inet.table
+# Description:
+#
+#    Destination NAT / port-forwarding / redirect.
+#      - dnat to <addr>[:port] • redirect to :<port>
+#      - Matches on iif/iifname, tcp dport, udp dport,
+#            ip saddr/daddr, ip6 saddr/daddr, 
+#            ct state new, etc.
+#      - Priority is almost always dstnat (−100).
+#
+# Single-indented for base-chain and regular-chain
+# Double-indented for rules-only
+#
+
+    # Pre-declare table before map/vmap
+    chain inet_filter_prerouting_dstnat {
+        type filter hook prerouting priority -111; policy accept;
+
+        counter comment "inbound inet/filter/prerouting_dstnat"
+    }
+
+    # creates a registry for zone-based dispatcher (will touch inet_filter_prerouting)
+    #include "bindings/zones/zones-inet-filter-prerouting_dstnat*.table_block"
+
+    # Declare an interface-to-chain dispatcher for prerouting hook, inet family, filter chain-type. (will touch inet_filter_prerouting)
+    include "bindings/devices/devices-inet-filter-prerouting_dstnat*.table_block"
+
+    chain inet_filter_prerouting_dstnat {
+
+        counter comment "inbound inet/filter/prerouting_dstnat"
+    }
+

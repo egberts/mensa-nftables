@@ -1,0 +1,27 @@
+#
+# File: subzones-ip-filter-prerouting_dstnat.table_block
+# Path: bindings/devices/HOMELAN/zones/
+# Title: Include all subzones associated with this device for ip/filter/prerouting
+# Family: ip
+# Type: filter
+# Hook: prerouting
+# Device: HOMELAN
+# Priority: -110 (dstnat(-100)-10)
+# Table: filter_ip
+# Chain: ip_filter_prerouting_dstnat_HOMELAN
+# Called by: bindings/devices/HOMELAN/binding-device-ip-filter-prerouting_dstnat.table_block
+#
+
+    # going to need a registry table just for HOMELAN-ZONE
+    chain dispatcher_ip_filter_prerouting_dstnat_HOMELAN_ZONE {
+
+         # try for parent ZONE (instead of subdir ZONE)
+         include "bindings/devices/HOMELAN/zones/*/zone-ip-filter-prerouting_dstnat.chain_block"
+    }
+
+    # poor-mans dispatcher, sequential hooking
+    chain ip_filter_prerouting_dstnat_HOMELAN {
+
+        jump dispatcher_ip_filter_prerouting_dstnat_HOMELAN_ZONE
+    }
+

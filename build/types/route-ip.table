@@ -1,0 +1,46 @@
+#
+# File:     route-ip.table
+# Path:     types/
+# Title:    Valid hook for IPv4 family and route chain-type
+# Family:   ip
+# Table:    ip_route
+# Chain:    *
+# Type:     route
+# Hook:     *
+# Priority: N/A
+# Policy:   *
+# Called by: nftables.nft
+# Description:
+#    Rules that set marks (or otherwise change routing-relevant
+#    fields) so that a new route lookup happens for locally
+#    originated packets.
+#
+# Purpose of type route hook output: This chain type has
+# special semantics that ordinary filter chains do not:
+#   After a packet has traversed the chain and is about to
+#   be accepted, the kernel performs a new route lookup if
+#   any fields that influence routing have been changed.
+#
+#   Typical fields that trigger the re-lookup:
+#      - Packet mark (meta mark)
+#      - Destination address (ip daddr / ip6 daddr)
+#      - Source address (less common)
+#      - TOS / DSCP
+#      - A few other header fields that the FIB cares about
+#
+#    What does not belong here
+#      - Ordinary accept/drop filtering → use type filter
+#      - NAT (snat/dnat/masquerade/redirect) → use type nat
+#      - Anything that does not need a new route lookup after modification
+#
+# Single-indented for base-chain and regular-chain
+# Double-indented for rules-only
+#
+
+table ip ip_route {
+
+    include "hooks/hook-output/base-inet-route-output*.base_chain";
+    include "hooks/hook-output/base-ip6-route-output*.base_chain";
+    include "hooks/hook-output/base-ip-route-output*.base_chain";
+}
+

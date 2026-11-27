@@ -1,0 +1,47 @@
+# File:     bindings-device-inet-route-output.table_block
+# Path:     bindings/devices/HOMELAN/
+# Title:    Create regular chain and register with dispatcher of devices for inet/route/output base chain
+# Family:   inet
+# Type:     route
+# Hook:     output
+# Device:   HOMELAN
+# Priority: +10 (filter(0)+10)
+# Policy:   accept
+# Table:    route_inet
+# Chain:    route_inet_output
+# Called by: binding/devices/HOMELAN/device-inet-route-output.table_block
+# Description:
+#
+
+    # Add/register a Device Interface-to-firewall dispatch registry
+    map map_dispatch_inet_route_output_devices {
+        typeof oif : verdict
+        elements = {
+            # use goto, this is the final descendance
+            $HOMELAN_INTF_DEV : goto inet_route_output_HOMELAN,
+        }
+    }
+
+    chain inet_route_output_HOMELAN {
+        counter comment "BEGIN outbound HOMELAN inet/route/output"
+
+        # HOMELAN: Include rules strictly for all sub-zones/sub-devices having inet/route/output regular chain
+        include "bindings/devices/HOMELAN/rules/inet-route-output/*.rule"
+    }
+    # Split the chain so that other chains can be created (ie., dispatcher regular chain)
+
+
+    # HOMELAN/ZONE: Include all zones having this device inet/route/output regular chain
+    include "bindings/devices/HOMELAN/zones/subzones-inet-route-output.table_block"
+
+    # ZONE: Include all zones having this device inet/route/output regular chain
+    # include "bindings/zones/zones-inet-route-output.table_block"
+
+    # (TODO: can we symbolically link to the parent zones/ZONE here, instead of include a duplicate ZONE?)
+
+    # No need for HOMELAN/HOMELAN/ZONE; simply do a subdevice as HOMELAN/ZONE
+
+    chain inet_route_output_HOMELAN {
+        counter comment "End outbound HOMELAN inet/route/output"
+    }
+

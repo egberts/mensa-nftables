@@ -1,0 +1,28 @@
+#
+# File: subzones-ip-filter-input.table_block
+# Path: bindings/devices/HOMELAN/zones/
+# Title: Include all subzones associated with this device for ip/filter/input
+# Family: ip
+# Type: filter
+# Hook: input
+# Device: HOMELAN
+# Priority: -10 (filter(0)-10)
+# Table: filter_ip
+# Chain: ip_filter_input_HOMELAN
+# Called by: bindings/devices/HOMELAN/binding-device-ip-filter-input.table_block
+#
+
+    # going to need a registry table just for HOMELAN-ZONE
+    chain dispatcher_ip_filter_input_HOMELAN_ZONE {
+
+         # try for parent ZONE (instead of subdir ZONE)
+         include "bindings/devices/HOMELAN/zones/*/zone-ip-filter-input.chain_block"
+
+    }
+
+    # poor-mans dispatcher, sequential hooking
+    chain ip_filter_input_HOMELAN {
+
+        jump dispatcher_ip_filter_input_HOMELAN_ZONE
+    }
+

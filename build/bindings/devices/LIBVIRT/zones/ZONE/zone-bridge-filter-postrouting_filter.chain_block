@@ -1,0 +1,24 @@
+#
+# File:     bridge-filter-postrouting_filter.chain_block
+# Path:     bindings/devices/LIBVIRT/zones/ZONE
+# Title:    Base chain to a specific network interface device to the family/type/hook
+# Family:   bridge
+# Type:     filter
+# Hook:     postrouting
+# Priority: -10 (filter(0)-10)
+# Policy:   accept
+# Table:    filter_bridge
+# Chain:    filter_bridge_postrouting_filter_LIBVIRT
+# Called by: hooks/hook-postrouting/base-bridge-filter-postrouting_filter.table_block
+# Description:
+#
+
+# this is the part where it goes to rule-making
+
+# zone-specific redirect
+# filter_bridge table
+#    filter_bridge_postrouting_filter_LIBVIRT base chain
+        # anything bridge-specific here?
+        # Blackholing some private-net
+
+        include "bindings/devices/LIBVIRT/zones/ZONE/rules/bridge-filter-postrouting_filter*/*.rule"

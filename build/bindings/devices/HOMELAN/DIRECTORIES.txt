@@ -1,0 +1,5 @@
+there can be only the following subdirectories:
+
+    rules/
+    zones/    (optional, this is your zone on device mapping)
+    zones/ZONE    (optional, this is your M:1 relation of zone/devices)

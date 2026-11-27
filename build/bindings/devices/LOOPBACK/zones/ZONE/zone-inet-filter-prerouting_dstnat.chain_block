@@ -1,0 +1,24 @@
+#
+# File:     zone-inet-filter-prerouting-dstnat.chain_block
+# Path:     bindings/devices/LOOPBACK/zones/ZONE
+# Title:    Base chain to a specific network interface device to the family/type/hook
+# Family:   inet
+# Type:     filter
+# Hook:     prerouting
+# Priority: -110 (dstnat(-100)-10)
+# Policy:   accept
+# Table:    filter_inet
+# Chain:    filter_inet_prerouting_dstnat_LOOPBACK
+# Called by: hooks/hook-prerouting/base-inet-filter-prerouting-dstnat.table_block
+# Description:
+#
+
+# this is the part where it goes to rule-making
+
+# zone-specific redirect
+# filter_inet table
+#    filter_inet_prerouting_dstnat_LOOPBACK base chain
+        # anything inet-specific here?
+        # Blackholing some private-net
+
+        include "bindings/devices/LOOPBACK/zones/ZONE/rules/inet-filter-prerouting_dstnat*/*.rule"

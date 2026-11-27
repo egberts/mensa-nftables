@@ -1,0 +1,34 @@
+#
+# File:     binding-inet-filter-forward.table_block
+# Path:     bindings/
+# Title:    Binding of forward hook of inet family, filter chain-type, to both by-zone and by-device
+# Family:   inet
+# Table:    filter_inet
+# Chain:    inet_filter_forward
+# Type:     filter
+# Hook:     forward
+# Priority: *
+# Policy:   *
+# Zone:     *
+# Called by: hooks/hook-forward/base-inet-filter-forward.base_chain
+# Description:
+#
+
+# filter_inet table
+#    inet_filter_forward base chain
+
+    error "I got here for ARP retest"
+
+    include "bindings/devices/devices-inet-filter-forward*.table_block"
+
+    # Declare an interface-to-chain dispatcher for forward hook, inet family, filter chain-type.
+    map map_dispatch_inet_filter_forward_interface {
+        typeof iif : verdict
+    }
+
+    chain inet_filter_forward {
+
+   #     include "bindings/zones/*/zone-inet-filter-forward.chain_block"
+        include "bindings/devices/*/device-inet-filter-forward.chain_block"
+    }
+

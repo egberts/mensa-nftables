@@ -1,0 +1,33 @@
+# File:     base-inet-nat-output.base_chain
+# Path:     hooks/hook-output/
+# Title:    Base chain for the output hook (inet family, nat type)
+# Family:   inet
+# Table:    inet_nat
+# Chain:    inet_nat_output
+# Type:     nat
+# Hook:     output
+# Priority: -11 (filter(0)-11)
+# Policy:   accept
+# Called by: types/nat-inet.table
+# Description:
+#
+# Single-indented for base-chain and regular-chain
+# Double-indented for rules-only
+#
+
+    # Pre-declare table before map/vmap
+    chain inet_nat_output {
+        type nat hook output priority -11; policy accept;
+        counter comment "inbound inet/nat/output"
+    }
+
+    # creates a registry for zone-based dispatcher (will touch inet_nat_output)
+    #include "bindings/zones/zones-inet-nat-output*.table_block"
+
+    # Declare an interface-to-chain dispatcher for output hook, inet family, nat chain-type. (will touch inet_nat_output)
+    include "bindings/devices/devices-inet-nat-output*.table_block"
+
+
+    chain inet_nat_output {
+        counter comment "inbound inet/nat/output"
+    }

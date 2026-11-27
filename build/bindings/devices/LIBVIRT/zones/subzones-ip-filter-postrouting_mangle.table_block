@@ -1,0 +1,26 @@
+#
+# File: subzones-ip-filter-postrouting_mangle.table_block
+# Path: bindings/devices/LIBVIRT/zones/
+# Title: Include all subzones associated with this device for ip/filter/postrouting
+# Family: ip
+# Type: filter
+# Hook: postrouting
+# Device: LIBVIRT
+# Priority: -160 (mangle(-150)-10)
+# Table: filter_ip
+# Chain: ip_filter_postrouting_mangle_LIBVIRT
+# Called by: bindings/devices/LIBVIRT/binding-device-ip-filter-postrouting_mangle.table_block
+#
+
+    # going to need a registry table just for LIBVIRT-ZONE
+    chain dispatcher_ip_filter_postrouting_mangle_LIBVIRT_ZONE {
+
+         # try for parent ZONE (instead of subdir ZONE)
+         include "bindings/devices/LIBVIRT/zones/*/zone-ip-filter-postrouting_mangle.chain_block"
+
+    }
+
+    # poor-mans dispatcher, sequential hooking
+    chain ip_filter_postrouting_mangle_LIBVIRT {
+        jump dispatcher_ip_filter_postrouting_mangle_LIBVIRT_ZONE
+    }

@@ -1,0 +1,48 @@
+#
+# File:     bindings-device-ip-filter-postrouting_filter.table_block
+# Path:     bindings/devices/INTERNET/
+# Title:    Regular chain with dispatcher for ip/filter/postrouting for filter(0) priority
+# Family:   ip
+# Type:     filter
+# Hook:     postrouting
+# Device:   INTERNET
+# Priority: +10 (filter(0)+10)
+# Policy:   accept
+# Table:    filter_ip
+# Chain:    filter_ip_postrouting_filter
+# Called by: binding/devices/INTERNET/device-ip-filter-postrouting_filter.chain_block
+# Description:
+#
+
+    # Add/register a Device Interface-to-firewall dispatch registry
+    map map_dispatch_ip_filter_postrouting_filter_devices {
+        typeof oif : verdict
+        elements = {
+            # use goto, this is the final descendance
+            $INTERNET_INTF_DEV : goto ip_filter_postrouting_filter_INTERNET,
+        }
+    }
+
+    chain ip_filter_postrouting_filter_INTERNET {
+        counter comment "BEGIN outbound INTERNET ip/filter/postrouting_filter"
+
+        # INTERNET: Include rules strictly for all sub-zones/sub-devices having ip/filter/postrouting regular chain
+        include "bindings/devices/INTERNET/rules/ip-filter-postrouting_filter*/*.rule"
+    }
+    # Split the chain so that other chains can be created (ie., dispatcher regular chain)
+
+
+    # INTERNET/ZONE: Include all zones having this device ip/filter/postrouting regular chain
+    include "bindings/devices/INTERNET/zones/subzones-ip-filter-postrouting_filter.table_block"
+
+    # ZONE: Include all zones having this device ip/filter/postrouting regular chain
+    # include "bindings/zones/zones-ip-filter-postrouting_filter.table_block"
+
+    # (TODO: can we symbolically link to the parent zones/ZONE here, instead of include a duplicate ZONE?)
+
+    # No need for INTERNET/INTERNET/ZONE; simply do a subdevice as INTERNET/ZONE
+
+    chain ip_filter_postrouting_filter_INTERNET {
+        counter comment "End outbound INTERNET ip/filter/postrouting_filter"
+    }
+

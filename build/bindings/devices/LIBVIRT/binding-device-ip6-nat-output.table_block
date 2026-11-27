@@ -1,0 +1,47 @@
+# File:     bindings-device-ip6t-nat-output.table_block
+# Path:     bindings/devices/LIBVIRT/
+# Title:    Create regular chain and register with dispatcher of devices for ip6t/nat/output base chain
+# Family:   ip6t
+# Type:     nat
+# Hook:     output
+# Device:   LIBVIRT
+# Priority: +10 (nat(0)+10)
+# Policy:   DROP
+# Table:    nat_ip6t
+# Chain:    nat_ip6t_output
+# Called by: binding/devices/LIBVIRT/device-ip6t-nat-output.chain_block
+# Description:
+#
+
+    # Add/register a Device Interface-to-firewall dispatch registry
+    map map_dispatch_ip6t_nat_output_devices {
+        typeof oif : verdict
+        elements = {
+            # use goto, this is the final descendance
+            $LIBVIRT_INTF_DEV : goto ip6t_nat_output_LIBVIRT,
+        }
+    }
+
+    chain ip6t_nat_output_LIBVIRT {
+        counter comment "BEGIN inbound LIBVIRT ip6t/nat/output"
+
+        # LIBVIRT: Include rules strictly for all sub-zones/sub-devices having ip6t/nat/output regular chain
+        include "bindings/devices/LIBVIRT/rules/ip6t-nat-output/*.rule"
+    }
+    # Split the chain so that other chains can be created (ie., dispatcher regular chain)
+
+
+    # LIBVIRT/ZONE: Include all zones having this device ip6t/nat/output regular chain
+    include "bindings/devices/LIBVIRT/zones/subzones-ip6t-nat-output.table_block"
+
+    # ZONE: Include all zones having this device ip6t/nat/output regular chain
+    # include "bindings/zones/zones-ip6t-nat-output.table_block"
+
+    # (TODO: can we symbolically link to the parent zones/ZONE here, instead of include a duplicate ZONE?)
+
+    # No need for LIBVIRT/LIBVIRT/ZONE; simply do a subdevice as LIBVIRT/ZONE
+
+    chain ip6t_nat_output_LIBVIRT {
+        counter comment "End inbound LIBVIRT ip6t/nat/output"
+    }
+

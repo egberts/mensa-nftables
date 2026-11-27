@@ -1,0 +1,26 @@
+#
+# File: subzones-inet-filter-postrouting_srcnat.table_block
+# Path: bindings/devices/HOMELAN/zones/
+# Title: Include all subzones associated with this device for inet/filter/postrouting
+# Family: inet
+# Type: filter
+# Hook: postrouting
+# Device: HOMELAN
+# Priority: +110 (srcnat(100)+10)
+# Table: filter_inet
+# Chain: inet_filter_postrouting_srcnat_HOMELAN
+# Called by: bindings/devices/HOMELAN/binding-device-inet-filter-postrouting_srcnat.table_block
+#
+
+    # going to need a registry table just for HOMELAN-ZONE
+    chain dispatcher_inet_filter_postrouting_srcnat_HOMELAN_ZONE {
+
+         # try for parent ZONE (instead of subdir ZONE)
+         include "bindings/devices/HOMELAN/zones/*/zone-inet-filter-postrouting_srcnat.chain_block"
+
+    }
+
+    # poor-mans dispatcher, sequential hooking
+    chain inet_filter_postrouting_srcnat_HOMELAN {
+        jump dispatcher_inet_filter_postrouting_srcnat_HOMELAN_ZONE
+    }

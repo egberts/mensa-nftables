@@ -1,0 +1,3 @@
+The string 'DEVICE' is replaced with actual network device name.
+
+Such example of network device names are 'wlo1', 'eth0', 'ppp0'.

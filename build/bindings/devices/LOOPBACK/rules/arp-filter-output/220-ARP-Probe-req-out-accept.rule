@@ -1,0 +1,9 @@
+#
+# File: 220-ARP-Probe-req-out-accept.rule
+# Policy: Allow RFC 5227 ARP probes directed at addresses in the zone subnet
+# Description:
+#     Runs after ARP hook and zone interface map/vmap dispatch; no interface matching here.
+#     ARP probes use 0.0.0.0 as sender IPv4 address.
+#     Direction: local-to-remote; intended for arp output hook.
+#
+arp operation request arp saddr ip 0.0.0.0 arp daddr ip $ZONE_INTF_LOCALNET counter accept comment "local-to-remote Probe req accept"

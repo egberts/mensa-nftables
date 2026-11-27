@@ -1,0 +1,47 @@
+# File:     bindings-device-ip6-filter-output_filter.table_block
+# Path:     bindings/devices/HOMELAN/
+# Title:    regular dispatcher for ip6/filter/output base with for filter(0) priority
+# Family:   ip6
+# Type:     filter
+# Hook:     output
+# Device:   HOMELAN
+# Priority: +10 (filter(0)+10)
+# Policy:   DROP
+# Table:    filter_ip6
+# Chain:    filter_ip6_output_filter
+# Called by: binding/devices/HOMELAN/device-ip6-filter-output_filter.chain_block
+# Description:
+#
+
+    # Add/register a Device Interface-to-firewall dispatch registry
+    map map_dispatch_ip6_filter_output_filter_devices {
+        typeof oif : verdict
+        elements = {
+            # use goto, this is the final descendance
+            $HOMELAN_INTF_DEV : goto ip6_filter_output_filter_HOMELAN,
+        }
+    }
+
+    chain ip6_filter_output_filter_HOMELAN {
+        counter comment "BEGIN inbound HOMELAN ip6/filter/output_filter"
+
+        # HOMELAN: Include rules strictly for all sub-zones/sub-devices having ip6/filter/output regular chain
+        include "bindings/devices/HOMELAN/rules/ip6-filter-output_filter*/*.rule"
+    }
+    # Split the chain so that other chains can be created (ie., dispatcher regular chain)
+
+
+    # HOMELAN/ZONE: Include all zones having this device ip6/filter/output regular chain
+    include "bindings/devices/HOMELAN/zones/subzones-ip6-filter-output_filter.table_block"
+
+    # ZONE: Include all zones having this device ip6/filter/output regular chain
+    # include "bindings/zones/zones-ip6-filter-output_filter.table_block"
+
+    # (TODO: can we symbolically link to the parent zones/ZONE here, instead of include a duplicate ZONE?)
+
+    # No need for HOMELAN/HOMELAN/ZONE; simply do a subdevice as HOMELAN/ZONE
+
+    chain ip6_filter_output_filter_HOMELAN {
+        counter comment "End inbound HOMELAN ip6/filter/output_filter"
+    }
+

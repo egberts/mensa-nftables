@@ -1,0 +1,24 @@
+#
+# File:     zone-ip6-filter-postrouting_filter.chain_block
+# Path:     bindings/devices/HOMELAN/zones/ZONE
+# Title:    Base chain to a specific network interface device to the family/type/hook
+# Family:   ip6
+# Type:     filter
+# Hook:     postrouting
+# Priority: +10 (filter(0)+10)
+# Policy:   accept
+# Table:    filter_ip6
+# Chain:    filter_ip6_postrouting_filter_HOMELAN
+# Called by: hooks/hook-postrouting/base-ip6-filter-postrouting_filter.table_block
+# Description:
+#
+
+# this is the part where it goes to rule-making
+
+# zone-specific redirect
+# filter_ip6 table
+#    filter_ip6_postrouting_filter_HOMELAN base chain
+        # anything ip6-specific here?
+        # Blackholing some private-net
+
+        include "bindings/devices/HOMELAN/zones/ZONE/rules/ip6-filter-postrouting_filter*/*.rule"

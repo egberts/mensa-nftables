@@ -1,0 +1,10 @@
+#
+# File: 010-traceroute-icmp-reply-out-req-accept.rule
+# Title: Allow local traceroute send ICMP back to remote traceroute initiator
+
+
+# Outbound ICMP Time Exceeded response to inbound traceroute
+icmp type time-exceeded accept comment "local-to-remote inbound traceroute iCMP exceeded response"
+
+# Outbound ICMP Destination Unreachable response to inbound traceroute
+icmp type destination-unreachable accept comment "local-to-remote inbound traceroute ICMP unreachable"

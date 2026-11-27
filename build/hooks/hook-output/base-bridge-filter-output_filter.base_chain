@@ -1,0 +1,35 @@
+# File:     base-bridge-filter-output_filter.base_chain
+# Path:     hooks/hook-output/
+# Title:    Base chain for the output hook (bridge family, filter type) for filter (-200) priority
+# Family:   bridge
+# Type:     filter
+# Hook:     output
+# Priority: -210 (filter(-200)-10)
+# Policy:   DROP
+# Table:    *
+# Chain:    bridge_filter_output_filter
+# Called by: types/filter-bridge.table
+# Description:
+#
+# Single-indented for base-chain and regular-chain
+# Double-indented for rules-only
+#
+
+    # Pre-declare table before map/vmap
+    chain bridge_filter_output_filter {
+        type filter hook output priority -210; policy drop;
+        counter comment "inbound bridge/filter/output_filter"
+    }
+
+    # creates a registry for zone-based dispatcher (will touch bridge_filter_output_filter)
+    #include "bindings/zones/zones-bridge-filter-output_filter*.table_block"
+
+    # Declare an interface-to-chain dispatcher for output hook, bridge family, filter chain-type. (will touch bridge_filter_output_filter)
+    include "bindings/devices/devices-bridge-filter-output_filter*.table_block"
+
+
+    chain bridge_filter_output_filter {
+        counter comment "inbound bridge/filter/output_filter"
+        # TODO Add 'limit 5/s' here
+        log prefix "DROP bridge/filter/output_filter unknown ZONE: " drop
+    }

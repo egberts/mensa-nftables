@@ -1,0 +1,32 @@
+#
+# File:     binding-inet-filter-output.table_block
+# Path:     bindings/
+# Title:    Binding of output hook of inet family, filter chain-type, to both by-zone and by-device
+# Family:   inet
+# Type:     filter
+# Hook:     output
+# Priority: *
+# Policy:   *
+# Zone:     *
+# Table:    filter_inet
+# Chain:    inet_filter_output
+# Called by: hooks/hook-output/base-inet-filter-output.base_chain
+# Description:
+#
+
+# filter_inet table
+#    inet_filter_output base chain
+
+    include "bindings/devices/devices-inet-filter-output*.table_block"
+
+    # Declare an interface-to-chain dispatcher for output hook, inet family, filter chain-type.
+    #map map_dispatch_inet_filter_output_interface {
+    #    typeof iif : verdict
+    #}
+
+#    chain inet_filter_output {
+#
+#   #     include "bindings/zones/*/zone-inet-filter-output.chain_block"
+#        include "bindings/devices/*/device-inet-filter-output.chain_block"
+#    }
+

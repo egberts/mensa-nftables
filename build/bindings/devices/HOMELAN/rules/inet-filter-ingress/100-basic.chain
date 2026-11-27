@@ -1,0 +1,12 @@
+#
+# File: 100-basic.rule
+# Path: rules/inet-filter-ingress/
+# Called by: zones/ZONE/netdev-filter-ingress-ZONE.chain
+
+        # Drop invalid Ethernet source addresses
+        ether saddr 00:00:00:00:00:00 drop
+
+        # Drop IPv6 if this interface should be IPv4-only
+        ether type ip6 counter drop
+
+        # Allow everything else

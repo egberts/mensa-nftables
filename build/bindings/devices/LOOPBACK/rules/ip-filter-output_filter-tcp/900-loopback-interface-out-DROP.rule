@@ -1,0 +1,4 @@
+#
+# File: 900-loopback-interface-out-DROP.rule
+# Title: DENY local loopback traffic to remote interfaces
+

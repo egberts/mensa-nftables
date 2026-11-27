@@ -1,0 +1,26 @@
+#
+# File: subzones-ip-nat-input.table_block
+# Path: bindings/devices/INTERNET/zones/
+# Title: Include all subzones associated with this device for ip/nat/input
+# Family: ip
+# Type: nat
+# Hook: input
+# Device: INTERNET
+# Priority: -10 (nat(0)-10)
+# Table: nat_ip
+# Chain: ip_nat_input_INTERNET
+# Called by: bindings/devices/INTERNET/binding-device-ip-nat-input.table_block
+#
+
+    # going to need a registry table just for INTERNET-ZONE
+    chain dispatcher_ip_nat_input_INTERNET_ZONE {
+
+         # try for parent ZONE (instead of subdir ZONE)
+         include "bindings/devices/INTERNET/zones/*/zone-ip-nat-input.chain_block"
+
+    }
+
+    # poor-mans dispatcher, sequential hooking
+    chain ip_nat_input_INTERNET {
+        jump dispatcher_ip_nat_input_INTERNET_ZONE
+    }

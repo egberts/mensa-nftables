@@ -1,0 +1,36 @@
+# File:     base-inet-filter-output_filter.base_chain
+# Path:     hooks/hook-output/
+# Title:    Base chain for the output hook (inet family, filter type) for filter(0) priority
+# Family:   inet
+# Type:     filter
+# Hook:     output
+# Priority: -11 (filter(0)-11)
+# Policy:   DROP
+# Table:    inet_filter
+# Chain:    inet_filter_output_filter
+# Called by: types/filter-inet.table
+# Description:
+#
+# Single-indented for base-chain and regular-chain
+# Double-indented for rules-only
+#
+
+    # Pre-declare table before map/vmap
+    chain inet_filter_output_filter {
+        # ip family_spec gets the last 'drop' word at priority -10
+        type filter hook output priority -11; policy accept;
+        counter comment "inbound inet/filter/output_filter"
+    }
+
+    # creates a registry for zone-based dispatcher (will touch inet_filter_output_filter)
+    #include "bindings/zones/zones-inet-filter-output_filter.table_block"
+
+    # Declare an interface-to-chain dispatcher for output hook, inet family, filter chain-type. (will touch inet_filter_output_filter)
+    include "bindings/devices/devices-inet-filter-output_filter.table_block"
+
+
+    chain inet_filter_output_filter {
+        counter comment "inbound inet/filter/output_filter"
+        # TODO Add 'limit 5/s' here
+        log prefix "DROP inet/filter/output_filter unknown ZONE: " drop
+    }

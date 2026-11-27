@@ -1,0 +1,8 @@
+
+# File: 021-DHCP-udp-sport67-in-req-accept.rule
+# Policy: Allow remote DHCPv4 client request to local DHCPv4 server
+
+
+# meta nfproto ipv4 udp sport 68 udp dport 67 counter accept comment "remote-to-local DHCP/UDP/67 request"
+
+udp dport 67 udp sport 68 notrack counter accept comment "remote-to-local DHCP/UDP/67 request"

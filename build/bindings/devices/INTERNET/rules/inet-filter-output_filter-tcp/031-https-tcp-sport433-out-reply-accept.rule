@@ -1,0 +1,5 @@
+#
+# File: 031-https-tcp-sport443-out-reply-accept.rule
+# Title: Allow local HTTPS server reply to remote HTTPS client
+
+tcp sport 443 counter accept comment "local-to-remote HTTPS/TCP/443 reply"

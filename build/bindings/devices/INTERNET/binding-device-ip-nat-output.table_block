@@ -1,0 +1,47 @@
+# File:     bindings-device-ip-nat-output.table_block
+# Path:     bindings/devices/INTERNET/
+# Title:    Create regular chain and register with dispatcher of devices for ip/nat/output base chain
+# Family:   ip
+# Type:     nat
+# Hook:     output
+# Device:   INTERNET
+# Priority: +10 (nat(0)+10)
+# Policy:   DROP
+# Table:    nat_ip
+# Chain:    nat_ip_output
+# Called by: binding/devices/INTERNET/device-ip-nat-output.chain_block
+# Description:
+#
+
+    # Add/register a Device Interface-to-firewall dispatch registry
+    map map_dispatch_ip_nat_output_devices {
+        typeof oif : verdict
+        elements = {
+            # use goto, this is the final descendance
+            $INTERNET_INTF_DEV : goto ip_nat_output_INTERNET,
+        }
+    }
+
+    chain ip_nat_output_INTERNET {
+        counter comment "BEGIN inbound INTERNET ip/nat/output"
+
+        # INTERNET: Include rules strictly for all sub-zones/sub-devices having ip/nat/output regular chain
+        include "bindings/devices/INTERNET/rules/ip-nat-output/*.rule"
+    }
+    # Split the chain so that other chains can be created (ie., dispatcher regular chain)
+
+
+    # INTERNET/ZONE: Include all zones having this device ip/nat/output regular chain
+    include "bindings/devices/INTERNET/zones/subzones-ip-nat-output.table_block"
+
+    # ZONE: Include all zones having this device ip/nat/output regular chain
+    # include "bindings/zones/zones-ip-nat-output.table_block"
+
+    # (TODO: can we symbolically link to the parent zones/ZONE here, instead of include a duplicate ZONE?)
+
+    # No need for INTERNET/INTERNET/ZONE; simply do a subdevice as INTERNET/ZONE
+
+    chain ip_nat_output_INTERNET {
+        counter comment "End inbound INTERNET ip/nat/output"
+    }
+

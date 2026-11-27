@@ -1,0 +1,24 @@
+#
+# File:     netdev-filter-ingress.chain_block
+# Path:     bindings/devices/INTERNET/zones/ZONE
+# Title:    Base chain to a specific network interface device to the family/type/hook
+# Family:   netdev
+# Table:    filter_netdev
+# Chain:    filter_netdev_ingress_INTERNET
+# Type:     filter
+# Hook:     ingress
+# Priority: -310 (filter(0)-310)
+# Policy:   accept
+# Called by: hooks/hook-ingress/base-netdev-filter-ingress.table_block
+# Description:
+#
+
+# this is the part where it goes to rule-making
+
+# zone-specific redirect
+# filter_netdev table
+#    filter_netdev_ingress_INTERNET base chain
+        # anything netdev-specific here?
+        # Blackholing some private-net
+
+        include "bindings/devices/INTERNET/zones/ZONE/rules/netdev-filter-ingress/*.rule"

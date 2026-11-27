@@ -1,0 +1,47 @@
+# File:     bindings-device-ip-filter-prerouting_conntrack.table_block
+# Path:     bindings/devices/LIBVIRT/
+# Title:    Create regular chain and register with dispatcher of devices for ip/filter/prerouting base chain
+# Family:   ip
+# Type:     filter
+# Hook:     prerouting
+# Device:   LIBVIRT
+# Priority: -210 ((-200) - 10)
+# Policy:   *
+# Table:    filter_ip
+# Chain:    filter_ip_prerouting_conntrack
+# Called by: binding/devices/LIBVIRT/device-ip-filter-prerouting_conntrack.chain_block
+# Description:
+#
+
+    # Add/register a Device Interface-to-firewall dispatch registry
+    map map_dispatch_ip_filter_prerouting_conntrack_devices {
+        typeof iif : verdict
+        elements = {
+            # use goto, this is the final descendance
+            $LIBVIRT_INTF_DEV : goto ip_filter_prerouting_conntrack_LIBVIRT,
+        }
+    }
+
+    chain ip_filter_prerouting_conntrack_LIBVIRT {
+        counter comment "BEGIN inbound LIBVIRT ip/filter/prerouting_conntrack"
+
+        # LIBVIRT: Include rules strictly for all sub-zones/sub-devices having ip/filter/prerouting regular chain
+        include "bindings/devices/LIBVIRT/rules/ip-filter-prerouting_conntrack/*.rule"
+    }
+    # Split the chain so that other chains can be created (ie., dispatcher regular chain)
+
+
+    # LIBVIRT/ZONE: Include all zones having this device ip/filter/prerouting regular chain
+    include "bindings/devices/LIBVIRT/zones/subzones-ip-filter-prerouting_conntrack.table_block"
+
+    # ZONE: Include all zones having this device ip/filter/prerouting regular chain
+    # include "bindings/zones/zones-ip-filter-prerouting_conntrack.table_block"
+
+    # (TODO: can we symbolically link to the parent zones/ZONE here, instead of include a duplicate ZONE?)
+
+    # No need for LIBVIRT/LIBVIRT/ZONE; simply do a subdevice as LIBVIRT/ZONE
+
+    chain ip_filter_prerouting_conntrack_LIBVIRT {
+        counter comment "End inbound LIBVIRT ip/filter/prerouting_conntrack"
+    }
+

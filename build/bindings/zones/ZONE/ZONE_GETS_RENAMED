@@ -1,0 +1,9 @@
+The string 'ZONE' is replaced with actual user-defined zone name.
+
+Such example of zone names that are gateway-facing are 'public', 'wan', 'red'
+Examples of internal network zone names are 'lan', 'green', 'dmz', 'Docker', 'closednet'
+
+Only directories allowed here are:
+
+    zones/
+    rules/

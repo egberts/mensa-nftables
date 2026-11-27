@@ -1,0 +1,26 @@
+#
+# File: subzones-ip-filter-postrouting_security.table_block
+# Path: bindings/devices/INTERNET/zones/
+# Title: Include all subzones associated with this device for ip/filter/postrouting
+# Family: ip
+# Type: filter
+# Hook: postrouting
+# Device: INTERNET
+# Priority: +110 (srcnat(100)+10)
+# Table: filter_ip
+# Chain: ip_filter_postrouting_security_INTERNET
+# Called by: bindings/devices/INTERNET/binding-device-ip-filter-postrouting_security.table_block
+#
+
+    # going to need a registry table just for INTERNET-ZONE
+    chain dispatcher_ip_filter_postrouting_security_INTERNET_ZONE {
+
+         # try for parent ZONE (instead of subdir ZONE)
+         include "bindings/devices/INTERNET/zones/*/zone-ip-filter-postrouting_security.chain_block"
+
+    }
+
+    # poor-mans dispatcher, sequential hooking
+    chain ip_filter_postrouting_security_INTERNET {
+        jump dispatcher_ip_filter_postrouting_security_INTERNET_ZONE
+    }

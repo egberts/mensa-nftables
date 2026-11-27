@@ -1,0 +1,34 @@
+#
+# File:     binding-inet-filter-prerouting.table_block
+# Path:     bindings/
+# Title:    Binding of prerouting hook of inet family, filter chain-type, to both by-zone and by-device
+# Family:   inet
+# Type:     filter
+# Hook:     prerouting
+# Priority: *
+# Policy:   *
+# Zone:     *
+# Table:    filter_inet
+# Chain:    inet_filter_prerouting
+# Called by: hooks/hook-prerouting/base-inet-filter-prerouting.base_chain
+# Description:
+#
+
+# filter_inet table
+#    inet_filter_prerouting base chain
+
+    error "I got here for ARP retest"
+
+    include "bindings/devices/devices-inet-filter-prerouting*.table_block"
+
+    # Declare an interface-to-chain dispatcher for prerouting hook, inet family, filter chain-type.
+    map map_dispatch_inet_filter_prerouting_interface {
+        typeof iif : verdict
+    }
+
+    chain inet_filter_prerouting {
+
+   #     include "bindings/zones/*/zone-inet-filter-prerouting.chain_block"
+        include "bindings/devices/*/device-inet-filter-prerouting.chain_block"
+    }
+

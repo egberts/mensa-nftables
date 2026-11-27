@@ -1,0 +1,24 @@
+#
+# File:     zone-ip-filter-postrouting_srcnat.chain_block
+# Path:     bindings/devices/INTERNET/zones/ZONE
+# Title:    Base chain to a specific network interface device to the family/type/hook
+# Family:   ip
+# Type:     filter
+# Hook:     postrouting
+# Priority: +110 (srcnat(100)+10)
+# Policy:   accept
+# Table:    filter_ip
+# Chain:    filter_ip_postrouting_srcnat_INTERNET
+# Called by: hooks/hook-postrouting/base-ip-filter-postrouting_srcnat.table_block
+# Description:
+#
+
+# this is the part where it goes to rule-making
+
+# zone-specific redirect
+# filter_ip table
+#    filter_ip_postrouting_srcnat_INTERNET base chain
+        # anything ip-specific here?
+        # Blackholing some private-net
+
+        include "bindings/devices/INTERNET/zones/ZONE/rules/ip-filter-postrouting_srcnat*/*.rule"

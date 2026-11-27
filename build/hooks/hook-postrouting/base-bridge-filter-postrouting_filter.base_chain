@@ -1,0 +1,39 @@
+# File:     base-bridge-filter-postrouting_filter.base_chain
+# Path:     hooks/hook-postrouting/
+# Title:    Base chain for the postrouting hook (bridge family, filter type) at priority srcnat(300)
+# Family:   bridge
+# Type:     filter
+# Hook:     postrouting
+# Priority: -10 (filter(0) - 10)
+# Policy:   accept
+# Table:    *
+# Chain:    bridge_filter_postrouting
+# Called by: types/filter-bridge.table
+# Description:
+#
+#    Layer-2 filtering before the FDB (forwarding database) decision.                                                               #      - ether type, ether saddr/daddr, vlan tags, meta iif/iifname,                                                                #            meta ibrname                                                                                                           #      - meta broute set 1 (to force the packet up to the IP stack;                                                                 #            the modern replacement for ebtables BROUTING)                                                                          #      - Limited L3/L4 matching is possible (ip/ip6/tcp/udp after ether
+#            type), but the primary purpose is L2
+#
+#
+# Single-indented for base-chain and regular-chain
+# Double-indented for rules-only
+#
+
+    # Pre-declare table before map/vmap
+    chain bridge_filter_postrouting_filter {
+        type filter hook postrouting priority 310; policy accept;
+
+        counter comment "inbound bridge/filter/postrouting_filter"
+    }
+
+    # creates a registry for zone-based dispatcher (will touch bridge_filter_postrouting)
+    #include "bindings/zones/zones-bridge-filter-postrouting*.table_block"
+
+    # Declare an interface-to-chain dispatcher for postrouting hook, bridge family, filter chain-type. (will touch bridge_filter_postrouting)
+    include "bindings/devices/devices-bridge-filter-postrouting_filter*.table_block"
+
+    chain bridge_filter_postrouting_filter {
+
+        counter comment "inbound bridge/filter/postrouting_filter"
+    }
+

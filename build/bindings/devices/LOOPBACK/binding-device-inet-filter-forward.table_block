@@ -1,0 +1,47 @@
+# File:     bindings-device-inet-filter-forward.table_block
+# Path:     bindings/devices/LOOPBACK/
+# Title:    Create regular chain and register with dispatcher of devices for inet/filter/forward base chain
+# Family:   inet
+# Type:     filter
+# Hook:     forward
+# Device:   LOOPBACK
+# Priority: -10 (filter(0)-10)
+# Policy:   DROP
+# Table:    filter_inet
+# Chain:    filter_inet_forward
+# Called by: binding/devices/LOOPBACK/device-inet-filter-forward.chain_block
+# Description:
+#
+
+    # Add/register a Device Interface-to-firewall dispatch registry
+    map map_dispatch_inet_filter_forward_devices {
+        typeof iif : verdict
+        elements = {
+            # use goto, this is the final descendance
+            $LOOPBACK_INTF_DEV : goto inet_filter_forward_LOOPBACK,
+        }
+    }
+
+    chain inet_filter_forward_LOOPBACK {
+        counter comment "BEGIN inbound LOOPBACK inet/filter/forward"
+
+        # LOOPBACK: Include rules strictly for all sub-zones/sub-devices having inet/filter/forward regular chain
+        include "bindings/devices/LOOPBACK/rules/inet-filter-forward*/*.rule"
+    }
+    # Split the chain so that other chains can be created (ie., dispatcher regular chain)
+
+
+    # LOOPBACK/ZONE: Include all zones having this device inet/filter/forward regular chain
+    include "bindings/devices/LOOPBACK/zones/subzones-inet-filter-forward.table_block"
+
+    # ZONE: Include all zones having this device inet/filter/forward regular chain
+    # include "bindings/zones/zones-inet-filter-forward.table_block"
+
+    # (TODO: can we symbolically link to the parent zones/ZONE here, instead of include a duplicate ZONE?)
+
+    # No need for LOOPBACK/LOOPBACK/ZONE; simply do a subdevice as LOOPBACK/ZONE
+
+    chain inet_filter_forward_LOOPBACK {
+        counter comment "End inbound LOOPBACK inet/filter/forward"
+    }
+

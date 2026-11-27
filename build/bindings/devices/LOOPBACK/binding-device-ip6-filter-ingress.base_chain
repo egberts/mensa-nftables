@@ -1,0 +1,34 @@
+# File:     binding-device-ip6-filter-ingress.base_chain
+# Path:     bindings/devices/LOOPBACK/
+# Title:    Base chain to a specific network interface device to the family/type/hook
+# Family:   ip6
+# Table:    filter_ip6
+# Chain:    filter_ip6_ingress_LOOPBACK
+# Type:     filter
+# Hook:     ingress
+# Priority: -310 (filter(0)-310)
+# Policy:   *
+# Called by: hooks/hook-ingress/base-ip6-filter-ingress.table_block
+# Description:
+#
+#     The device name must identify an existing network interface.
+#
+#     'ip6' is no longer automatically necessary just because
+#     early ingress filtering is available in 'ip6' family.
+#     'ip6' remains useful for interface-specific processing, egress
+#     processing and non-IP Ethernet traffic.
+#
+
+# table ip6_filter
+
+    chain ip6_filter_ingress_LOOPBACK {
+        type filter hook ingress device $LOOPBACK_INTF_DEV priority -310; policy accept;
+
+        # include "bindings/devices/LOOPBACK/device-ip6-filter-ingress-head.chain_block"
+        include "bindings/devices/LOOPBACK/zones/*/zone-ip6-filter-ingress.chain_block"
+        # include "bindings/devices/LOOPBACK/device-ip6-filter-ingress-tail.chain_block"
+
+
+        # include "bindings/devices/LOOPBACK/zones/*/ip6-filter-ingress-tail.chain_block"  # zones-in-zone
+    }
+

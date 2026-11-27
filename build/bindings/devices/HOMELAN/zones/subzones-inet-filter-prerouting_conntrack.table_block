@@ -1,0 +1,26 @@
+#
+# File: subzones-inet-filter-prerouting_conntrack.table_block
+# Path: bindings/devices/HOMELAN/zones/
+# Title: Include all subzones associated with this device for inet/filter/prerouting
+# Family: inet
+# Type: filter
+# Hook: prerouting
+# Device: HOMELAN
+# Priority: -210 ((-200)-10)
+# Table: filter_inet
+# Chain: inet_filter_prerouting_conntrack_HOMELAN
+# Called by: bindings/devices/HOMELAN/binding-device-inet-filter-prerouting_conntrack.table_block
+#
+
+    # going to need a registry table just for HOMELAN-ZONE
+    chain dispatcher_inet_filter_prerouting_conntrack_HOMELAN_ZONE {
+
+         # try for parent ZONE (instead of subdir ZONE)
+         include "bindings/devices/HOMELAN/zones/*/zone-inet-filter-prerouting_conntrack.chain_block"
+
+    }
+
+    # poor-mans dispatcher, sequential hooking
+    chain inet_filter_prerouting_conntrack_HOMELAN {
+        jump dispatcher_inet_filter_prerouting_conntrack_HOMELAN_ZONE
+    }

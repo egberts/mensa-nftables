@@ -1,0 +1,4 @@
+
+        # Block obviously invalid source addresses
+        ip saddr 127.0.0.0/8 counter drop
+        ip saddr 127.0.0.0/8 counter drop

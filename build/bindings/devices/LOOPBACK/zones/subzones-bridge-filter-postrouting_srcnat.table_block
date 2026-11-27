@@ -1,0 +1,26 @@
+#
+# File: subzones-bridge-filter-postrouting_srcnat.table_block
+# Path: bindings/devices/LOOPBACK/zones/
+# Title: Include all subzones associated with this device for bridge/filter/postrouting
+# Family: bridge
+# Type: filter
+# Hook: postrouting
+# Device: LOOPBACK
+# Priority: +310 (srcnat(300)+10)
+# Table: filter_bridge
+# Chain: bridge_filter_postrouting_srcnat_LOOPBACK
+# Called by: bindings/devices/LOOPBACK/binding-device-bridge-filter-postrouting_srcnat.table_block
+#
+
+    # going to need a registry table just for LOOPBACK-ZONE
+    chain dispatcher_bridge_filter_postrouting_srcnat_lo_ZONE {
+
+         # try for parent ZONE (instead of subdir ZONE)
+         include "bindings/devices/LOOPBACK/zones/*/zone-bridge-filter-postrouting_srcnat.chain_block"
+
+    }
+
+    # poor-mans dispatcher, sequential hooking
+    chain bridge_filter_postrouting_srcnat_LOOPBACK {
+        jump dispatcher_bridge_filter_postrouting_srcnat_lo_ZONE
+    }

@@ -1,0 +1,12 @@
+#
+# File: 020-NTP-udp-sport123-prerouting-reply-accept.rule
+# Policy: Allow prerouting of remote NTP server reply to local NTP client at filter priority
+# Priority: filter(0)
+# Special case of no connection tracking ('notrack')
+
+# must have 'notrack' NTP rule in zone-red-inet-filter-prerouting_raw-udp/030-ntp-server.rule at raw(-300) priority
+# must have 'untracked' NTP rule in zone-red-inet-filter-prerouting-udp/030-ntp-server.rule at filter(0) priority
+# must have 'notrack' NTP rule in zone-red-inet-filter-output_raw-udp/030-ntp-server.rule at raw(-300) priority
+# must have 'untracked' NTP rule in zone-red-inet-filter-output-udp/030-ntp-server.rule at filter(0) priority
+
+udp sport 123 ct state untracked counter accept comment "remote-to-local NTP/UDP/123 prerouting reply"

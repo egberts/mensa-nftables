@@ -1,0 +1,47 @@
+# File:     bindings-device-ip-filter-output_raw.table_block
+# Path:     bindings/devices/HOMELAN/
+# Title:    Regular chain with dispatcher for ip/filter/output with raw(300) priority
+# Family:   ip
+# Type:     filter
+# Hook:     output
+# Device:   HOMELAN
+# Priority: +310 ((300)+10)
+# Policy:   DROP
+# Table:    filter_ip
+# Chain:    filter_ip_output_raw
+# Called by: binding/devices/HOMELAN/device-ip-filter-output_raw.chain_block
+# Description:
+#
+
+    # Add/register a Device Interface-to-firewall dispatch registry
+    map map_dispatch_ip_filter_output_raw_devices {
+        typeof oif : verdict
+        elements = {
+            # use goto, this is the final descendance
+            $HOMELAN_INTF_DEV : goto ip_filter_output_raw_HOMELAN,
+        }
+    }
+
+    chain ip_filter_output_raw_HOMELAN {
+        counter comment "BEGIN inbound HOMELAN ip/filter/output_raw"
+
+        # HOMELAN: Include rules strictly for all sub-zones/sub-devices having ip/filter/output regular chain
+        include "bindings/devices/HOMELAN/rules/ip-filter-output_raw*/*.rule"
+    }
+    # Split the chain so that other chains can be created (ie., dispatcher regular chain)
+
+
+    # HOMELAN/ZONE: Include all zones having this device ip/filter/output regular chain
+    include "bindings/devices/HOMELAN/zones/subzones-ip-filter-output_raw.table_block"
+
+    # ZONE: Include all zones having this device ip/filter/output regular chain
+    # include "bindings/zones/zones-ip-filter-output_raw.table_block"
+
+    # (TODO: can we symbolically link to the parent zones/ZONE here, instead of include a duplicate ZONE?)
+
+    # No need for HOMELAN/HOMELAN/ZONE; simply do a subdevice as HOMELAN/ZONE
+
+    chain ip_filter_output_raw_HOMELAN {
+        counter comment "End inbound HOMELAN ip/filter/output_raw"
+    }
+

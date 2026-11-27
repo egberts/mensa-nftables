@@ -1,0 +1,33 @@
+#
+# File:     devices-ip-filter-forward.table_block
+# Path:     bindings/devices/
+# Title:    Register all devices having ip/filter/forward
+# Family:   ip
+# Type:     filter
+# Hook:     forward
+# Priority: -10 (filter(0) - 10)  # we lean a bit more forward than other forward-er(s).
+# Policy:   DROP
+# Table:    ip_filter
+# Chain:    ip_filter_forward
+# Called by: hooks/hook-forward/base-ip-filter-forward.base_chain
+# Description:
+#
+# Single-indented for base-chain and regular-chain
+# Double-indented for rules-only
+#
+
+    # Pre-declare an interface-to-chain dispatcher for forward hook, ip family, filter chain-type.
+    map map_dispatch_ip_filter_forward_devices {
+        typeof iif : verdict
+    }
+
+    # Insert the jump lookup
+    chain ip_filter_forward {
+        counter comment "device inbound ip/filter/forward"
+        iif vmap @map_dispatch_ip_filter_forward_devices
+        counter comment "device inbound ip/filter/forward, post dispatch"
+    }
+
+    # Register all ip_filter_forward devices
+    include "bindings/devices/*/binding-device-ip-filter-forward.table_block"
+

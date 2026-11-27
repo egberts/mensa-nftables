@@ -1,0 +1,33 @@
+#
+# File:     devices-ip6-filter-postrouting_security.table_block
+# Path:     bindings/devices/
+# Title:    Register all devices having ip6/filter/postrouting
+# Family:   ip6
+# Type:     filter
+# Hook:     postrouting
+# Priority: +60 (security(50) + 10)
+# Policy:   accept
+# Table:    ip6_filter
+# Chain:    ip6_filter_postrouting_security
+# Called by: hooks/hook-postrouting/base-ip6-filter-postrouting_security.base_chain
+# Description:
+#
+# Single-indented for base-chain and regular-chain
+# Double-indented for rules-only
+#
+
+    # Pre-declare an interface-to-chain dispatcher for postrouting hook, ip6 family, filter chain-type.
+    map map_dispatch_ip6_filter_postrouting_security_devices {
+        typeof oif : verdict
+    }
+    # Insert the jump lookup
+    chain ip6_filter_postrouting_security {
+
+        counter comment "device outbound ip6/filter/postrouting_security"
+        oif vmap @map_dispatch_ip6_filter_postrouting_security_devices
+        counter comment "device outbound ip6/filter/postrouting_security, post dispatch"
+    }
+
+    # Register all ip6_filter_postrouting_security devices
+    include "bindings/devices/*/binding-device-ip6-filter-postrouting_security.table_block"
+

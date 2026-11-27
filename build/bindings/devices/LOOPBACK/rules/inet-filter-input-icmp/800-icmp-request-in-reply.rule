@@ -1,0 +1,4 @@
+
+# INPUT: accept replies to locally initiated pings
+icmp type echo-reply counter accept comment "inbound ICMP/IP (ping) reply"
+icmpv6 type echo-reply counter accept comment "inbound ICMPv6/IP (ping) reply"

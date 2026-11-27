@@ -1,0 +1,47 @@
+# File:     bindings-device-bridge-filter-forward.table_block
+# Path:     bindings/devices/HOMELAN/
+# Title:    Create regular chain and register with dispatcher of devices for bridge/filter/forward base chain
+# Family:   bridge
+# Table:    filter_bridge
+# Chain:    filter_bridge_forward
+# Type:     filter
+# Hook:     forward
+# Device:   HOMELAN
+# Priority: *
+# Policy:   *
+# Called by: binding/devices/HOMELAN/device-bridge-filter-forward.chain_block
+# Description:
+#
+
+    # Add/register a Device Interface-to-firewall dispatch registry
+    map map_dispatch_bridge_filter_forward_devices {
+        typeof iif : verdict
+        elements = {
+            # use goto, this is the final descendance
+            $HOMELAN_INTF_DEV : goto bridge_filter_forward_HOMELAN,
+        }
+    }
+
+    chain bridge_filter_forward_HOMELAN {
+        counter comment "BEGIN inbound HOMELAN bridge/filter/forward"
+
+        # HOMELAN: Include rules strictly for all sub-zones/sub-devices having bridge/filter/forward regular chain
+        include "bindings/devices/HOMELAN/rules/bridge-filter-forward/*.rule"
+    }
+    # Split the chain so that other chains can be created (ie., dispatcher regular chain)
+
+
+    # HOMELAN/ZONE: Include all zones having this device bridge/filter/forward regular chain
+    include "bindings/devices/HOMELAN/zones/subzones-bridge-filter-forward.table_block"
+
+    # ZONE: Include all zones having this device bridge/filter/forward regular chain
+    # include "bindings/zones/zones-bridge-filter-forward.table_block"
+
+    # (TODO: can we symbolically link to the parent zones/ZONE here, instead of include a duplicate ZONE?)
+
+    # No need for HOMELAN/HOMELAN/ZONE; simply do a subdevice as HOMELAN/ZONE
+
+    chain bridge_filter_forward_HOMELAN {
+        counter comment "End inbound HOMELAN bridge/filter/forward"
+    }
+

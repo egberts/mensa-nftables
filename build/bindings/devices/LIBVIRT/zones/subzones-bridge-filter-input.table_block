@@ -1,0 +1,26 @@
+#
+# File: subzones-bridge-filter-input.table_block
+# Path: bindings/devices/LIBVIRT/zones/
+# Title: Include all subzones associated with this device for bridge/filter/input
+# Family: bridge
+# Table: filter_bridge
+# Chain: bridge_filter_input_LIBVIRT
+# Type: filter
+# Hook: input
+# Device: LIBVIRT
+# Priority: -210 (filter(-200)-10)
+# Called by: bindings/devices/LIBVIRT/binding-device-bridge-filter-input.table_block
+#
+
+    # going to need a registry table just for LIBVIRT-ZONE
+    chain dispatcher_bridge_filter_input_LIBVIRT_ZONE {
+
+         # try for parent ZONE (instead of subdir ZONE)
+         include "bindings/devices/LIBVIRT/zones/*/zone-bridge-filter-input.chain_block"
+
+    }
+
+    # poor-mans dispatcher, sequential hooking
+    chain bridge_filter_input_LIBVIRT {
+        jump dispatcher_bridge_filter_input_LIBVIRT_ZONE
+    }

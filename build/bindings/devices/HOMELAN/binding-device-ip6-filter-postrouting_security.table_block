@@ -1,0 +1,48 @@
+#
+# File:     bindings-device-ip6-filter-postrouting_security.table_block
+# Path:     bindings/devices/HOMELAN/
+# Title:    Regular chain with dispatcher for ip6/filter/postrouting for security(50) priority
+# Family:   ip6
+# Type:     filter
+# Hook:     postrouting
+# Device:   HOMELAN
+# Priority: +60 (security(50)+10)
+# Policy:   accept
+# Table:    filter_ip6
+# Chain:    filter_ip6_postrouting_security
+# Called by: binding/devices/HOMELAN/device-ip6-filter-postrouting_security.chain_block
+# Description:
+#
+
+    # Add/register a Device Interface-to-firewall dispatch registry
+    map map_dispatch_ip6_filter_postrouting_security_devices {
+        typeof oif : verdict
+        elements = {
+            # use goto, this is the final descendance
+            $HOMELAN_INTF_DEV : goto ip6_filter_postrouting_security_HOMELAN,
+        }
+    }
+
+    chain ip6_filter_postrouting_security_HOMELAN {
+        counter comment "BEGIN outbound HOMELAN ip6/filter/postrouting_security"
+
+        # HOMELAN: Include rules strictly for all sub-zones/sub-devices having ip6/filter/postrouting regular chain
+        include "bindings/devices/HOMELAN/rules/ip6-filter-postrouting_security*/*.rule"
+    }
+    # Split the chain so that other chains can be created (ie., dispatcher regular chain)
+
+
+    # HOMELAN/ZONE: Include all zones having this device ip6/filter/postrouting regular chain
+    include "bindings/devices/HOMELAN/zones/subzones-ip6-filter-postrouting_security.table_block"
+
+    # ZONE: Include all zones having this device ip6/filter/postrouting regular chain
+    # include "bindings/zones/zones-ip6-filter-postrouting_security.table_block"
+
+    # (TODO: can we symbolically link to the parent zones/ZONE here, instead of include a duplicate ZONE?)
+
+    # No need for HOMELAN/HOMELAN/ZONE; simply do a subdevice as HOMELAN/ZONE
+
+    chain ip6_filter_postrouting_security_HOMELAN {
+        counter comment "End outbound HOMELAN ip6/filter/postrouting_security"
+    }
+

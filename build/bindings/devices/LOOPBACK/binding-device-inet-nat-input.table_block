@@ -1,0 +1,47 @@
+# File:     bindings-device-inet-nat-input.table_block
+# Path:     bindings/devices/LOOPBACK/
+# Title:    Create regular chain and register with dispatcher of devices for inet/nat/input base chain
+# Family:   inet
+# Type:     nat
+# Hook:     input
+# Device:   LOOPBACK
+# Priority: -10 (filter(0)-10)
+# Policy:   accept
+# Table:    nat_inet
+# Chain:    nat_inet_input
+# Called by: binding/devices/LOOPBACK/device-inet-nat-input.chain_block
+# Description:
+#
+
+    # Add/register a Device Interface-to-firewall dispatch registry
+    map map_dispatch_inet_nat_input_devices {
+        typeof iif : verdict
+        elements = {
+            # use goto, this is the final descendance
+            $LOOPBACK_INTF_DEV : goto inet_nat_input_LOOPBACK,
+        }
+    }
+
+    chain inet_nat_input_LOOPBACK {
+        counter comment "BEGIN inbound LOOPBACK inet/nat/input"
+
+        # LOOPBACK: Include rules strictly for all sub-zones/sub-devices having inet/nat/input regular chain
+        include "bindings/devices/LOOPBACK/rules/inet-nat-input/*.rule"
+    }
+    # Split the chain so that other chains can be created (ie., dispatcher regular chain)
+
+
+    # LOOPBACK/ZONE: Include all zones having this device inet/nat/input regular chain
+    include "bindings/devices/LOOPBACK/zones/subzones-inet-nat-input.table_block"
+
+    # ZONE: Include all zones having this device inet/nat/input regular chain
+    # include "bindings/zones/zones-inet-nat-input.table_block"
+
+    # (TODO: can we symbolically link to the parent zones/ZONE here, instead of include a duplicate ZONE?)
+
+    # No need for LOOPBACK/LOOPBACK/ZONE; simply do a subdevice as LOOPBACK/ZONE
+
+    chain inet_nat_input_LOOPBACK {
+        counter comment "End inbound LOOPBACK inet/nat/input"
+    }
+

@@ -1,0 +1,47 @@
+# File:     bindings-device-arp-filter-output.table_block
+# Path:     bindings/devices/INTERNET/
+# Title:    Create regular chain and register with dispatcher of devices for arp/filter/output base chain
+# Family:   arp
+# Table:    filter_arp
+# Chain:    filter_arp_output
+# Type:     filter
+# Hook:     output
+# Device:   INTERNET
+# Priority: *
+# Policy:   *
+# Called by: binding/devices/INTERNET/device-arp-filter-output.chain_block
+# Description:
+#
+
+    # Add/register a Device Interface-to-firewall dispatch registry
+    map map_dispatch_arp_filter_output_devices {
+        typeof oif : verdict
+        elements = {
+            # use goto, this is the final descendance
+            $INTERNET_INTF_DEV : goto arp_filter_output_INTERNET,
+        }
+    }
+
+    chain arp_filter_output_INTERNET {
+        counter comment "BEGIN inbound INTERNET arp/filter/output"
+
+        # INTERNET: Include rules strictly for all sub-zones/sub-devices having arp/filter/output regular chain
+        include "bindings/devices/INTERNET/rules/arp-filter-output/*.rule"
+    }
+    # Split the chain so that other chains can be created (ie., dispatcher regular chain)
+
+
+    # INTERNET/ZONE: Include all zones having this device arp/filter/output regular chain
+    include "bindings/devices/INTERNET/zones/subzones-arp-filter-output.table_block"
+
+    # ZONE: Include all zones having this device arp/filter/output regular chain
+    # include "bindings/zones/zones-arp-filter-output.table_block"
+
+    # (TODO: can we symbolically link to the parent zones/ZONE here, instead of include a duplicate ZONE?)
+
+    # No need for INTERNET/INTERNET/ZONE; simply do a subdevice as INTERNET/ZONE
+
+    chain arp_filter_output_INTERNET {
+        counter comment "End inbound INTERNET arp/filter/output"
+    }
+

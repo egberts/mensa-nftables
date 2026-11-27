@@ -1,0 +1,26 @@
+#
+# File: subzones-bridge-filter-prerouting_filter.table_block
+# Path: bindings/devices/HOMELAN/zones/
+# Title: Include all subzones associated with this device for bridge/filter/prerouting
+# Family: bridge
+# Type: filter
+# Hook: prerouting
+# Device: HOMELAN
+# Priority: -10 (filter(0)-10)
+# Table: filter_bridge
+# Chain: bridge_filter_prerouting_filter_HOMELAN
+# Called by: bindings/devices/HOMELAN/binding-device-bridge-filter-prerouting_filter.table_block
+#
+
+    # going to need a registry table just for HOMELAN-ZONE
+    chain dispatcher_bridge_filter_prerouting_filter_HOMELAN_ZONE {
+
+         # try for parent ZONE (instead of subdir ZONE)
+         include "bindings/devices/HOMELAN/zones/*/zone-bridge-filter-prerouting_filter.chain_block"
+
+    }
+
+    # poor-mans dispatcher, sequential hooking
+    chain bridge_filter_prerouting_filter_HOMELAN {
+        jump dispatcher_bridge_filter_prerouting_filter_HOMELAN_ZONE
+    }

@@ -1,0 +1,35 @@
+# File:     base-ip-filter-input.base_chain
+# Path:     hooks/hook-input/
+# Title:    Base chain for the input hook (ip family, filter type)
+# Family:   ip
+# Table:    ip_filter
+# Chain:    ip_filter_input
+# Type:     filter
+# Hook:     input
+# Priority: -10 (filter(0) - 10)
+# Policy:   DROP
+# Called by: types/filter-ip.table
+# Description:
+#
+# Single-indented for base-chain and regular-chain
+# Double-indented for rules-only
+#
+
+    # Pre-declare table before map/vmap
+    chain ip_filter_input {
+        type filter hook input priority -10; policy drop;
+        counter comment "inbound ip/filter/input"
+    }
+
+    # creates a registry for zone-based dispatcher (will touch ip_filter_input)
+    #include "bindings/zones/zones-ip-filter-input*.table_block"
+
+    # Declare an interface-to-chain dispatcher for input hook, ip family, filter chain-type. (will touch ip_filter_input)
+    include "bindings/devices/devices-ip-filter-input*.table_block"
+
+
+    chain ip_filter_input {
+        counter comment "inbound ip/filter/input"
+        # TODO Add 'limit 5/s' here
+        log prefix "DROP ip/filter/input unknown ZONE: " drop
+    }

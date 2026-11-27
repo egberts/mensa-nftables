@@ -1,0 +1,7 @@
+#
+# File: 600-LIFX-udp-sport56700-out-reply-accept.rule
+# Policy: Allow local LIFX server reply to remote LIFX client
+# Description:
+#  LIFX LAN protocol used by WiFi lightbulbs (and Alexa Echo devices probing for it)
+
+udp dport 56700 counter accept comment "local-to-remote LIFX/UDP/56700 reply"

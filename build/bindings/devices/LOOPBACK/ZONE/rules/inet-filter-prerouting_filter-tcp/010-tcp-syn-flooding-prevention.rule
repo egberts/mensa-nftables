@@ -1,0 +1,16 @@
+# File:     010-tcp-syn-flooding-prevention.rule
+# Path:     rules/zone-red-inet-filter-prerouting/
+# Policy:   Allow TCP-SYN Flood protection during prerouting at raw priority
+# Family:   inet
+# Table:    *
+# Chain:    inet_filter_prerouting_red_tcp
+# Type:     filter
+# Hook:     prerouting
+# Priority: filter(0)
+# Policy:   DROP
+# Zone:     red
+# Called by: zones/red/zone-inet-filter-prerouting-red.chain
+# Description:
+#
+
+tcp dport 443 tcp flags syn notrack comment "remote-to-local TCP/SYN Flooding"

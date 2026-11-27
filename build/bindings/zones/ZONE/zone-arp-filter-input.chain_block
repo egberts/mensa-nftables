@@ -1,0 +1,29 @@
+# File:     zone-arp-filter-input.chain_block
+# Path:     bindings/zones/ZONE/
+# Title:    Bindings for a specific zone having arp family, filter chain-type, and input hook
+# Family:   arp
+# Table:    filter_arp
+# Chain:    arp_filter_input
+# Type:     filter
+# Hook:     input
+# Priority: -5 (filter(0)-5)
+# Policy:   *
+# Zone:     ZONE
+# Called by: bindings/bindings/binding-arp-filter-input.chain
+# Description:
+#
+    } # closed arp_filter_input (pop-up to chain declaration level)
+
+    # add a new regular chain (this is OUR zone-specific registry, no dispatcher available)
+    chain arp_filter_input_ZONE {
+        # preload regular chains in all zones having arp/filter/input
+        include "bindings/zones/ZONE/rules/arp-filter-input/*.rule"
+    }
+
+    # resume arp_filter_input base chain
+    chain arp_filter_input {
+
+        # there is no decision to selectively go to a specific zone (waste a jump/stack; most inelegant method).
+        jump arp_filter_input_zones
+
+    # chain delimiter intentionally left open (still in arp_filter_input chain; part of binding strategy)

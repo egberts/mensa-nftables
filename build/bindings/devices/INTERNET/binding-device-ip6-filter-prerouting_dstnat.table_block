@@ -1,0 +1,47 @@
+# File:     bindings-device-ip6-filter-prerouting_dstnat.table_block
+# Path:     bindings/devices/INTERNET/
+# Title:    Create regular chain and register with dispatcher of devices for ip6/filter/prerouting base chain
+# Family:   ip6
+# Type:     filter
+# Hook:     prerouting
+# Device:   INTERNET
+# Priority: -110 (dstnat(-100) - 10)
+# Policy:   *
+# Table:    filter_ip6
+# Chain:    filter_ip6_prerouting_dstnat
+# Called by: binding/devices/INTERNET/device-ip6-filter-prerouting_dstnat.chain_block
+# Description:
+#
+
+    # Add/register a Device Interface-to-firewall dispatch registry
+    map map_dispatch_ip6_filter_prerouting_dstnat_devices {
+        typeof iif : verdict
+        elements = {
+            # use goto, this is the final descendance
+            $INTERNET_INTF_DEV : goto ip6_filter_prerouting_dstnat_INTERNET,
+        }
+    }
+
+    chain ip6_filter_prerouting_dstnat_INTERNET {
+        counter comment "BEGIN inbound INTERNET ip6/filter/prerouting_dstnat"
+
+        # INTERNET: Include rules strictly for all sub-zones/sub-devices having ip6/filter/prerouting regular chain
+        include "bindings/devices/INTERNET/rules/ip6-filter-prerouting_dstnat/*.rule"
+    }
+    # Split the chain so that other chains can be created (ie., dispatcher regular chain)
+
+
+    # INTERNET/ZONE: Include all zones having this device ip6/filter/prerouting regular chain
+    include "bindings/devices/INTERNET/zones/subzones-ip6-filter-prerouting_dstnat.table_block"
+
+    # ZONE: Include all zones having this device ip6/filter/prerouting regular chain
+    # include "bindings/zones/zones-ip6-filter-prerouting_dstnat.table_block"
+
+    # (TODO: can we symbolically link to the parent zones/ZONE here, instead of include a duplicate ZONE?)
+
+    # No need for INTERNET/INTERNET/ZONE; simply do a subdevice as INTERNET/ZONE
+
+    chain ip6_filter_prerouting_dstnat_INTERNET {
+        counter comment "End inbound INTERNET ip6/filter/prerouting_dstnat"
+    }
+

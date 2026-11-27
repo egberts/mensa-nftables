@@ -1,0 +1,17 @@
+#
+# File: 403-AlexaEchoService3-udp-dport40317-in-req-accept.rule
+# Policy: Allow remote Alexa Echo service3 client request to local Alexa Echo servicer3 server
+#
+# Amazon documentation identifies several ports associated with Alexa services:
+# Port	Protocol	Associated function
+# 123	UDP	NTP/time synchronization
+# 443	TCP	HTTPS
+# 3478	TCP/UDP	STUN/TURN connectivity
+# 4070	TCP/UDP	Alexa-associated service requirements
+# 5353	UDP	mDNS
+# 1900	UDP	SSDP discovery
+# 33434	TCP/UDP	Alexa service connectivity
+# 40317	TCP/UDP	Alexa service connectivity
+# 49317	TCP/UDP	Alexa service connectivity
+
+udp dport 40317 counter accept comment "remote-to-local AlexaEchoService3/UDP/40317 request"

@@ -1,0 +1,32 @@
+#
+# File:     devices-inet-nat-output.table_block
+# Path:     bindings/devices/
+# Title:    Register all devices having inet/nat/output
+# Family:   inet
+# Type:     nat
+# Hook:     output
+# Priority: +10 (filter(0) + 10)
+# Policy:   accept
+# Table:    inet_nat
+# Chain:    inet_nat_output
+# Called by: hooks/hook-output/base-inet-nat-output.base_chain
+# Description:
+#
+# Single-indented for base-chain and regular-chain
+# Double-indented for rules-only
+#
+    # Pre-declare an interface-to-chain dispatcher for output hook, inet family, nat chain-type.
+    map map_dispatch_inet_nat_output_devices {
+        typeof oif : verdict
+    }
+    # Insert the jump lookup
+    chain inet_nat_output {
+
+        counter comment "device outbound inet/nat/output"
+        oif vmap @map_dispatch_inet_nat_output_devices
+        counter comment "device outbound inet/nat/output, post dispatch"
+    }
+
+    # Register all inet_nat_output devices
+    include "bindings/devices/*/binding-device-inet-nat-output.table_block"
+

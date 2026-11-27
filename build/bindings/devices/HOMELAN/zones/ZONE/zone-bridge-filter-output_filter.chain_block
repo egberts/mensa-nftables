@@ -1,0 +1,24 @@
+#
+# File:     bridge-filter-output_filter.chain_block
+# Path:     bindings/devices/HOMELAN/zones/ZONE
+# Title:    Base chain of family/type/hook for filter(0) priority
+# Family:   bridge
+# Type:     filter
+# Hook:     output
+# Priority: 10 (filter(0)+10)
+# Policy:   accept
+# Table:    filter_bridge
+# Chain:    filter_bridge_output_filter_HOMELAN
+# Called by: hooks/hook-output/base-bridge-filter-output_filter.table_block
+# Description:
+#
+
+# this is the part where it goes to rule-making
+
+# zone-specific redirect
+# filter_bridge table
+#    filter_bridge_output_filter_HOMELAN base chain
+        # anything bridge-specific here?
+        # Blackholing some private-net
+
+        include "bindings/devices/HOMELAN/zones/ZONE/rules/bridge-filter-output_filter*/*.rule"

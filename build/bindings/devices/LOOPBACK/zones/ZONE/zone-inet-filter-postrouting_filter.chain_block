@@ -1,0 +1,24 @@
+#
+# File:     zone-inet-filter-postrouting_filter.chain_block
+# Path:     bindings/devices/LOOPBACK/zones/ZONE
+# Title:    Base chain to a specific network interface device to the family/type/hook
+# Family:   inet
+# Type:     filter
+# Hook:     postrouting
+# Priority: +10 (filter(0)+10)
+# Policy:   accept
+# Table:    filter_inet
+# Chain:    filter_inet_postrouting_filter_LOOPBACK
+# Called by: hooks/hook-postrouting/base-inet-filter-postrouting_filter.table_block
+# Description:
+#
+
+# this is the part where it goes to rule-making
+
+# zone-specific redirect
+# filter_inet table
+#    filter_inet_postrouting_filter_LOOPBACK base chain
+        # anything inet-specific here?
+        # Blackholing some private-net
+
+        include "bindings/devices/LOOPBACK/zones/ZONE/rules/inet-filter-postrouting_filter*/*.rule"

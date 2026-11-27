@@ -1,0 +1,9 @@
+
+# File: 010-traceroute-icmp-reply-in-req-accept.rule
+# Title: Allow remote NTP client request to local NTP server
+
+# Inbound ICMP Time Exceeded response to outbound traceroute
+icmp type time-exceeded counter accept comment "remote-to-local outbound traceroute ICMP exceeded response"
+
+# Inbound ICMP Destination Unreachable response to outbound traceroute
+icmp type destination-unreachable counter accept comment "remote-to-local outbound traceroute ICMP unreachable"

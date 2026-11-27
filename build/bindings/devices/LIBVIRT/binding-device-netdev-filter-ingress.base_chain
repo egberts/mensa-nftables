@@ -1,0 +1,34 @@
+# File:     binding-device-netdev-filter-ingress.base_chain
+# Path:     bindings/devices/LIBVIRT/
+# Title:    Base chain to a specific network interface device to the family/type/hook
+# Family:   netdev
+# Table:    filter_netdev
+# Chain:    filter_netdev_ingress_LIBVIRT
+# Type:     filter
+# Hook:     ingress
+# Priority: -310 (filter(0)-310)
+# Policy:   *
+# Called by: hooks/hook-ingress/base-netdev-filter-ingress.table_block
+# Description:
+#
+#     The device name must identify an existing network interface.
+#
+#     'netdev' is no longer automatically necessary just because
+#     early ingress filtering is available in 'inet' family.
+#     'netdev' remains useful for interface-specific processing, egress
+#     processing and non-IP Ethernet traffic.
+#
+
+# table netdev_filter
+
+    chain netdev_filter_ingress_LIBVIRT {
+        type filter hook ingress device $LIBVIRT_INTF_DEV priority -310; policy accept;
+
+        # include "bindings/devices/LIBVIRT/device-netdev-filter-ingress-head.chain_block"
+        include "bindings/devices/LIBVIRT/zones/*/zone-netdev-filter-ingress.chain_block"
+        # include "bindings/devices/LIBVIRT/device-netdev-filter-ingress-tail.chain_block"
+
+
+        # include "bindings/devices/LIBVIRT/zones/*/netdev-filter-ingress-tail.chain_block"  # zones-in-zone
+    }
+

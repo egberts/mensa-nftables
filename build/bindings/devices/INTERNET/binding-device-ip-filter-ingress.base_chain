@@ -1,0 +1,34 @@
+# File:     binding-device-ip-filter-ingress.base_chain
+# Path:     bindings/devices/INTERNET/
+# Title:    Base chain to a specific network interface device to the family/type/hook
+# Family:   ip
+# Table:    filter_ip
+# Chain:    filter_ip_ingress_INTERNET
+# Type:     filter
+# Hook:     ingress
+# Priority: -310 (filter(0)-310)
+# Policy:   *
+# Called by: hooks/hook-ingress/base-ip-filter-ingress.table_block
+# Description:
+#
+#     The device name must identify an existing network interface.
+#
+#     'ip' is no longer automatically necessary just because
+#     early ingress filtering is available in 'ip' family.
+#     'ip' remains useful for interface-specific processing, egress
+#     processing and non-IP Ethernet traffic.
+#
+
+# table ip_filter
+
+    chain ip_filter_ingress_INTERNET {
+        type filter hook ingress device $INTERNET_INTF_DEV priority -310; policy accept;
+
+        # include "bindings/devices/INTERNET/device-ip-filter-ingress-head.chain_block"
+        include "bindings/devices/INTERNET/zones/*/zone-ip-filter-ingress.chain_block"
+        # include "bindings/devices/INTERNET/device-ip-filter-ingress-tail.chain_block"
+
+
+        # include "bindings/devices/INTERNET/zones/*/ip-filter-ingress-tail.chain_block"  # zones-in-zone
+    }
+

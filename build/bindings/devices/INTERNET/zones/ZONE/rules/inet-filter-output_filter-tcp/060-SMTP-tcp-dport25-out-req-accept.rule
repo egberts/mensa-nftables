@@ -1,0 +1,5 @@
+#
+# File: 041-SMTP-tcp-dport25-out-req-accept.rule
+# Title: Allow local SMTP client request to remote SMTP server
+
+tcp dport 25 counter accept comment "local-to-remote SMTP/TCP/25 request"

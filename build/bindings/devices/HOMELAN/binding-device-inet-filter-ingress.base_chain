@@ -1,0 +1,34 @@
+# File:     binding-device-inet-filter-ingress.base_chain
+# Path:     bindings/devices/HOMELAN/
+# Title:    Base chain to a specific network interface device to the family/type/hook
+# Family:   inet
+# Table:    filter_inet
+# Chain:    filter_inet_ingress_HOMELAN
+# Type:     filter
+# Hook:     ingress
+# Priority: -310 (filter(0)-310)
+# Policy:   *
+# Called by: hooks/hook-ingress/base-inet-filter-ingress.table_block
+# Description:
+#
+#     The device name must identify an existing network interface.
+#
+#     'inet' is no longer automatically necessary just because
+#     early ingress filtering is available in 'inet' family.
+#     'inet' remains useful for interface-specific processing, egress
+#     processing and non-IP Ethernet traffic.
+#
+
+# table inet_filter
+
+    chain inet_filter_ingress_HOMELAN {
+        type filter hook ingress device $HOMELAN_INTF_DEV priority -310; policy accept;
+
+        # include "bindings/devices/HOMELAN/device-inet-filter-ingress-head.chain_block"
+        include "bindings/devices/HOMELAN/zones/*/zone-inet-filter-ingress.chain_block"
+        # include "bindings/devices/HOMELAN/device-inet-filter-ingress-tail.chain_block"
+
+
+        # include "bindings/devices/HOMELAN/zones/*/inet-filter-ingress-tail.chain_block"  # zones-in-zone
+    }
+

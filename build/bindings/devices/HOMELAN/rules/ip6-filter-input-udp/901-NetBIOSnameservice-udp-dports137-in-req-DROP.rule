@@ -1,0 +1,6 @@
+#
+# File: 901-NetBIOS-udp-dport137-in-req-DROP.rule
+# Policy: DENY remote NetBIOS name service client request to local NetBIOS name service server
+
+udp dport { 137, 138, 139, 445 } counter drop comment "remote-to-local NetBIOS/UDP/137 request"
+

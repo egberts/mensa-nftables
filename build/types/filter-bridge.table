@@ -1,0 +1,27 @@
+#
+# File:     filter-bridge.table
+# Path:     types/
+# Title:    Valid hooks for bridge family and filter chain-type
+# Family:   bridge
+# Table:    bridge_filter
+# Chain:    *
+# Type:     filter
+# Hook:     *
+# Priority: N/A
+# Policy:   *
+# Called by: nftables.nft
+# Description:
+#
+# Single-indented for base-chain and regular-chain
+# Double-indented for rules-only
+#
+
+table bridge bridge_filter {
+
+    include "hooks/hook-prerouting/base-bridge-filter-prerouting*.base_chain";
+    include "hooks/hook-input/base-bridge-filter-input*.base_chain";
+    include "hooks/hook-forward/base-bridge-filter-forward*.base_chain";
+    include "hooks/hook-output/base-bridge-filter-output*.base_chain";
+    include "hooks/hook-postrouting/base-bridge-filter-postrouting*.base_chain";
+}
+

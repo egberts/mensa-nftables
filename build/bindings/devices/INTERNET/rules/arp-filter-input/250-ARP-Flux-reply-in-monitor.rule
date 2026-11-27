@@ -1,0 +1,10 @@
+#
+# File: 250-ARP-Flux-reply-in-monitor.rule
+# Policy: Monitor incoming replies claiming the local interface IPv4 address from its expected MAC
+# Description:
+#     Runs after ARP hook and zone interface map/vmap dispatch; no interface matching here.
+#     This is only a diagnostic indicator; ARP flux is an interface/ownership behavior.
+#     Mismatched MAC claims are handled by the duplicate-address guard.
+#     Direction: remote-to-local; intended for arp input hook.
+#
+arp operation reply arp saddr ip $ZONE_INTF_ADDR arp saddr ether $ZONE_INTF_MACADDR counter comment "remote-to-local Local address reply monitor"
